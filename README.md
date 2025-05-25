@@ -1,227 +1,201 @@
 # WeatherWise Dashboard
 
-A modern, responsive weather dashboard built with SvelteKit and Tailwind CSS that provides real-time weather data and intelligent lifestyle suggestions based on current conditions.
+A comprehensive weather application with smart lifestyle suggestions, built with SvelteKit, TypeScript, and Tailwind CSS. Features real-time weather data, air quality monitoring, and intelligent recommendations for wardrobe and activities.
 
 ## 🌟 Features
 
-### Weather Data
-- **Real-time Weather**: Current conditions and 7-day forecast using Open-Meteo API
-- **Location Support**: Automatic geolocation detection and manual city search
-- **Comprehensive Data**: Temperature, humidity, wind speed, precipitation, and weather conditions
-- **Offline Support**: Cached weather data for offline access
+### Core Weather Data
+- **Real-time Weather**: Current conditions with apparent temperature, humidity, wind, and visibility
+- **Extended Forecasts**: 16-day daily forecasts and 7-day hourly predictions
+- **Historical Context**: 30-day historical averages for trend comparison
+- **Air Quality Monitoring**: PM2.5, PM10, carbon monoxide, and ozone levels
+- **UV Index Tracking**: Real-time UV radiation levels for sun safety
 
 ### Smart Suggestions
-- **Wardrobe Recommendations**: Clothing suggestions based on temperature, precipitation, and wind
-- **Activity Suggestions**: Indoor/outdoor activities suited to current weather conditions
-- **Food Recommendations**: Meal and drink suggestions based on temperature and weather
-- **Exercise Suggestions**: Workout recommendations with intensity and location preferences
+- **Wardrobe Recommendations**: 
+  - Separate suggestions for adults and children
+  - Based on apparent temperature, precipitation, wind, UV index, and air quality
+  - Priority-based recommendations (high/medium/low)
+  - Category-specific advice (temperature, precipitation, wind, UV, air quality)
 
-### User Experience
-- **Responsive Design**: Mobile-first design that works on all screen sizes
-- **Dark/Light Mode**: Toggle between themes with system preference detection
-- **Customizable Filters**: Show/hide suggestion categories based on preferences
-- **Weather Alerts**: Notifications for extreme weather conditions
-- **Animated Icons**: Weather-appropriate icons with CSS animations
+- **Activity Suggestions**:
+  - General activities and family-friendly options with kids
+  - Weather-optimized recommendations with safety considerations
+  - Intensity levels (low/moderate/high) and duration estimates
+  - Indoor/outdoor/mixed activity types
+  - Air quality and UV safety factors
 
-### Data Management
-- **Local Storage**: Persistent settings and cached data
-- **Last City Memory**: Remembers your last searched location
-- **Filter Preferences**: Saves your suggestion category preferences
-- **Dismissible Alerts**: Weather alerts can be dismissed and remembered
+### Advanced Features
+- **Comprehensive API Integration**: Multiple Open-Meteo endpoints for complete weather picture
+- **Smart Caching**: 1-hour weather data caching with offline support
+- **City Search**: Autocomplete search with geocoding
+- **Weather Alerts**: Dismissible alerts for extreme weather conditions
+- **Dark/Light Mode**: System preference detection with manual toggle
+- **Responsive Design**: Mobile-first design with desktop optimization
+- **Historical Trends**: Compare current conditions to historical averages
 
-## 🚀 Getting Started
+## 🚀 Technology Stack
+
+- **Frontend**: SvelteKit 2.x with TypeScript
+- **Styling**: Tailwind CSS 3.x with custom animations
+- **APIs**: Open-Meteo (Forecast, Historical, Air Quality, Geocoding)
+- **Deployment**: AWS Amplify ready with static site generation
+- **Storage**: localStorage for persistence and caching
+
+## 📊 API Integration
+
+### Open-Meteo Endpoints Used
+1. **Forecast API**: Current weather, hourly/daily forecasts (16 days)
+2. **Historical Weather API**: 30-day historical data for trend analysis
+3. **Air Quality API**: PM2.5, PM10, CO, O3 monitoring
+4. **Geocoding API**: City search and coordinate resolution
+
+### Data Aggregation Strategy
+- **Concurrent API Calls**: Parallel fetching for optimal performance
+- **Smart Caching**: Location-based caching with TTL management
+- **Data Merging**: Hourly weather and air quality data alignment
+- **Error Handling**: Graceful fallbacks and offline support
+
+## 🎯 Smart Recommendation Logic
+
+### Wardrobe Suggestions
+- **Temperature-based**: Uses apparent temperature for accuracy
+- **Weather-specific**: Rain, wind, UV, and air quality considerations
+- **Age-appropriate**: Different recommendations for adults vs children
+- **Safety-focused**: Extra protection for extreme conditions
+
+### Activity Recommendations
+- **Condition-aware**: Considers all weather factors simultaneously
+- **Safety-first**: Air quality and UV warnings for outdoor activities
+- **Family-friendly**: Separate suggestions for activities with children
+- **Flexible options**: Indoor alternatives for poor weather
+
+## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- Yarn or npm
+- Node.js 18+ 
+- npm or yarn
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd weatherDashboard2
-   ```
-
-2. **Install dependencies**
-   ```bash
-   yarn install
-   # or
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   yarn dev
-   # or
-   npm run dev
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
-
-### Building for Production
-
+### Local Development
 ```bash
-yarn build
-# or
+# Clone the repository
+git clone <repository-url>
+cd weatherDashboard2
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Open browser to http://localhost:5173
+```
+
+### Build for Production
+```bash
+# Build static site
 npm run build
+
+# Preview production build
+npm run preview
 ```
 
-## 🏗️ Project Structure
+## 🌐 AWS Amplify Deployment
 
-```
-src/
-├── components/           # Svelte components
-│   ├── Dashboard.svelte         # Main dashboard layout
-│   ├── WeatherDisplay.svelte    # Weather data display
-│   ├── WeatherAlerts.svelte     # Weather alert system
-│   ├── CitySearch.svelte        # City search with autocomplete
-│   ├── WardrobeSuggestions.svelte
-│   ├── ActivitySuggestions.svelte
-│   ├── FoodSuggestions.svelte
-│   └── ExerciseSuggestions.svelte
-├── stores/              # Svelte stores
-│   └── weather.ts       # Weather data management
-├── routes/              # SvelteKit routes
-│   ├── +layout.svelte   # App layout
-│   └── +page.svelte     # Main page
-├── app.css             # Global styles
-└── app.html            # HTML template
-```
+The application is optimized for AWS Amplify deployment with:
 
-## 🎨 Design System
+- **Static Site Generation**: Pre-rendered pages for optimal performance
+- **Automatic HTTPS**: SSL certificates included
+- **Global CDN**: Fast loading worldwide
+- **Build Configuration**: `amplify.yml` included
 
-### Color Scheme
-- **Light Mode**: Clean whites and grays with colorful accents
-- **Dark Mode**: Dark grays with bright accents for contrast
-- **Semantic Colors**: 
-  - Blue for weather data
-  - Green for positive/good conditions
-  - Yellow for warnings
-  - Red for alerts/extreme conditions
+### Deploy to Amplify
+1. Push code to GitHub
+2. Connect repository to AWS Amplify
+3. Amplify auto-detects build settings
+4. Deploy and get live URL
 
-### Components
-- **Weather Cards**: Rounded cards with hover effects
-- **Suggestion Cards**: Gradient backgrounds with priority indicators
-- **Filter Buttons**: Toggle states with smooth transitions
-- **Alert Banners**: Color-coded with dismissible functionality
+See `DEPLOYMENT.md` for detailed deployment instructions.
 
-## 🌐 API Integration
+## 📱 Usage
 
-### Open-Meteo API
-- **Weather Data**: `https://api.open-meteo.com/v1/forecast`
-- **Geocoding**: `https://geocoding-api.open-meteo.com/v1/search`
-- **No API Key Required**: Free tier with generous limits
-- **Real-time Data**: Current conditions and forecasts
+### Getting Started
+1. **Location Access**: Allow location access or search for a city
+2. **Weather Overview**: View current conditions and 7-day forecast
+3. **Smart Suggestions**: Check wardrobe and activity recommendations
+4. **Customize View**: Toggle between adult/child suggestions
+5. **Weather Alerts**: Dismiss alerts for extreme conditions
 
-### Data Caching
-- Weather data cached for 1 hour
-- Automatic refresh when online
-- Graceful fallback to cached data when offline
+### Features Overview
+- **City Search**: Type city name for autocomplete suggestions
+- **Suggestion Filters**: Toggle wardrobe, activities, food, and exercise suggestions
+- **Theme Toggle**: Switch between light and dark modes
+- **Weather Alerts**: Get notified of extreme weather conditions
+- **Offline Support**: Cached data available when offline
+
+## 🎨 Design Features
+
+### Visual Elements
+- **Animated Weather Icons**: CSS animations for weather conditions
+- **Color-coded Priorities**: Visual hierarchy for recommendations
+- **Responsive Grid**: Adaptive layout for all screen sizes
+- **Dark Mode Support**: Complete dark theme implementation
+
+### User Experience
+- **Loading States**: Smooth loading indicators
+- **Error Handling**: User-friendly error messages
+- **Accessibility**: Keyboard navigation and screen reader support
+- **Performance**: Optimized for fast loading and smooth interactions
 
 ## 🔧 Configuration
 
 ### Environment Variables
-No environment variables required - the app uses the free Open-Meteo API.
+No environment variables required - uses free Open-Meteo API.
 
 ### Customization
-- **Suggestion Logic**: Modify suggestion algorithms in component files
-- **Weather Thresholds**: Adjust alert thresholds in `WeatherAlerts.svelte`
-- **Styling**: Customize colors and animations in Tailwind CSS classes
+- **Suggestion Logic**: Modify recommendation algorithms in component files
+- **Styling**: Customize Tailwind CSS configuration
+- **API Endpoints**: Extend with additional Open-Meteo features
+- **Caching**: Adjust cache TTL in weather store
 
-## 📱 Features in Detail
+## 📊 Data Sources
 
-### Weather Display
-- Large, animated weather icons
-- Current temperature with "feels like"
-- Detailed metrics (humidity, wind, precipitation)
-- 7-day forecast with daily highs/lows
-- Weather condition descriptions
+### Weather Data
+- **Provider**: Open-Meteo (open-source weather API)
+- **Coverage**: Global weather data
+- **Update Frequency**: Hourly updates
+- **Historical Range**: 1940-present
+- **Forecast Range**: 16 days
 
-### Smart Suggestions
-
-#### Wardrobe
-- Temperature-based clothing recommendations
-- Rain gear for precipitation
-- Wind protection for windy conditions
-- Sun protection for clear, hot days
-- Priority levels (high, medium, low)
-
-#### Activities
-- Outdoor activities for good weather
-- Indoor alternatives for bad weather
-- Seasonal activity suggestions
-- Suitability ratings (perfect, good, okay, avoid)
-
-#### Food & Drink
-- Hot foods for cold weather
-- Cold/refreshing options for hot weather
-- Comfort foods for rainy days
-- Hydration reminders for high humidity
-- Meal type categorization
-
-#### Exercise
-- Outdoor workouts for ideal conditions
-- Indoor alternatives for extreme weather
-- Intensity recommendations
-- Duration suggestions
-- Location preferences (indoor/outdoor/both)
-
-### Weather Alerts
-- Heavy rain warnings (>10mm/h)
-- Strong wind alerts (>30km/h)
-- Extreme temperature warnings
-- High humidity notifications
-- Thunderstorm alerts
-- Snow condition notices
-
-## 🛠️ Technical Details
-
-### Built With
-- **SvelteKit**: Modern web framework
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
-- **Vite**: Fast build tool
-- **Open-Meteo API**: Weather data provider
-
-### Browser Support
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-- Progressive Web App features
-
-### Performance
-- Lazy loading of components
-- Efficient state management with Svelte stores
-- Minimal bundle size
-- Fast initial load times
+### Air Quality Data
+- **Pollutants**: PM2.5, PM10, CO, O3
+- **Health Standards**: WHO air quality guidelines
+- **Update Frequency**: Hourly
+- **Coverage**: Global monitoring stations
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
-- [Open-Meteo](https://open-meteo.com/) for providing free weather data
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Svelte](https://svelte.dev/) for the reactive web framework
-- Weather icons and emojis for visual elements
+- **Open-Meteo**: Free weather API service
+- **SvelteKit**: Modern web framework
+- **Tailwind CSS**: Utility-first CSS framework
+- **AWS Amplify**: Hosting and deployment platform
 
 ## 📞 Support
 
-If you encounter any issues or have questions:
-1. Check the [Issues](../../issues) page
-2. Create a new issue with detailed information
-3. Include browser version and steps to reproduce
+For support, please open an issue on GitHub or contact the development team.
 
 ---
 
-**WeatherWise Dashboard** - Your intelligent weather companion 🌤️
+**WeatherWise Dashboard** - Making weather data actionable for daily life decisions. 🌤️
