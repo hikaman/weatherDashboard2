@@ -9,12 +9,22 @@
   import ActivitySuggestions from './ActivitySuggestions.svelte';
   import FoodSuggestions from './FoodSuggestions.svelte';
   import ExerciseSuggestions from './ExerciseSuggestions.svelte';
+  import DecisionTimeline from './DecisionTimeline.svelte';
+  import WeatherMap from './WeatherMap.svelte';
+  import DecisionJournal from './DecisionJournal.svelte';
+  import WeatherSyncMiniShop from './WeatherSyncMiniShop.svelte';
   
   // Suggestion visibility toggles
   let showWardrobe = true;
   let showActivities = true;
   let showFood = true;
   let showExercise = true;
+  
+  // New component visibility toggles
+  let showTimeline = true;
+  let showMap = true;
+  let showJournal = true;
+  let showMiniShop = true;
   
   // Dark mode state
   let darkMode = false;
@@ -102,10 +112,10 @@
     <header class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 space-y-4 sm:space-y-0">
       <div>
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-          WeatherWise Dashboard
+          WeatherSync Decision Hub
         </h1>
         <p class="text-gray-600 dark:text-gray-300">
-          Your personal weather companion with smart suggestions
+          Make informed, weather-driven decisions about wardrobe, fitness, meals, and activities
         </p>
       </div>
       
@@ -132,6 +142,13 @@
       <WeatherAlerts />
     </div>
     
+    <!-- Decision Timeline - Full Width -->
+    {#if showTimeline}
+      <div class="mb-8">
+        <DecisionTimeline />
+      </div>
+    {/if}
+
     <!-- Main Dashboard Grid -->
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
       
@@ -139,6 +156,11 @@
       <section class="xl:col-span-2 space-y-6">
         <CitySearch />
         <WeatherDisplay />
+        
+        <!-- Weather Map -->
+        {#if showMap}
+          <WeatherMap />
+        {/if}
       </section>
       
       <!-- Suggestions Section -->
@@ -241,6 +263,20 @@
         </div>
       </section>
     </div>
+
+    <!-- WeatherSync Mini-Shop - Full Width -->
+    {#if showMiniShop}
+      <div class="mt-8">
+        <WeatherSyncMiniShop />
+      </div>
+    {/if}
+
+    <!-- Decision Journal - Full Width -->
+    {#if showJournal}
+      <div class="mt-8">
+        <DecisionJournal />
+      </div>
+    {/if}
     
     <!-- Mobile-optimized layout for smaller screens -->
     <div class="xl:hidden mt-8">
