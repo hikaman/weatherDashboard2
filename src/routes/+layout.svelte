@@ -1,7 +1,13 @@
-<script>
+<script lang="ts">
   import '../app.css';
+  import WeatherBackground from '../components/WeatherBackground.svelte';
+  import { weatherStore } from '../stores/weather';
+
+  $: weather = $weatherStore.data;
 </script>
 
-<main class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-  <slot />
-</main> 
+<WeatherBackground {weather}>
+  <main class="min-h-screen p-4 md:p-6 lg:p-8">
+    <slot />
+  </main>
+</WeatherBackground> 

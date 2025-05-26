@@ -34,23 +34,23 @@
 	<div class="container mx-auto px-4 py-8">
 		<!-- Header -->
 		<header class="text-center mb-8">
-			<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+			<h1 class="text-4xl font-bold text-glass mb-2">
 				WeatherWise Dashboard
 			</h1>
-			<p class="text-gray-600 dark:text-gray-400">
+			<p class="text-glass-secondary">
 				Smart suggestions based on current weather conditions
 			</p>
 		</header>
 
 		<!-- Loading State -->
 		{#if loading}
-			<div class="flex items-center justify-center py-12">
-				<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-				<span class="ml-3 text-gray-600 dark:text-gray-300">Loading weather data...</span>
+			<div class="glass-card-lg p-8 text-center">
+				<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+				<span class="text-glass">Loading weather data...</span>
 			</div>
 		{:else if error}
 			<!-- Error State -->
-			<div class="text-center py-8">
+			<div class="glass-card-lg p-8 text-center">
 				<div class="text-red-500 text-4xl mb-4">⚠️</div>
 				<h3 class="text-lg font-semibold text-red-700 dark:text-red-300 mb-2">
 					Weather Data Unavailable
@@ -93,21 +93,14 @@
 </div>
 
 <style>
-	.dashboard {
-		min-height: 100vh;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		background-attachment: fixed;
-	}
-
 	.container {
 		max-width: 1200px;
 	}
 
-	:global(.weather-card) {
-		@apply bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow;
-	}
-
-	:global(.suggestion-card) {
-		@apply bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow;
+	/* Enhanced glassmorphism effects for dashboard */
+	:global(.glass-card:hover),
+	:global(.glass-card-lg:hover) {
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
 	}
 </style> 
