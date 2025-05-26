@@ -95,11 +95,15 @@
 						{@const isNewDay = index === 0 || formatDay(hour.time) !== formatDay(hourlyData[index - 1].time)}
 						
 						<div class="flex-shrink-0 text-center min-w-[80px]">
-							{#if isNewDay}
-								<div class="text-xs font-semibold text-glass-muted mb-1 border-b border-glass-light-border dark:border-glass-dark-border pb-1">
+							<!-- Always reserve space for day label to maintain alignment -->
+							<div class="text-xs font-semibold text-glass-muted mb-1 border-b border-glass-light-border dark:border-glass-dark-border pb-1 h-5">
+								{#if isNewDay}
 									{formatDay(hour.time)}
-								</div>
-							{/if}
+								{:else}
+									<!-- Empty space to maintain alignment -->
+									&nbsp;
+								{/if}
+							</div>
 							
 							<div class="glass-card rounded-glass p-3 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
 								<!-- Time -->
