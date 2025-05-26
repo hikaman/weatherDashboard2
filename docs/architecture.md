@@ -26,7 +26,7 @@ flowchart TD
 
 | Component         | Responsibility                                                        |
 |-------------------|-----------------------------------------------------------------------|
-| **SvelteKit**     | Frontend, API routing, user interaction, recommendation logic          |
+| **SvelteKit**     | Frontend, API routing, user interaction, recommendation & i18n logic    |
 | **Open-Meteo**    | Weather data (hourly, daily, historical)                              |
 | **Weaviate**      | Storage & semantic search for weather data, transitions, recommendations|
 | **Embeddings**    | Converts weather data/recommendations to vectors (MiniLM, Xenova)      |
@@ -173,14 +173,17 @@ graph TD
 
 ---
 
-## 10. Summary
+## 10. Summary (2025-05 Update)
 
-- **SvelteKit** is the central control and UI element.
-- **Weaviate** stores all weather data, transitions, and recommendations as vector objects.
-- **Embeddings** enable semantic search and AI-powered recommendations.
-- **Open-Meteo** provides the raw data.
-- **Node-Cron** automates the import.
-- **The system is modular, scalable, and open for new weather codes, categories, and AI models.**
+* **SvelteKit** bleibt zentrales UI- und API-Gateway – jetzt mit integriertem **i18n-Layer** (🇩🇪/🇺🇸) und zufallsbasierten Textbausteinen.
+* **Weaviate** speichert Wetterdaten und Vektor-Embeddings für semantische Recommendations.
+* **Embeddings** (MiniLM/Xenova) liefern near-vector-Suche.
+* **Open-Meteo** bleibt Datenquelle ohne API-Key.
+* **Recommendation-Engine**: Kategorien auf **Wardrobe, Food, Activity** reduziert. Jede Kategorie liefert  
+  – einen wetterabhängigen Vorschlag  
+  – kreativen E-Commerce-Call-to-Action (Affiliate)  
+  – Activity liefert immer zwei Ideen (aktiv & gemütlich-knifflig).
+* **Node-Cron** automatisiert Imports; System modular & erweiterbar für neue Kategorien oder Sprachen.
 
 ---
 
