@@ -12,60 +12,60 @@
 	function getWardrobeSuggestions(temp: number, precipitation: number, windSpeed: number): WardrobeItem[] {
 		const suggestions: WardrobeItem[] = [];
 
-		// Temperature-based suggestions
+		// Temperature-based suggestions with humanized content
 		if (temp > 25) {
 			suggestions.push({
-				item: 'T-shirt',
+				item: 'Light T-shirt',
 				icon: '👕',
-				reason: 'Hot weather - stay cool',
+				reason: 'It\'s quite warm today, so breathable fabrics will keep you comfortable and cool.',
 			});
 			suggestions.push({
 				item: 'Shorts',
 				icon: '🩳',
-				reason: 'Perfect for warm days',
+				reason: 'Perfect weather for showing off those summer vibes and staying comfortable.',
 			});
 			suggestions.push({
 				item: 'Sunglasses',
 				icon: '🕶️',
-				reason: 'Protect your eyes',
+				reason: 'The sun will be bright today, so protect your eyes and look stylish doing it.',
 			});
 		} else if (temp > 15) {
 			suggestions.push({
 				item: 'Light jacket',
 				icon: '🧥',
-				reason: 'Mild temperature',
+				reason: 'The temperature is just right for layering - you can always take it off if it warms up.',
 			});
 			suggestions.push({
-				item: 'Jeans',
+				item: 'Comfortable jeans',
 				icon: '👖',
-				reason: 'Comfortable for moderate weather',
+				reason: 'Perfect weather for your favorite pair of jeans and a relaxed day out.',
 			});
 		} else if (temp > 5) {
 			suggestions.push({
-				item: 'Sweater',
+				item: 'Cozy sweater',
 				icon: '🧶',
-				reason: 'Keep warm in cool weather',
+				reason: 'It\'s getting chilly, so wrap yourself in something warm and comfortable.',
 			});
 			suggestions.push({
 				item: 'Long pants',
 				icon: '👖',
-				reason: 'Cover up for cooler temps',
+				reason: 'Keep your legs warm and cozy with full coverage for this cooler weather.',
 			});
 		} else {
 			suggestions.push({
-				item: 'Winter coat',
+				item: 'Warm winter coat',
 				icon: '🧥',
-				reason: 'Essential for cold weather',
+				reason: 'Bundle up well today - it\'s cold enough that you\'ll really appreciate the extra warmth.',
 			});
 			suggestions.push({
 				item: 'Warm hat',
 				icon: '🧢',
-				reason: 'Prevent heat loss',
+				reason: 'Don\'t forget to cover your head - you lose a lot of heat that way.',
 			});
 			suggestions.push({
 				item: 'Gloves',
 				icon: '🧤',
-				reason: 'Keep hands warm',
+				reason: 'Your hands will thank you for keeping them warm and protected from the cold.',
 			});
 		}
 
@@ -74,17 +74,17 @@
 			suggestions.push({
 				item: 'Umbrella',
 				icon: '☂️',
-				reason: 'Stay dry in the rain',
+				reason: 'Rain is expected, so grab an umbrella to stay dry and comfortable.',
 			});
 			suggestions.push({
 				item: 'Raincoat',
 				icon: '🧥',
-				reason: 'Waterproof protection',
+				reason: 'A good raincoat will keep you dry and let you enjoy the day despite the weather.',
 			});
 			suggestions.push({
 				item: 'Waterproof shoes',
 				icon: '👢',
-				reason: 'Keep feet dry',
+				reason: 'Keep your feet dry and avoid soggy socks with some waterproof footwear.',
 			});
 		}
 
@@ -93,7 +93,7 @@
 			suggestions.push({
 				item: 'Windbreaker',
 				icon: '🧥',
-				reason: 'Protection from strong winds',
+				reason: 'It\'s quite breezy today, so a windbreaker will help you stay comfortable outdoors.',
 			});
 		}
 
@@ -103,13 +103,13 @@
 				suggestions.push({
 					item: 'Sandals',
 					icon: '👡',
-					reason: 'Comfortable for warm weather',
+					reason: 'Perfect weather for letting your feet breathe and staying comfortable.',
 				});
 			} else {
 				suggestions.push({
 					item: 'Comfortable shoes',
 					icon: '👟',
-					reason: 'Good for walking',
+					reason: 'A good pair of shoes will keep you comfortable whatever the day brings.',
 				});
 			}
 		}
@@ -127,22 +127,22 @@
 </script>
 
 <div class="wardrobe-suggestions">
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-		<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+	<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
+		<h2 class="text-xl font-bold text-glass mb-4 flex items-center">
 			<span class="text-2xl mr-3">👗</span>
 			Wardrobe Suggestions
 		</h2>
 
 		{#if wardrobeSuggestions.length > 0}
-			<div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
 				{#each wardrobeSuggestions as suggestion}
-					<div class="suggestion-card bg-purple-50 dark:bg-purple-900/20 rounded-md p-2 md:p-3 flex items-center gap-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors hover:scale-105 transform duration-200">
-						<span class="text-xl md:text-2xl">{suggestion.icon}</span>
-						<div class="flex-1">
-							<div class="font-semibold text-purple-900 dark:text-purple-100 text-sm md:text-base">
+					<div class="glass-card p-3 md:p-4 flex items-start gap-3 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
+						<span class="text-2xl md:text-3xl flex-shrink-0">{suggestion.icon}</span>
+						<div class="flex-1 min-w-0">
+							<div class="font-semibold text-glass text-sm md:text-base mb-1">
 								{suggestion.item}
 							</div>
-							<div class="text-xs text-purple-700 dark:text-purple-300 leading-tight">
+							<div class="text-xs md:text-sm text-glass-secondary leading-relaxed">
 								{suggestion.reason}
 							</div>
 						</div>
@@ -151,8 +151,8 @@
 			</div>
 		{:else}
 			<div class="text-center py-8">
-				<div class="text-gray-400 text-4xl mb-3">👔</div>
-				<p class="text-gray-600 dark:text-gray-400">
+				<div class="text-glass-muted text-4xl mb-3">👔</div>
+				<p class="text-glass-secondary">
 					No weather data available for wardrobe suggestions
 				</p>
 			</div>
@@ -161,19 +161,14 @@
 </div>
 
 <style>
-	.suggestion-card:hover {
-		@apply shadow-md;
+	/* Enhanced glassmorphism effects for wardrobe suggestions */
+	.glass-card:hover {
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
 	}
-	.suggestion-card {
-		@apply p-2 md:p-3;
-	}
-	.suggestion-card .text-xl {
-		font-size: 1.25rem;
-	}
-	.suggestion-card .text-sm {
-		font-size: 0.9rem;
-	}
-	.suggestion-card .text-xs {
-		font-size: 0.75rem;
+	
+	/* Improved text readability on glass backgrounds */
+	.text-glass-secondary {
+		line-height: 1.4;
 	}
 </style> 
