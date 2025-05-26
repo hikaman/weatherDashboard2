@@ -5,6 +5,7 @@
 	import HourlyForecast from './HourlyForecast.svelte';
 	import UnifiedSuggestions from './UnifiedSuggestions.svelte';
 	import CitySearch from './CitySearch.svelte';
+	import { t } from '../lib/i18n';
 
 	export let weather: WeatherData | null = null;
 
@@ -33,14 +34,14 @@
 		{#if loading}
 			<div class="glass-card-lg p-8 text-center">
 				<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-				<span class="text-glass">Loading weather data...</span>
+				<span class="text-glass">{$t.loading}</span>
 			</div>
 		{:else if error}
 			<!-- Error State -->
 			<div class="glass-card-lg p-8 text-center">
 				<div class="text-red-500 text-4xl mb-4">⚠️</div>
 				<h3 class="text-lg font-semibold text-red-700 dark:text-red-300 mb-2">
-					Weather Data Unavailable
+					{$t.weatherDataUnavailable}
 				</h3>
 				<p class="text-red-600 dark:text-red-400 text-sm">
 					{error}

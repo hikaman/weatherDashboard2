@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { searchCities, fetchWeatherData, type GeocodingResult } from '../stores/weather';
+  import { t } from '../lib/i18n';
   
   export let currentLocation: string | null = null;
   
@@ -76,7 +77,7 @@
   <div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
     <h2 class="text-xl font-bold text-glass mb-4 flex items-center">
       <span class="text-2xl mr-3">📍</span>
-      {currentLocation || 'Current Location'}
+      {currentLocation || $t.currentLocation}
     </h2>
     
     <div class="relative">
@@ -85,7 +86,7 @@
         bind:value={query}
         on:keydown={handleKeydown}
         on:click|stopPropagation
-        placeholder="Enter city name..."
+        placeholder={$t.enterCityName}
         class="glass-input w-full px-4 py-3 text-glass placeholder-glass-muted"
         aria-label="Search for a city"
       />
@@ -123,14 +124,14 @@
       {#if showResults && results.length === 0 && !searching && query.length >= 2}
         <div class="absolute top-full left-0 right-0 mt-2 glass-card-lg rounded-glass-lg shadow-glass-lg z-50 p-4 text-center">
           <div class="text-glass-secondary">
-            No cities found for "{query}"
+            {$t.noCitiesFound} "{query}"
           </div>
         </div>
       {/if}
     </div>
     
     <div class="mt-3 text-sm text-glass-muted">
-      Type at least 2 characters to search for cities
+      {$t.typeToSearch}
     </div>
   </div>
 </div>

@@ -1,30 +1,34 @@
 <script lang="ts">
 	import type { WeatherData } from '../stores/weather';
+	import { t } from '../lib/i18n';
 
 	export let weather: WeatherData | null;
 
-	// Weather code descriptions
-	const weatherDescriptions: Record<number, string> = {
-		0: 'Clear sky',
-		1: 'Mainly clear',
-		2: 'Partly cloudy',
-		3: 'Overcast',
-		45: 'Fog',
-		48: 'Depositing rime fog',
-		51: 'Light drizzle',
-		53: 'Moderate drizzle',
-		55: 'Dense drizzle',
-		61: 'Slight rain',
-		63: 'Moderate rain',
-		65: 'Heavy rain',
-		71: 'Slight snow fall',
-		73: 'Moderate snow fall',
-		75: 'Heavy snow fall',
-		80: 'Slight rain showers',
-		81: 'Moderate rain showers',
-		82: 'Violent rain showers',
-		95: 'Thunderstorm',
-	};
+	// Weather code descriptions - now using translations
+	function getWeatherDescription(code: number): string {
+		const descriptions: Record<number, keyof typeof $t> = {
+			0: 'clearSky',
+			1: 'mainlyClear',
+			2: 'partlyCloudy',
+			3: 'overcast',
+			45: 'fog',
+			48: 'depositingRimeFog',
+			51: 'lightDrizzle',
+			53: 'moderateDrizzle',
+			55: 'denseDrizzle',
+			61: 'slightRain',
+			63: 'moderateRain',
+			65: 'heavyRain',
+			71: 'slightSnowFall',
+			73: 'moderateSnowFall',
+			75: 'heavySnowFall',
+			80: 'slightRainShowers',
+			81: 'moderateRainShowers',
+			82: 'violentRainShowers',
+			95: 'thunderstorm',
+		};
+		return $t[descriptions[code]] || $t.clearSky;
+	}
 
 	function getWeatherIcon(code: number): string {
 		if (code === 0) return '☀️';
@@ -54,11 +58,13 @@
 		tomorrow.setDate(today.getDate() + 1);
 
 		if (date.toDateString() === today.toDateString()) {
-			return 'Today';
+			return $t.today;
 		} else if (date.toDateString() === tomorrow.toDateString()) {
-			return 'Tomorrow';
+			return $t.tomorrow;
 		} else {
-			return date.toLocaleDateString('en-US', { weekday: 'short' });
+			// Use German day abbreviations
+			const dayNames = [$t.sunday, $t.monday, $t.tuesday, $t.wednesday, $t.thursday, $t.friday, $t.saturday];
+			return dayNames[date.getDay()];
 		}
 	}
 
@@ -86,7 +92,7 @@
 		<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
 			<h3 class="text-xl font-bold text-glass mb-4 flex items-center">
 				<span class="text-2xl mr-3">⏰</span>
-				24-Hour Forecast
+				{$t.hourlyForecastTitle}
 			</h3>
 			
 			<div class="overflow-x-auto">
@@ -140,23 +146,23 @@
 			<div class="mt-4 flex flex-wrap gap-4 text-xs text-glass-muted">
 				<div class="flex items-center">
 					<span class="mr-1">💧</span>
-					<span>Precipitation chance</span>
+					<span>{$t.precipitationChanceLegend}</span>
 				</div>
 				<div class="flex items-center">
 					<span class="mr-1">💨</span>
-					<span>Wind speed</span>
+					<span>{$t.windSpeedLegend}</span>
 				</div>
 				<div class="flex items-center">
 					<span class="mr-1">🌡️</span>
-					<span>Temperature</span>
+					<span>{$t.temperatureLegend}</span>
 				</div>
 			</div>
 		</div>
 	{:else}
 		<div class="glass-card-lg p-8 text-center hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
 			<div class="text-6xl mb-4">⏰</div>
-			<h3 class="text-xl font-bold text-glass mb-2">No Hourly Data</h3>
-			<p class="text-glass-secondary">Hourly forecast data is not available.</p>
+			<h3 class="text-xl font-bold text-glass mb-2">{$t.noHourlyData}</h3>
+			<p class="text-glass-secondary">{$t.hourlyDataUnavailable}</p>
 		</div>
 	{/if}
 </div>

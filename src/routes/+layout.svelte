@@ -2,14 +2,22 @@
   import '../app.css';
   import WeatherBackground from '../components/WeatherBackground.svelte';
   import DarkModeToggle from '../components/DarkModeToggle.svelte';
+  import LanguageToggle from '../components/LanguageToggle.svelte';
   import { weatherStore } from '../stores/weather';
+  import { initLocale } from '../lib/i18n';
+  import { onMount } from 'svelte';
 
   $: weather = $weatherStore.data;
+
+  onMount(() => {
+    initLocale();
+  });
 </script>
 
 <WeatherBackground {weather}>
-  <!-- Dark Mode Toggle -->
-  <div class="fixed top-4 right-4 z-50">
+  <!-- Controls -->
+  <div class="fixed top-4 right-4 z-50 flex gap-2">
+    <LanguageToggle />
     <DarkModeToggle />
   </div>
   

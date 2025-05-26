@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { WeatherData } from '../stores/weather';
+	import { t } from '../lib/i18n';
 
 	export let weather: WeatherData | null;
 
@@ -17,34 +18,34 @@
 		// Wardrobe suggestion
 		if (temp > 25) {
 			suggestions.push({
-				category: 'Wardrobe',
+				category: $t.wardrobe,
 				icon: '👕',
-				item: 'Light, breathable clothing',
-				reason: 'Perfect weather for staying cool and comfortable in light fabrics.',
+				item: $t.lightBreathableClothing,
+				reason: $t.lightBreathableReason,
 				type: 'wardrobe'
 			});
 		} else if (temp > 15) {
 			suggestions.push({
-				category: 'Wardrobe',
+				category: $t.wardrobe,
 				icon: '🧥',
-				item: 'Light jacket and jeans',
-				reason: 'Ideal layering weather - comfortable and adaptable to temperature changes.',
+				item: $t.lightJacketJeans,
+				reason: $t.lightJacketReason,
 				type: 'wardrobe'
 			});
 		} else if (temp > 5) {
 			suggestions.push({
-				category: 'Wardrobe',
+				category: $t.wardrobe,
 				icon: '🧶',
-				item: 'Cozy sweater and warm pants',
-				reason: 'Bundle up in something warm and comfortable for this cooler weather.',
+				item: $t.cozySweaterPants,
+				reason: $t.cozySweaterReason,
 				type: 'wardrobe'
 			});
 		} else {
 			suggestions.push({
-				category: 'Wardrobe',
+				category: $t.wardrobe,
 				icon: '🧥',
-				item: 'Winter coat and accessories',
-				reason: 'Layer up well - cold enough that you will appreciate the extra warmth.',
+				item: $t.winterCoatAccessories,
+				reason: $t.winterCoatReason,
 				type: 'wardrobe'
 			});
 		}
@@ -52,34 +53,34 @@
 		// Food suggestion
 		if (temp > 25) {
 			suggestions.push({
-				category: 'Food',
+				category: $t.food,
 				icon: '🥗',
-				item: 'Fresh salad or cold soup',
-				reason: 'Light, refreshing meals are perfect for staying energized in warm weather.',
+				item: $t.freshSaladColdSoup,
+				reason: $t.freshSaladReason,
 				type: 'food'
 			});
 		} else if (temp > 15) {
 			suggestions.push({
-				category: 'Food',
+				category: $t.food,
 				icon: '🥪',
-				item: 'Sandwich or light meal',
-				reason: 'Great weather for outdoor eating or a satisfying, balanced meal.',
+				item: $t.sandwichLightMeal,
+				reason: $t.sandwichReason,
 				type: 'food'
 			});
 		} else if (temp > 5) {
 			suggestions.push({
-				category: 'Food',
+				category: $t.food,
 				icon: '🍲',
-				item: 'Warm soup or stew',
-				reason: 'Nothing beats a hearty, warming meal when the weather turns cooler.',
+				item: $t.warmSoupStew,
+				reason: $t.warmSoupReason,
 				type: 'food'
 			});
 		} else {
 			suggestions.push({
-				category: 'Food',
+				category: $t.food,
 				icon: '☕',
-				item: 'Hot drinks and comfort food',
-				reason: 'Warm up from the inside with comforting hot meals and beverages.',
+				item: $t.hotDrinksComfortFood,
+				reason: $t.hotDrinksReason,
 				type: 'food'
 			});
 		}
@@ -87,34 +88,34 @@
 		// Activity suggestion
 		if (precipitation > 5) {
 			suggestions.push({
-				category: 'Activity',
+				category: $t.activity,
 				icon: '🏛️',
-				item: 'Indoor activities',
-				reason: 'Perfect weather for museums, cafes, or cozy indoor entertainment.',
+				item: $t.indoorActivities,
+				reason: $t.indoorActivitiesReason,
 				type: 'activity'
 			});
 		} else if (temp > 20 && windSpeed < 15) {
 			suggestions.push({
-				category: 'Activity',
+				category: $t.activity,
 				icon: '🌳',
-				item: 'Outdoor adventures',
-				reason: 'Beautiful conditions for hiking, picnics, or exploring nature.',
+				item: $t.outdoorAdventures,
+				reason: $t.outdoorAdventuresReason,
 				type: 'activity'
 			});
 		} else if (temp > 10) {
 			suggestions.push({
-				category: 'Activity',
+				category: $t.activity,
 				icon: '🚶',
-				item: 'Light outdoor activities',
-				reason: 'Great weather for walking, light exercise, or outdoor markets.',
+				item: $t.lightOutdoorActivities,
+				reason: $t.lightOutdoorReason,
 				type: 'activity'
 			});
 		} else {
 			suggestions.push({
-				category: 'Activity',
+				category: $t.activity,
 				icon: '🏠',
-				item: 'Cozy indoor time',
-				reason: 'Perfect weather for staying warm indoors with books, movies, or hobbies.',
+				item: $t.cozyIndoorTime,
+				reason: $t.cozyIndoorReason,
 				type: 'activity'
 			});
 		}
@@ -122,34 +123,34 @@
 		// Exercise suggestion
 		if (temp > 25) {
 			suggestions.push({
-				category: 'Exercise',
+				category: $t.exercise,
 				icon: '🏊',
-				item: 'Swimming or water activities',
-				reason: 'Beat the heat with refreshing water-based exercise and activities.',
+				item: $t.swimmingWaterActivities,
+				reason: $t.swimmingReason,
 				type: 'exercise'
 			});
 		} else if (temp > 15 && precipitation < 2) {
 			suggestions.push({
-				category: 'Exercise',
+				category: $t.exercise,
 				icon: '🚴',
-				item: 'Cycling or jogging',
-				reason: 'Perfect conditions for energizing outdoor cardio and fresh air.',
+				item: $t.cyclingJogging,
+				reason: $t.cyclingReason,
 				type: 'exercise'
 			});
 		} else if (temp > 5) {
 			suggestions.push({
-				category: 'Exercise',
+				category: $t.exercise,
 				icon: '🚶',
-				item: 'Brisk walking',
-				reason: 'Great weather for a refreshing walk to get your blood flowing.',
+				item: $t.briskWalking,
+				reason: $t.briskWalkingReason,
 				type: 'exercise'
 			});
 		} else {
 			suggestions.push({
-				category: 'Exercise',
+				category: $t.exercise,
 				icon: '🧘',
-				item: 'Indoor yoga or stretching',
-				reason: 'Stay active and warm with gentle indoor movement and mindfulness.',
+				item: $t.indoorYogaStretching,
+				reason: $t.indoorYogaReason,
 				type: 'exercise'
 			});
 		}
@@ -180,7 +181,7 @@
 	<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
 		<h2 class="text-xl font-bold text-glass mb-6 flex items-center">
 			<span class="text-2xl mr-3">💡</span>
-			Smart Suggestions
+			{$t.smartSuggestions}
 		</h2>
 
 		{#if unifiedSuggestions.length > 0}
@@ -208,7 +209,7 @@
 			<div class="text-center py-8">
 				<div class="text-glass-muted text-4xl mb-3">🌤️</div>
 				<p class="text-glass-secondary">
-					No weather data available for suggestions
+					{$t.noSuggestionsData}
 				</p>
 			</div>
 		{/if}
