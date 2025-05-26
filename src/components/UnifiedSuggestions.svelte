@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { WeatherData } from '../stores/weather';
-	import { t } from '../lib/i18n';
+	import { t, currentLocale } from '../lib/i18n';
 
 	export let weather: WeatherData | null;
 
@@ -12,40 +12,78 @@
 		type: string;
 	}
 
+	// Helper to pick a random element
+	function pick<T>(arr: T[]): T {
+		return arr[Math.floor(Math.random() * arr.length)];
+	}
+
 	function getUnifiedSuggestions(temp: number, precipitation: number, windSpeed: number): Suggestion[] {
 		const suggestions: Suggestion[] = [];
 
-		// Wardrobe suggestion
+		// Wardrobe suggestion mit deutscher Variation
+		const locale = $currentLocale;
 		if (temp > 25) {
 			suggestions.push({
 				category: $t.wardrobe,
 				icon: '👕',
-				item: $t.lightBreathableClothing,
-				reason: $t.lightBreathableReason,
+				item: locale === 'de' ? pick([
+					'Leichte Sommerklamotten',
+					'Luftiges Shirt und Shorts',
+					'Kurze Hose & Tank-Top'
+				]) : $t.lightBreathableClothing,
+				reason: locale === 'de' ? pick([
+					'Die Sonne brennt – gönn dir etwas Luftiges, damit du cool bleibst.',
+					'Perfektes Wetter für leichte Stoffe und jede Menge Sonnencreme!',
+					'Je weniger Stoff, desto mehr Sommer – genieße die Wärme!'
+				]) : $t.lightBreathableReason,
 				type: 'wardrobe'
 			});
 		} else if (temp > 15) {
 			suggestions.push({
 				category: $t.wardrobe,
 				icon: '🧥',
-				item: $t.lightJacketJeans,
-				reason: $t.lightJacketReason,
+				item: locale === 'de' ? pick([
+					'Leichte Jacke im Zwiebel-Look',
+					'Lieblings-Hoodie & Jeans',
+					'Cardigan für den Zwiebel-Style'
+				]) : $t.lightJacketJeans,
+				reason: locale === 'de' ? pick([
+					'Das klassische "Zwiebel-Look"-Wetter: morgens frisch, nachmittags mild.',
+					'Eine Lage mehr schadet nicht – du kannst sie jederzeit abstreifen.',
+					'Perfekt für flexible Outfits: Jacke an, Jacke aus, ganz wie du magst.'
+				]) : $t.lightJacketReason,
 				type: 'wardrobe'
 			});
 		} else if (temp > 5) {
 			suggestions.push({
 				category: $t.wardrobe,
 				icon: '🧶',
-				item: $t.cozySweaterPants,
-				reason: $t.cozySweaterReason,
+				item: locale === 'de' ? pick([
+					'Kuschelpullover & warme Hose',
+					'Wollpulli mit Lieblingsjeans',
+					'Gemütlicher Strick-Look'
+				]) : $t.cozySweaterPants,
+				reason: locale === 'de' ? pick([
+					'Ein Hauch von Kälte – Zeit, dem inneren Faultier mit einem flauschigen Pulli zu huldigen.',
+					'Ideal für heißen Tee und einen richtig gemütlichen Sweater.',
+					'Kühl draußen? Kein Problem mit einer Extraportion Strick.'
+				]) : $t.cozySweaterReason,
 				type: 'wardrobe'
 			});
 		} else {
 			suggestions.push({
 				category: $t.wardrobe,
 				icon: '🧥',
-				item: $t.winterCoatAccessories,
-				reason: $t.winterCoatReason,
+				item: locale === 'de' ? pick([
+					'Dicker Wintermantel & Accessoires',
+					'Puffer-Jacke plus Mütze',
+					'Winterausrüstung komplett'
+				]) : $t.winterCoatAccessories,
+				reason: locale === 'de' ? pick([
+					'Es ist bitterkalt – zieh alles an, was nicht bei drei auf dem Kleiderbügel ist!',
+					'Eisbärenwetter! Pack dich ein und gönn dir eine extra Lage Flausch.',
+					'Frostige Luft? Dann heißt es: Schal, Mütze, Handschuhe – das volle Programm.'
+				]) : $t.winterCoatReason,
 				type: 'wardrobe'
 			});
 		}
@@ -85,40 +123,48 @@
 			});
 		}
 
-		// Activity suggestion
-		if (precipitation > 5) {
-			suggestions.push({
-				category: $t.activity,
-				icon: '🏛️',
-				item: $t.indoorActivities,
-				reason: $t.indoorActivitiesReason,
-				type: 'activity'
-			});
-		} else if (temp > 20 && windSpeed < 15) {
-			suggestions.push({
-				category: $t.activity,
-				icon: '🌳',
-				item: $t.outdoorAdventures,
-				reason: $t.outdoorAdventuresReason,
-				type: 'activity'
-			});
-		} else if (temp > 10) {
-			suggestions.push({
-				category: $t.activity,
-				icon: '🚶',
-				item: $t.lightOutdoorActivities,
-				reason: $t.lightOutdoorReason,
-				type: 'activity'
-			});
-		} else {
-			suggestions.push({
-				category: $t.activity,
-				icon: '🏠',
-				item: $t.cozyIndoorTime,
-				reason: $t.cozyIndoorReason,
-				type: 'activity'
-			});
-		}
+		// Activity suggestions – immer zwei Stück (aktiv & gemütlich-anspruchsvoll)
+		// Aktiv
+		suggestions.push({
+			category: $t.activity,
+			icon: '💪',
+			item: locale === 'de'
+				? pick([
+					'Schwitz-Session im Fitnesspark',
+					'Morgendlicher Power-Run',
+					'After-Work Bike-Tour'
+				])
+				: $t.outdoorAdventures,
+			reason: locale === 'de'
+				? pick([
+					'Bring dein Herz auf Touren – draußen wartet der Kalorienkiller!',
+					'Perfekt, um die Endorphine tanzen zu lassen und dem Alltag davonzulaufen.',
+					'Sonne, frische Luft, schnelle Beine – besser wird\'s nicht.'
+				])
+				: $t.outdoorAdventuresReason,
+			type: 'activity'
+		});
+
+		// Gemütlich aber anspruchsvoll
+		suggestions.push({
+			category: $t.activity,
+			icon: '🧩',
+			item: locale === 'de'
+				? pick([
+					'Strategische Brettspielrunde im Café',
+					'Escape-Room-Challenge',
+					'Kreativer Barista-Workshop'
+				])
+				: $t.indoorActivities,
+			reason: locale === 'de'
+				? pick([
+					'Gemütlich sitzen, Kopf rauchen lassen – genau das Richtige für clevere Füchse.',
+					'Entspannt bleiben und trotzdem die grauen Zellen fordern – Challenge accepted!',
+					'Ein Mix aus Chillen und Knobeln, der garantiert für Aha-Momente sorgt.'
+				])
+				: $t.indoorActivitiesReason,
+			type: 'activity'
+		});
 
 		// Exercise suggestion
 		if (temp > 25) {
@@ -155,6 +201,39 @@
 			});
 		}
 
+		// --- E-Commerce Vorschläge pro Kategorie ----------------------------------
+		const shopWardrobe = {
+			category: $t.wardrobe,
+			icon: '🛍️',
+			item: locale === 'de' ? 'Jetzt passenden Look shoppen' : 'Shop the look',
+			reason: locale === 'de'
+				? 'Lust auf ein Upgrade? Klick dich durch unsere Kollektion und gönn deinem Style ein Fresh-Up.'
+				: 'Spice up your wardrobe with our hand-picked pieces!',
+			type: 'wardrobe'
+		} as Suggestion;
+
+		const shopFood = {
+			category: $t.food,
+			icon: '🍱',
+			item: locale === 'de' ? 'Zutatenbox nach Hause' : 'Meal kit delivery',
+			reason: locale === 'de'
+				? 'Keine Lust auf Schleppen? Lass dir alles fix & fertig liefern – Kochspaß inklusive.'
+				: 'Get fresh ingredients delivered straight to your door.',
+			type: 'food'
+		} as Suggestion;
+
+		const shopActivity = {
+			category: $t.activity,
+			icon: '🎒',
+			item: locale === 'de' ? 'Outdoor-Gear Check' : 'Gear up for adventure',
+			reason: locale === 'de'
+				? 'Dir fehlt noch die richtige Ausrüstung? Hol dir jetzt Helm, Schuhe & Co. im Sparpaket.'
+				: 'Grab the gear you need for your next adventure at a discount.',
+			type: 'activity'
+		} as Suggestion;
+
+		suggestions.push(shopWardrobe, shopFood, shopActivity);
+
 		return suggestions;
 	}
 
@@ -162,13 +241,13 @@
 		const colors: Record<string, string> = {
 			'wardrobe': 'bg-purple-500/20 dark:bg-purple-600/30 border-purple-300/50 dark:border-purple-500/50',
 			'food': 'bg-orange-500/20 dark:bg-orange-600/30 border-orange-300/50 dark:border-orange-500/50',
-			'activity': 'bg-blue-500/20 dark:bg-blue-600/30 border-blue-300/50 dark:border-blue-500/50',
-			'exercise': 'bg-green-500/20 dark:bg-green-600/30 border-green-300/50 dark:border-green-500/50'
+			'activity': 'bg-blue-500/20 dark:bg-blue-600/30 border-blue-300/50 dark:border-blue-500/50'
 		};
 		return colors[type] || 'bg-gray-500/20 dark:bg-gray-600/30 border-gray-300/50 dark:border-gray-500/50';
 	}
 
-	$: unifiedSuggestions = weather 
+	// Recompute suggestions whenever weather or locale changes
+	$: unifiedSuggestions = weather && $t
 		? getUnifiedSuggestions(
 			weather.current.temperature_2m,
 			weather.current.precipitation,

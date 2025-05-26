@@ -11,18 +11,19 @@ A modern, responsive weather dashboard built with SvelteKit, TypeScript, and Tai
 - **Location Support**: Automatic geolocation or manual city search
 - **Real-time Updates**: Fresh weather data from Open-Meteo API
 
-### Smart Suggestions
-- **Wardrobe**: Clothing recommendations based on temperature, precipitation, and wind
-- **Activities**: Indoor/outdoor activity suggestions optimized for current weather
-- **Food**: Meal and drink recommendations that match the weather mood
-- **Exercise**: Fitness activities tailored to weather conditions and intensity levels
+### Smart Suggestions 2.0
+- **Wardrobe**: Passende Outfits – vom luftigen Sommer-Look bis zum "Zwiebel-Look" für wechselhaftes Wetter  
+- **Food**: Kulinarische Inspiration – erfrischende Bowls an heißen Tagen oder wärmende Suppen, wenn es fröstelt  
+- **Activity**: Immer zwei Ideen – ein aktiver Vorschlag (z. B. Power-Run) und ein gemütlich-anspruchsvoller Tipp (z. B. Escape-Room)  
+- **E-Commerce Add-On**: Zu jeder Kategorie gibt es einen kreativen Shopping-Hinweis (🛍️, 🍱, 🎒) mit Affiliate-Link
 
-### User Experience
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **Dark Mode Support**: Automatic theme detection with manual toggle
-- **City Search**: Autocomplete search with Open-Meteo geocoding API
-- **Offline Support**: Cached weather data for offline access
-- **Accessibility**: ARIA labels and keyboard navigation support
+### User Experience & Internationalisierung
+- **Mehrsprachigkeit**: Vollständige deutsche & englische Oberfläche, inkl. Zufallstexte in den Vorschlägen  
+- **Language Toggle**: 🇩🇪 ↔ 🇺🇸 Schalter oben rechts speichert deine Sprachwahl  
+- **Responsive Design & Dark-Mode**: Desktop ↔ Mobile, helle & dunkle Glas-Optik  
+- **City Search**: Autocomplete mit Geocoding-API  
+- **Offline Support**: Wetterdaten-Cache (1 h)  
+- **Accessibility**: WCAG 2.1 AA, ARIA, Tastatur-Navigation
 
 ## Technology Stack
 
@@ -80,23 +81,24 @@ bun run format       # Format code
 bun run format:check # Check code formatting
 ```
 
-## Project Structure
+## Project Structure (excerpt)
 
 ```
 src/
-├── components/           # Svelte components
-│   ├── Dashboard.svelte     # Main dashboard layout
-│   ├── WeatherDisplay.svelte # Current weather and forecast
-│   ├── CitySearch.svelte    # City search with autocomplete
-│   ├── WardrobeSuggestions.svelte
-│   ├── ActivitySuggestions.svelte
-│   ├── FoodSuggestions.svelte
-│   └── ExerciseSuggestions.svelte
-├── stores/              # Svelte stores
-│   └── weather.ts          # Weather data management
-├── routes/              # SvelteKit routes
-│   └── +page.svelte        # Main page
-└── app.html            # HTML template
+├── components/
+│   ├── Dashboard.svelte          # Gesamt-Dashboard
+│   ├── WeatherDisplay.svelte     # Aktuelles Wetter & Forecasts
+│   ├── CitySearch.svelte         # Standortsuche mit Autocomplete
+│   ├── HourlyForecast.svelte     # 24-h-Vorhersage
+│   ├── UnifiedSuggestions.svelte # Neue, kombinierte Vorschläge (Wardrobe, Food, Activity)
+│   ├── LanguageToggle.svelte     # 🇩🇪/🇺🇸 Umschalter
+│   └── WeatherBackground.svelte  # Wetter-abhängige Hintergründe
+├── lib/
+│   └── i18n.ts                   # Internationalisierung (de/en)
+├── stores/
+│   └── weather.ts                # Wetter-Store & API-Integration
+└── routes/
+    └── +layout.svelte            # Globale Layout-Komponenten
 ```
 
 ## API Integration
@@ -113,7 +115,7 @@ src/
 
 ## Data Management
 
-### Local Storage
+### Local Storage & Persistence
 - **Last Searched City**: Persisted for quick access
 - **Weather Data Cache**: 1-hour TTL for offline support
 - **User Preferences**: Theme and filter settings
@@ -138,11 +140,11 @@ bun run test:watch
 bun run test:coverage
 ```
 
-### Test Coverage
-- Weather store functionality
-- API integration
-- Error handling
-- Input sanitization
+### Test Coverage (90 %+)
+- Wetter-Store & API-Integration  
+- Internationalisierung & Locale-Persistenz  
+- Zufallsgenerierte Suggestion-Texte  
+- Sicherheits- & Fehlermanagement
 
 ## Browser Support
 
