@@ -68,8 +68,8 @@
 <svelte:window on:click={handleClickOutside} />
 
 <div class="city-search">
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+  <div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
+    <h2 class="text-xl font-bold text-glass mb-4 flex items-center">
       <span class="text-2xl mr-3">🔍</span>
       Search Location
     </h2>
@@ -81,7 +81,7 @@
         on:keydown={handleKeydown}
         on:click|stopPropagation
         placeholder="Enter city name..."
-        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+        class="glass-input w-full px-4 py-3 text-glass placeholder-glass-muted"
         aria-label="Search for a city"
       />
       
@@ -93,17 +93,17 @@
       
       <!-- Search Results Dropdown -->
       {#if showResults && results.length > 0}
-        <div class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+        <div class="absolute top-full left-0 right-0 mt-2 glass-card-lg rounded-glass-lg shadow-glass-lg z-50 max-h-60 overflow-y-auto">
           {#each results as city}
             <button
               type="button"
               on:click|stopPropagation={() => selectCity(city)}
-              class="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-b-0 transition-colors"
+              class="w-full px-4 py-3 text-left hover:bg-white/40 dark:hover:bg-slate-800/50 border-b border-glass-light-border dark:border-glass-dark-border last:border-b-0 transition-all duration-200"
             >
-              <div class="font-medium text-gray-900 dark:text-white">
+              <div class="font-medium text-glass">
                 {city.name}
               </div>
-              <div class="text-sm text-gray-600 dark:text-gray-400">
+              <div class="text-sm text-glass-secondary">
                 {city.country}
                 {#if city.admin1}
                   • {city.admin1}
@@ -116,15 +116,15 @@
       
       <!-- No Results Message -->
       {#if showResults && results.length === 0 && !searching && query.length >= 2}
-        <div class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50 p-4 text-center">
-          <div class="text-gray-500 dark:text-gray-400">
+        <div class="absolute top-full left-0 right-0 mt-2 glass-card-lg rounded-glass-lg shadow-glass-lg z-50 p-4 text-center">
+          <div class="text-glass-secondary">
             No cities found for "{query}"
           </div>
         </div>
       {/if}
     </div>
     
-    <div class="mt-3 text-sm text-gray-600 dark:text-gray-400">
+    <div class="mt-3 text-sm text-glass-muted">
       Type at least 2 characters to search for cities
     </div>
   </div>
