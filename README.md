@@ -1,287 +1,173 @@
-# WeatherSync Decision Hub (MVP)
+# WeatherWise Dashboard
 
-A focused Minimum Viable Product (MVP) that empowers users to make informed, weather-driven decisions about **wardrobe** (primary focus), **fitness and exercise**, **meals**, and **activities**. Built with SvelteKit, TypeScript, and Tailwind CSS.
+A modern, responsive weather dashboard built with SvelteKit, TypeScript, and Tailwind CSS. Get real-time weather data and personalized suggestions for wardrobe, activities, food, and exercises based on current weather conditions.
 
-## 🌟 Features
+## Features
 
-### Core Decision-Making Features
-- **🌦️ Transition Forecast**: Predicts weather state changes with probabilities using YAML weather state transitions
-- **👗 Smart Weather Wardrobe Advisor**: Primary focus on outfit choices with e-commerce integration
-- **💪 Weather-Optimized Fitness Advisor**: Tailored exercise proposals based on weather conditions
-- **🍽️ Weather-Adaptive Meal Planner**: Meal recommendations with grocery integration
-- **🎯 Weather-Tethered Adventure Curator**: Activity suggestions with ticket purchase options
+### Weather Data Display
+- **Current Weather**: Temperature, humidity, wind speed, precipitation, and weather conditions
+- **24-Hour Forecast**: Hourly temperature, precipitation probability, and weather conditions
+- **7-Day Forecast**: Extended forecast with daily high/low temperatures and weather icons
+- **Location Support**: Automatic geolocation or manual city search
+- **Real-time Updates**: Fresh weather data from Open-Meteo API
 
-### Advanced UI Components
-- **⏰ Decision Timeline**: 24-hour forecast with probability bars and recommendations
-- **🗺️ Weather Map**: Interactive map with weather overlays and activity pins using Leaflet.js
-- **📔 Decision Journal**: Logs decisions with gamified badges and purchase history
-- **🛍️ WeatherSync Mini-Shop**: Curated weather-relevant products with affiliate links
+### Smart Suggestions
+- **Wardrobe**: Clothing recommendations based on temperature, precipitation, and wind
+- **Activities**: Indoor/outdoor activity suggestions optimized for current weather
+- **Food**: Meal and drink recommendations that match the weather mood
+- **Exercise**: Fitness activities tailored to weather conditions and intensity levels
 
-### E-commerce Integration
-- **Amazon** - Clothing and general items
-- **Zappos** - Footwear and accessories  
-- **Nike** - Fitness gear and athletic wear
-- **Instacart** - Grocery delivery for meal ingredients
-- **Eventbrite** - Event tickets and activities
+### User Experience
+- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
+- **Dark Mode Support**: Automatic theme detection with manual toggle
+- **City Search**: Autocomplete search with Open-Meteo geocoding API
+- **Offline Support**: Cached weather data for offline access
+- **Accessibility**: ARIA labels and keyboard navigation support
 
-### Weather Data & Intelligence
-- **Open-Meteo API** integration for comprehensive weather data
-- **16 Weather States** with YAML-based transitions (Heatwave, Showery, Cold, etc.)
-- **Probability-based forecasting** combining API data with transition likelihoods
-- **Regional filtering** and contextual recommendations
+## Technology Stack
 
-## 🚀 Quick Start
+- **Frontend**: SvelteKit 2.16+ with TypeScript
+- **Styling**: Tailwind CSS 3.4+ with responsive design
+- **API**: Open-Meteo (weather and geocoding) - no API key required
+- **Package Manager**: Bun for fast dependency management
+- **Testing**: Vitest with @testing-library/svelte
+- **Code Quality**: ESLint, Prettier, and TypeScript strict mode
+
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+- [Bun](https://bun.sh/) (latest version)
+- Node.js 18+ (for compatibility)
 
 ### Installation
 
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd weatherwise-dashboard
+   ```
+
+2. **Install dependencies**
+   ```bash
+   bun install
+   ```
+
+3. **Start development server**
+   ```bash
+   bun run dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:5173`
+
+### Available Scripts
+
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd weatherDashboard2
+# Development
+bun run dev          # Start development server
+bun run build        # Build for production
+bun run preview      # Preview production build
 
-# Install dependencies
-npm install
+# Testing
+bun run test         # Run tests
+bun run test:watch   # Run tests in watch mode
+bun run test:coverage # Run tests with coverage
 
-# Start development server
-npm run dev
+# Code Quality
+bun run lint         # Lint code
+bun run lint:fix     # Fix linting issues
+bun run format       # Format code
+bun run format:check # Check code formatting
 ```
 
-Visit `http://localhost:5173` to see the application.
+## Project Structure
 
-### Build for Production
-
-```bash
-npm run build
-npm run preview
-```
-
-## 🏗️ Architecture
-
-### Project Structure
 ```
 src/
 ├── components/           # Svelte components
-│   ├── Dashboard.svelte         # Main dashboard layout
-│   ├── DecisionTimeline.svelte  # 24-hour decision timeline
-│   ├── WeatherMap.svelte        # Interactive weather map
-│   ├── DecisionJournal.svelte   # Decision logging with badges
-│   ├── WeatherSyncMiniShop.svelte # E-commerce integration
-│   ├── WeatherDisplay.svelte    # Current weather display
-│   ├── CitySearch.svelte        # Location search
-│   └── [Suggestion Components]  # Wardrobe, Fitness, Food, Activity
-├── lib/                  # Utilities and data
-│   ├── weatherStates.yaml       # 16 weather states & transitions
-│   ├── weatherStatesData.ts     # TypeScript weather state data
-│   ├── weatherStateMapper.ts    # Weather state mapping logic
-│   └── ecommerce.ts            # E-commerce integration utilities
-├── stores/               # Svelte stores
-│   └── weather.ts              # Weather data management
-└── routes/               # SvelteKit routes
-    └── +page.svelte            # Main application page
+│   ├── Dashboard.svelte     # Main dashboard layout
+│   ├── WeatherDisplay.svelte # Current weather and forecast
+│   ├── CitySearch.svelte    # City search with autocomplete
+│   ├── WardrobeSuggestions.svelte
+│   ├── ActivitySuggestions.svelte
+│   ├── FoodSuggestions.svelte
+│   └── ExerciseSuggestions.svelte
+├── stores/              # Svelte stores
+│   └── weather.ts          # Weather data management
+├── routes/              # SvelteKit routes
+│   └── +page.svelte        # Main page
+└── app.html            # HTML template
 ```
 
-### Weather State System
-
-The application uses a sophisticated 16-state weather classification system:
-
-- **Heatwave** (>35°C) → Showery, Hot_Sunny
-- **Hot_Sunny** (25-35°C) → Heatwave, Showery  
-- **Sunny** (15-25°C) → Hot_Sunny, Cloudy
-- **Mild** (10-20°C) → Sunny, Cloudy
-- **Cold** (0-10°C) → Freezing, Snowy
-- **Freezing** (<0°C) → Snowy, Cold
-- **Showery** → Rainy, Cloudy
-- **Rainy** → Stormy, Showery
-- **Stormy** → Rainy, Windy
-- **Cloudy** → Showery, Sunny
-- **Windy** → Stormy, Cloudy
-- **Foggy** → Cloudy, Sunny
-- **Snowy** → Freezing, Cold
-- **Humid** → Showery, Hot_Sunny
-- **Dry** → Sunny, Windy
-
-Each state includes transition probabilities and specific recommendations for wardrobe, fitness, meals, and activities.
-
-## 🛍️ E-commerce Integration
-
-### Affiliate Program Setup
-
-The application includes affiliate tracking for revenue generation:
-
-```typescript
-// Example affiliate link generation
-const affiliateLink = generateAffiliateLink(
-  'amazon', 
-  'rain jacket',
-  { utm_campaign: 'weather_decision' }
-);
-```
-
-### Purchase Tracking
-
-All purchase intents are tracked for analytics:
-
-```typescript
-trackPurchase({
-  productId: 'rain-jacket-1',
-  productName: 'Lightweight Rain Jacket',
-  store: 'amazon',
-  price: '$49.99',
-  weatherState: 'Showery',
-  category: 'wardrobe'
-});
-```
-
-## 🎮 Gamification
-
-### Achievement System
-
-Users earn badges for weather-informed decisions:
-
-- **🌧️ Rainy Explorer** - 5 rainy weather activities
-- **☀️ Sunny Adventurer** - 10 sunny day activities  
-- **🧘 Showery Yogi** - Indoor yoga during showery weather
-- **🧠 Weather Wise** - 20 weather-informed decisions
-- **👗 Fashion Forward** - 5 weather-appropriate purchases
-- **💪 Fitness Fanatic** - 15 weather-adapted workouts
-- **🍽️ Foodie Forecaster** - 10 weather-inspired meals
-- **🦋 Social Butterfly** - 5 shared journal entries
-
-## 📱 Accessibility Features
-
-- **Text-to-speech** for weather forecasts and recommendations
-- **High-contrast mode** for visual accessibility
-- **Keyboard navigation** support
-- **Screen reader** compatibility
-- **Responsive design** for mobile devices
-
-## 🌐 API Integration
+## API Integration
 
 ### Open-Meteo Weather API
+- **Endpoint**: `https://api.open-meteo.com/v1/forecast`
+- **Features**: Current weather, 7-day forecast, hourly data
+- **No API Key Required**: Free tier with generous limits
 
-```typescript
-// Comprehensive weather data fetching
-const weatherData = await fetchWeatherData(latitude, longitude);
-```
+### Open-Meteo Geocoding API
+- **Endpoint**: `https://geocoding-api.open-meteo.com/v1/search`
+- **Features**: City search, coordinates, country/region info
+- **Input Sanitization**: XSS protection and validation
 
-Includes:
-- Current conditions
-- Hourly forecasts (48 hours)
-- Daily forecasts (16 days)
-- Air quality data
-- Historical averages
+## Data Management
 
-### External Service Integration
+### Local Storage
+- **Last Searched City**: Persisted for quick access
+- **Weather Data Cache**: 1-hour TTL for offline support
+- **User Preferences**: Theme and filter settings
 
-- **Google Calendar** - Event context for recommendations
-- **Strava** - Fitness goals and activity tracking
-- **Spoonacular** - Recipe recommendations
-- **Google Places** - Local activity discovery
+### Security
+- **Input Sanitization**: All user inputs are sanitized
+- **XSS Protection**: Secure handling of search queries
+- **Error Handling**: Graceful fallbacks for API failures
 
-## 🔧 Configuration
+## Testing
 
-### Environment Variables
-
-```env
-# API Keys (optional - using public APIs)
-VITE_GOOGLE_CALENDAR_API_KEY=your_key_here
-VITE_STRAVA_CLIENT_ID=your_client_id_here
-
-# Affiliate Program IDs
-VITE_AMAZON_AFFILIATE_TAG=weathersync-20
-VITE_NIKE_AFFILIATE_ID=weathersync
-```
-
-### Customization
-
-The application supports extensive customization:
-
-- **Weather state thresholds** in `weatherStateMapper.ts`
-- **Product recommendations** in `ecommerce.ts`
-- **UI themes** via Tailwind CSS classes
-- **Badge criteria** in `DecisionJournal.svelte`
-
-## 📊 Analytics & Metrics
-
-### Business Metrics Tracking
-
-```typescript
-const revenue = calculateRevenue();
-// Returns: totalPurchases, estimatedCommission, topCategories, topStores
-```
-
-### User Engagement
-
-- Decision timeline interactions
-- Purchase conversion rates
-- Badge achievement rates
-- Journal entry frequency
-- Social sharing activity
-
-## 🚀 Deployment
-
-### Static Site Generation
+The project uses Vitest for testing with comprehensive coverage:
 
 ```bash
-npm run build
+# Run all tests
+bun run test
+
+# Watch mode for development
+bun run test:watch
+
+# Coverage report
+bun run test:coverage
 ```
 
-The application builds to static files suitable for deployment on:
-- **Vercel** (recommended)
-- **Netlify**
-- **AWS S3 + CloudFront**
-- **GitHub Pages**
+### Test Coverage
+- Weather store functionality
+- API integration
+- Error handling
+- Input sanitization
 
-### AWS Amplify Configuration
+## Browser Support
 
-```yaml
-# amplify.yml
-version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm ci
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: build
-    files:
-      - '**/*'
-```
+- **Modern Browsers**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+- **Mobile**: iOS Safari 14+, Chrome Mobile 90+
+- **Features**: ES2022, CSS Grid, Flexbox, CSS Custom Properties
 
-## 🤝 Contributing
+## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Make your changes** with tests
+4. **Run the test suite**: `bun run test`
+5. **Lint your code**: `bun run lint`
+6. **Commit your changes**: `git commit -m 'Add amazing feature'`
+7. **Push to the branch**: `git push origin feature/amazing-feature`
+8. **Open a Pull Request**
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- **Open-Meteo** for comprehensive weather data
-- **Leaflet.js** for interactive mapping
-- **SvelteKit** for the application framework
-- **Tailwind CSS** for styling
-- **TypeScript** for type safety
-
-## 📞 Support
-
-For support and questions:
-- Create an issue on GitHub
-- Check the [documentation](docs/)
-- Review the [PRD](WeatherSync%20Decision%20Hub%20MVP%20PRD.markdown)
-
----
-
-**WeatherSync Decision Hub** - Making weather-informed decisions effortless and engaging! 🌤️✨
+- [Open-Meteo](https://open-meteo.com/) for free weather API
+- [SvelteKit](https://kit.svelte.dev/) for the amazing framework
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
+- [Bun](https://bun.sh/) for fast package management
