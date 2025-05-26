@@ -8,6 +8,7 @@ frontend:
       commands:
         - npm run build
   artifacts:
+    # For SvelteKit with adapter-static, use 'build'. For SSR, use '.svelte-kit/output'.
     baseDirectory: build
     files:
       - '**/*'
