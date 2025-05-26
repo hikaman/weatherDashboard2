@@ -1,0 +1,260 @@
+# WeatherWise Dashboard - Cursor AI Agent Rules
+
+## Project Context & Standards
+
+You are working on the **WeatherWise Dashboard**, a login-free weather application built with SvelteKit, TypeScript, Tailwind CSS, and the Open-Meteo API. This project follows strict code quality, security, and testing standards as defined in the implementation document.
+
+## Core Development Principles
+
+### 1. TypeScript-First Development
+- **ALWAYS** use TypeScript with strict typing enabled
+- Define explicit interfaces for ALL data structures, props, and API responses
+- Use `export interface` for reusable types in separate files
+- Never use `any` type - use proper typing or `unknown` with type guards
+- Ensure all function parameters and return types are explicitly typed
+
+### 2. Test-Driven Development (TDD)
+- **MANDATORY**: Write Vitest tests BEFORE implementing functionality
+- Target 90%+ test coverage for all components and stores
+- Test file naming: `*.test.ts` for utilities, `*.test.ts` for component logic
+- Use `@testing-library/svelte` for component testing
+- Mock external APIs and localStorage in tests
+- Test both happy path and error scenarios
+
+### 3. Security Standards
+- **Input Sanitization**: ALWAYS sanitize user inputs using the existing `sanitizeInput` function
+- **XSS Prevention**: Escape HTML content, validate all external data
+- **API Security**: Use `encodeURIComponent()` for URL parameters
+- **Data Validation**: Validate API responses before using data
+- **Secure Storage**: Use secure JSON serialization for localStorage
+- **Error Handling**: Never expose sensitive information in error messages
+
+### 4. Code Quality Standards
+- Follow DRY (Don't Repeat Yourself) principles
+- Use clear, descriptive variable and function names
+- Implement modular, reusable components
+- Maintain consistent code formatting with Prettier
+- Follow ESLint rules strictly (no warnings allowed)
+- Use semantic commit messages following conventional commits
+
+## Technical Implementation Rules
+
+### SvelteKit & Svelte 5 Standards
+- Use latest SvelteKit patterns and Svelte 5 syntax
+- Implement proper reactive statements with `$:` syntax
+- Use `createEventDispatcher` for component communication
+- Implement proper component lifecycle management
+- Use slots for flexible component composition
+
+### Tailwind CSS Standards
+- Use utility-first approach with Tailwind classes
+- Implement responsive design with mobile-first approach
+- Use consistent spacing scale (p-4, m-4, gap-4, etc.)
+- Apply dark mode support with `dark:` variants
+- Use semantic color classes (bg-blue-600, text-gray-900)
+- Implement glassmorphism with backdrop-blur and transparency
+
+### Store Management
+- Use Svelte stores for state management
+- Implement proper error handling in stores
+- Use writable stores with typed interfaces
+- Implement loading states for async operations
+- Cache data appropriately with localStorage integration
+
+### API Integration
+- Use Open-Meteo API endpoints exclusively
+- Implement proper error handling for network requests
+- Use async/await pattern for API calls
+- Validate API responses before processing
+- Implement offline fallback mechanisms
+
+## File Structure & Organization
+
+### Component Structure
+```
+src/
+├── components/           # Reusable UI components
+├── stores/              # Svelte stores for state management
+├── utils/               # Utility functions and helpers
+├── routes/              # SvelteKit routes
+└── types/               # TypeScript type definitions
+```
+
+### Naming Conventions
+- Components: PascalCase (e.g., `WeatherDisplay.svelte`)
+- Files: camelCase (e.g., `weatherStore.ts`)
+- Interfaces: PascalCase with descriptive names (e.g., `WeatherData`)
+- Functions: camelCase with verb-noun pattern (e.g., `fetchWeatherData`)
+
+## Code Implementation Guidelines
+
+### Component Development
+1. **Props Interface**: Always define props interface at the top
+2. **Event Dispatchers**: Use typed event dispatchers for component communication
+3. **Reactive Statements**: Use `$:` for computed values and side effects
+4. **Error Boundaries**: Implement proper error handling in components
+5. **Accessibility**: Include ARIA attributes and keyboard navigation
+
+### Store Development
+1. **Interface Definition**: Define state interface before implementation
+2. **Initial State**: Provide typed initial state
+3. **Error Handling**: Implement comprehensive error handling
+4. **Loading States**: Include loading indicators for async operations
+5. **Data Validation**: Validate all external data before storing
+
+### Testing Requirements
+1. **Unit Tests**: Test all utility functions and store logic
+2. **Component Tests**: Test component rendering and user interactions
+3. **Integration Tests**: Test component-store interactions
+4. **API Mocking**: Mock all external API calls in tests
+5. **Edge Cases**: Test error scenarios and edge cases
+
+## Security Implementation Checklist
+
+### Input Validation
+- [ ] Sanitize all user inputs using `sanitizeInput` function
+- [ ] Validate API responses before processing
+- [ ] Use `encodeURIComponent` for URL parameters
+- [ ] Implement proper error boundaries
+
+### Data Protection
+- [ ] Use secure localStorage practices
+- [ ] Implement proper JSON serialization
+- [ ] Avoid storing sensitive data in localStorage
+- [ ] Validate data integrity on retrieval
+
+### API Security
+- [ ] Use HTTPS endpoints only
+- [ ] Implement proper error handling for API failures
+- [ ] Validate API response structure
+- [ ] Handle rate limiting gracefully
+
+## Performance Standards
+
+### Optimization Requirements
+- Implement lazy loading for non-critical components
+- Use proper Svelte reactivity to minimize re-renders
+- Optimize bundle size with tree shaking
+- Implement efficient caching strategies
+- Use proper image optimization techniques
+
+### Accessibility Standards
+- Implement WCAG 2.1 AA compliance
+- Use semantic HTML elements
+- Provide proper ARIA labels and descriptions
+- Ensure keyboard navigation support
+- Maintain sufficient color contrast ratios
+
+## Git Workflow Standards
+
+### Commit Standards
+- Use conventional commit format: `feat:`, `fix:`, `test:`, `refactor:`
+- Write descriptive commit messages
+- Commit working, tested code only
+- Run tests before committing
+- Format code with Prettier before committing
+
+### Branch Strategy
+- Use feature branches for new functionality
+- Merge only after tests pass
+- Maintain clean commit history
+- Use meaningful branch names
+
+## Error Handling Patterns
+
+### API Error Handling
+```typescript
+try {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+  const data = await response.json();
+  // Validate data structure
+  return data;
+} catch (error) {
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+  // Handle error appropriately
+}
+```
+
+### Component Error Handling
+```svelte
+{#if error}
+  <div class="error-message" role="alert">
+    {error}
+  </div>
+{:else if loading}
+  <div class="loading-spinner" aria-label="Loading">
+    Loading...
+  </div>
+{:else}
+  <!-- Normal content -->
+{/if}
+```
+
+## Documentation Requirements
+
+### Code Documentation
+- Document all public functions and interfaces
+- Include JSDoc comments for complex logic
+- Maintain README with setup instructions
+- Document API integration patterns
+- Include examples for reusable components
+
+### Type Documentation
+- Export all interfaces for reuse
+- Document complex type relationships
+- Include examples in interface comments
+- Maintain type consistency across components
+
+## Quality Assurance Checklist
+
+Before completing any task, ensure:
+- [ ] TypeScript compilation passes without errors
+- [ ] All tests pass with 90%+ coverage
+- [ ] ESLint shows no errors or warnings
+- [ ] Prettier formatting is applied
+- [ ] Security standards are met
+- [ ] Accessibility requirements are satisfied
+- [ ] Performance optimizations are implemented
+- [ ] Documentation is updated
+- [ ] Git commit follows standards
+
+## Glassmorphism Design Standards
+
+### Visual Design Requirements
+- Use semi-transparent backgrounds (`bg-white/20`, `bg-slate-800/30`)
+- Apply backdrop blur effects (`backdrop-blur-lg`)
+- Implement subtle borders (`border border-white/30`)
+- Use soft shadows (`shadow-xl`)
+- Ensure proper contrast ratios for accessibility
+- Support both light and dark modes
+
+### Weather-Reactive Backgrounds
+- Implement dynamic background gradients based on weather conditions
+- Use smooth transitions between weather states
+- Ensure glass elements remain readable over all backgrounds
+- Test contrast ratios across all weather conditions
+
+### Humanized Content Standards
+- Use natural, conversational language for suggestions
+- Provide 1-2 sentence explanations instead of bullet points
+- Maintain friendly, helpful tone throughout the application
+- Ensure content is accessible to screen readers
+
+## AI Agent Execution Guidelines
+
+When implementing tasks:
+1. **Read and understand** the full context before starting
+2. **Follow TDD**: Write tests first, then implementation
+3. **Implement incrementally**: Small, testable changes
+4. **Validate continuously**: Run tests after each change
+5. **Commit frequently**: Working code with meaningful messages
+6. **Document changes**: Update relevant documentation
+7. **Review security**: Check for vulnerabilities before committing
+8. **Test accessibility**: Ensure WCAG compliance
+9. **Optimize performance**: Consider bundle size and runtime performance
+10. **Maintain consistency**: Follow established patterns and conventions
+
+Remember: Quality over speed. Every line of code should meet these standards. 
