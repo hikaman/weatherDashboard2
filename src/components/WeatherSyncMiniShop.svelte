@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { weatherData } from '../stores/weather';
+  import { weatherStore } from '../stores/weather';
   import { getMiniShopData, trackPurchase, type Product } from '../lib/ecommerce';
   import { onMount } from 'svelte';
 
@@ -8,10 +8,10 @@
   let currentWeatherState = 'Sunny';
 
   // Generate shop data based on current weather
-  $: if ($weatherData) {
+  $: if ($weatherStore.data) {
     // Simple weather state mapping for demo
-    const temp = $weatherData.current.temperature;
-    const precipitation = $weatherData.current.precipitationProbability;
+    const temp = $weatherStore.data.current.temperature_2m;
+    const precipitation = $weatherStore.data.current.precipitation;
     
     if (precipitation > 60) {
       currentWeatherState = 'Showery';
@@ -70,13 +70,13 @@
   });
 </script>
 
-<div class="weather-card">
+<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
   <div class="flex items-center justify-between mb-6">
-    <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+    <h2 class="text-xl font-bold text-glass flex items-center">
       <span class="text-2xl mr-3">🛍️</span>
       WeatherSync Mini-Shop
     </h2>
-    <div class="text-sm text-gray-500 dark:text-gray-400">
+    <div class="text-sm text-glass-secondary">
       {currentWeatherState} Weather Essentials
     </div>
   </div>
@@ -88,11 +88,11 @@
     </div>
   {:else}
     <!-- Category Tabs -->
-    <div class="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+    <div class="flex space-x-1 mb-6 glass-card rounded-glass-lg p-1">
       {#each shopData.categories as category, index}
         <button
           on:click={() => selectedCategory = index}
-          class="flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 {selectedCategory === index ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}"
+          class="glass-button flex-1 px-3 py-2 rounded-glass text-sm font-medium transition-all duration-200 {selectedCategory === index ? 'bg-blue-500/20 dark:bg-blue-600/30 text-blue-800 dark:text-blue-200 border border-blue-300/50 dark:border-blue-500/50' : 'text-glass-secondary hover:text-glass hover:bg-white/30 dark:hover:bg-slate-800/40'}"
         >
           <span class="mr-1">{category.emoji}</span>
           {category.name}
@@ -140,7 +140,7 @@
             </div>
             <button
               on:click={() => handlePurchaseClick(product)}
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              class="glass-button px-4 py-2 bg-blue-500/20 dark:bg-blue-600/30 text-blue-800 dark:text-blue-200 border border-blue-300/50 dark:border-blue-500/50 hover:bg-blue-500/30 dark:hover:bg-blue-600/40 transition-all duration-200 text-sm font-medium"
             >
               Shop Now
             </button>
