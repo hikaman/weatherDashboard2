@@ -12,7 +12,7 @@
 	let error: string | null = null;
 
 	// Subscribe to weather store
-	$: ({ data: weather, loading, error } = $weatherStore);
+	$: ({ data: weather, loading, error, currentLocation } = $weatherStore);
 
 	// Load weather data on mount
 	onMount(async () => {
@@ -29,16 +29,6 @@
 
 <div class="dashboard">
 	<div class="container mx-auto px-4 py-8">
-		<!-- Header -->
-		<header class="text-center mb-8">
-			<h1 class="text-4xl font-bold text-glass mb-2">
-				WeatherWise Dashboard
-			</h1>
-			<p class="text-glass-secondary">
-				Smart suggestions based on current weather conditions
-			</p>
-		</header>
-
 		<!-- Loading State -->
 		{#if loading}
 			<div class="glass-card-lg p-8 text-center">
@@ -59,7 +49,7 @@
 		{:else}
 			<!-- City Search -->
 			<div class="mb-8">
-				<CitySearch />
+				<CitySearch {currentLocation} />
 			</div>
 
 			<!-- Main Dashboard Grid -->

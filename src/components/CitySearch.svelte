@@ -2,6 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import { searchCities, fetchWeatherData, type GeocodingResult } from '../stores/weather';
   
+  export let currentLocation: string | null = null;
+  
   const dispatch = createEventDispatcher<{ select: GeocodingResult }>();
   
   let query = '';
@@ -42,8 +44,11 @@
     showResults = false;
     results = [];
     
+    // Create location name
+    const locationName = city.admin1 ? `${city.name}, ${city.admin1}` : city.name;
+    
     // Fetch weather for selected city
-    await fetchWeatherData(city.latitude, city.longitude);
+    await fetchWeatherData(city.latitude, city.longitude, locationName);
     
     // Dispatch selection event
     dispatch('select', city);
@@ -70,8 +75,8 @@
 <div class="city-search">
   <div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
     <h2 class="text-xl font-bold text-glass mb-4 flex items-center">
-      <span class="text-2xl mr-3">🔍</span>
-      Search Location
+      <span class="text-2xl mr-3">📍</span>
+      {currentLocation || 'Current Location'}
     </h2>
     
     <div class="relative">

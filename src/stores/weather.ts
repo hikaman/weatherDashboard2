@@ -40,6 +40,7 @@ export interface WeatherState {
 	data: WeatherData | null;
 	loading: boolean;
 	error: string | null;
+	currentLocation: string | null;
 }
 
 export interface GeocodingResult {
@@ -58,6 +59,7 @@ const initialState: WeatherState = {
 	data: null,
 	loading: false,
 	error: null,
+	currentLocation: null,
 };
 
 export const weatherStore = writable<WeatherState>(initialState);
@@ -68,7 +70,7 @@ function sanitizeInput(input: string): string {
 }
 
 // Fetch weather data from Open-Meteo API
-export async function fetchWeatherData(latitude: number, longitude: number): Promise<void> {
+export async function fetchWeatherData(latitude: number, longitude: number, locationName?: string): Promise<void> {
 	weatherStore.update((state) => ({ ...state, loading: true, error: null }));
 
 	try {
@@ -86,9 +88,21 @@ export async function fetchWeatherData(latitude: number, longitude: number): Pro
 			throw new Error('Invalid weather data received');
 		}
 
+		// Get location name if not provided
+		let currentLocation: string = locationName || '';
+		if (!currentLocation) {
+			try {
+				currentLocation = await reverseGeocode(latitude, longitude);
+			} catch (error) {
+				console.warn('Failed to get location name:', error);
+				currentLocation = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
+			}
+		}
+
 		weatherStore.update((state) => ({
 			...state,
 			data,
+			currentLocation,
 			loading: false,
 			error: null,
 		}));
@@ -153,4 +167,27 @@ export async function getCurrentLocation(): Promise<{ latitude: number; longitud
 			}
 		);
 	});
+}
+
+// Reverse geocode coordinates to get location name
+async function reverseGeocode(latitude: number, longitude: number): Promise<string> {
+	try {
+		const url = `https://geocoding-api.open-meteo.com/v1/search?latitude=${latitude}&longitude=${longitude}&count=1&language=en&format=json`;
+		
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw new Error(`Reverse geocoding API error: ${response.status}`);
+		}
+
+		const data: GeocodingResponse = await response.json();
+		if (data.results && data.results.length > 0) {
+			const result = data.results[0];
+			return result.admin1 ? `${result.name}, ${result.admin1}` : result.name;
+		}
+		
+		throw new Error('No location found');
+	} catch (error) {
+		console.error('Reverse geocoding error:', error);
+		throw error;
+	}
 } 
