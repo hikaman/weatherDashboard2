@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { weatherData } from '../stores/weather';
+  import { weatherStore } from '../stores/weather';
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
   
@@ -31,8 +31,8 @@
   
   // Generate alerts based on weather data
   $: {
-    if ($weatherData) {
-      alerts = generateWeatherAlerts($weatherData);
+    if ($weatherStore.data) {
+      alerts = generateWeatherAlerts($weatherStore.data);
     } else {
       alerts = [];
     }
@@ -147,15 +147,16 @@
   }
   
   function getAlertClasses(type: string): string {
+    const baseClasses = 'glass-card p-4 border-l-4 backdrop-blur-glass-lg transition-all duration-300 hover:bg-white/40 dark:hover:bg-slate-800/50';
     switch (type) {
       case 'danger':
-        return 'alert-banner bg-red-100 dark:bg-red-900 border-red-500 text-red-700 dark:text-red-200';
+        return `${baseClasses} border-l-red-500 bg-red-50/30 dark:bg-red-900/20 text-red-800 dark:text-red-200`;
       case 'warning':
-        return 'alert-banner bg-yellow-100 dark:bg-yellow-900 border-yellow-500 text-yellow-700 dark:text-yellow-200';
+        return `${baseClasses} border-l-yellow-500 bg-yellow-50/30 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200`;
       case 'info':
-        return 'alert-banner bg-blue-100 dark:bg-blue-900 border-blue-500 text-blue-700 dark:text-blue-200';
+        return `${baseClasses} border-l-blue-500 bg-blue-50/30 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200`;
       default:
-        return 'alert-banner bg-gray-100 dark:bg-gray-900 border-gray-500 text-gray-700 dark:text-gray-200';
+        return `${baseClasses} border-l-gray-500 bg-gray-50/30 dark:bg-gray-900/20 text-gray-800 dark:text-gray-200`;
     }
   }
   
@@ -174,8 +175,8 @@
       localStorage.removeItem('dismissedWeatherAlerts');
     }
     // Regenerate alerts
-    if ($weatherData) {
-      alerts = generateWeatherAlerts($weatherData);
+    if ($weatherStore.data) {
+      alerts = generateWeatherAlerts($weatherStore.data);
     }
   }
 </script>
@@ -183,11 +184,11 @@
 {#if alerts.length > 0}
   <div class="space-y-3">
     <!-- Alert Header -->
-    <div class="flex items-center justify-between">
-      <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+    <div class="glass-card-lg p-4 mb-4 flex items-center justify-between hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
+      <h3 class="text-lg font-semibold text-glass flex items-center">
         <span class="text-2xl mr-2">⚠️</span>
         Weather Alerts
-        <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 rounded-full">
+        <span class="ml-2 px-2 py-1 text-xs glass-card rounded-full bg-red-50/50 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-200/50 dark:border-red-700/50">
           {alerts.length}
         </span>
       </h3>
@@ -195,7 +196,7 @@
       {#if alerts.length > 1}
         <button
           on:click={clearAllAlerts}
-          class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200"
+          class="glass-button text-sm text-glass-secondary hover:text-glass transition-all duration-200"
         >
           Dismiss All
         </button>
@@ -217,7 +218,7 @@
           {#if alert.dismissible}
             <button
               on:click={() => dismissAlert(alert.id)}
-              class="ml-4 p-1 hover:bg-black/10 dark:hover:bg-white/10 rounded transition-colors duration-200"
+              class="ml-4 p-1 glass-card rounded-glass hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 backdrop-blur-glass"
               aria-label="Dismiss alert"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -234,7 +235,7 @@
       <div class="text-center pt-2">
         <button
           on:click={resetDismissedAlerts}
-          class="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
+          class="glass-button text-xs text-glass-muted hover:text-glass-secondary transition-all duration-200"
         >
           Reset dismissed alerts
         </button>
