@@ -55,8 +55,8 @@
 <div class="weather-display">
 	{#if weather}
 		<!-- Current Weather Card -->
-		<div class="current-weather-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6 hover:shadow-xl transition-shadow">
-			<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+		<div class="glass-card-lg p-6 mb-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
+			<h2 class="text-2xl font-bold text-glass mb-4 flex items-center">
 				<span class="text-3xl mr-3">{getWeatherIcon(weather.current.weather_code)}</span>
 				Current Weather
 			</h2>
@@ -66,57 +66,57 @@
 					<div class="text-3xl font-bold text-blue-600 dark:text-blue-400">
 						{weather.current.temperature_2m}°C
 					</div>
-					<div class="text-sm text-gray-600 dark:text-gray-400">Temperature</div>
+					<div class="text-sm text-glass-muted">Temperature</div>
 				</div>
 				
 				<div class="weather-stat">
-					<div class="text-xl font-semibold text-gray-900 dark:text-white">
+					<div class="text-xl font-semibold text-glass">
 						{weather.current.relative_humidity_2m}%
 					</div>
-					<div class="text-sm text-gray-600 dark:text-gray-400">Humidity</div>
+					<div class="text-sm text-glass-muted">Humidity</div>
 				</div>
 				
 				<div class="weather-stat">
-					<div class="text-xl font-semibold text-gray-900 dark:text-white">
+					<div class="text-xl font-semibold text-glass">
 						{weather.current.wind_speed_10m} km/h
 					</div>
-					<div class="text-sm text-gray-600 dark:text-gray-400">Wind Speed</div>
+					<div class="text-sm text-glass-muted">Wind Speed</div>
 				</div>
 				
 				<div class="weather-stat">
-					<div class="text-xl font-semibold text-gray-900 dark:text-white">
+					<div class="text-xl font-semibold text-glass">
 						{weather.current.precipitation} mm
 					</div>
-					<div class="text-sm text-gray-600 dark:text-gray-400">Precipitation</div>
+					<div class="text-sm text-glass-muted">Precipitation</div>
 				</div>
 			</div>
 			
-			<div class="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-				<div class="text-lg font-medium text-gray-900 dark:text-white">
+			<div class="mt-4 p-3 glass-card rounded-glass">
+				<div class="text-lg font-medium text-glass">
 					{getWeatherDescription(weather.current.weather_code)}
 				</div>
 			</div>
 		</div>
 
 		<!-- 7-Day Forecast -->
-		<div class="forecast-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow">
-			<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 flex items-center">
+		<div class="glass-card-lg p-4 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
+			<h3 class="text-lg font-bold text-glass mb-2 flex items-center">
 				<span class="text-xl mr-2">📅</span>
 				7-Day Forecast
 			</h3>
 			<div class="overflow-x-auto">
 				<div class="flex md:grid md:grid-cols-7 gap-2 md:gap-4 min-w-max">
 					{#each weather.daily.time as date, index}
-						<div class="forecast-day bg-gray-50 dark:bg-gray-700 rounded-md p-2 md:p-3 text-center flex flex-col items-center min-w-[72px] md:min-w-0 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-							<div class="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+						<div class="glass-card rounded-glass p-2 md:p-3 text-center flex flex-col items-center min-w-[72px] md:min-w-0 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
+							<div class="text-xs font-medium text-glass-muted mb-1">
 								{formatDate(date)}
 							</div>
 							<div class="text-xl mb-1">
 								{getWeatherIcon(weather.daily.weather_code[index])}
 							</div>
 							<div class="flex items-center justify-center gap-1 mb-1">
-								<span class="text-base font-bold text-gray-900 dark:text-white">{weather.daily.temperature_2m_max[index]}°</span>
-								<span class="text-xs text-gray-500 dark:text-gray-400">/ {weather.daily.temperature_2m_min[index]}°</span>
+								<span class="text-base font-bold text-glass">{weather.daily.temperature_2m_max[index]}°</span>
+								<span class="text-xs text-glass-secondary">/ {weather.daily.temperature_2m_min[index]}°</span>
 							</div>
 							<div class="text-xs text-blue-600 dark:text-blue-400">
 								💧 {weather.daily.precipitation_sum[index]} mm
@@ -127,10 +127,10 @@
 			</div>
 		</div>
 	{:else}
-		<div class="no-weather bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+		<div class="glass-card-lg p-8 text-center hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
 			<div class="text-6xl mb-4">🌤️</div>
-			<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">No Weather Data</h2>
-			<p class="text-gray-600 dark:text-gray-400">Search for a city or allow location access to see weather information.</p>
+			<h2 class="text-xl font-bold text-glass mb-2">No Weather Data</h2>
+			<p class="text-glass-secondary">Search for a city or allow location access to see weather information.</p>
 		</div>
 	{/if}
 </div>
@@ -140,26 +140,10 @@
 		@apply text-center;
 	}
 	
-	.forecast-day:hover {
-		@apply transform scale-105;
-	}
-	
-	.current-weather-card:hover,
-	.forecast-card:hover {
-		@apply transform scale-105;
-	}
-	
-	/* Compact forecast styles */
-	.forecast-card .forecast-day {
-		@apply p-2 md:p-3 min-w-[72px] md:min-w-0;
-	}
-	.forecast-card .text-xl {
-		font-size: 1.25rem;
-	}
-	.forecast-card .text-base {
-		font-size: 1rem;
-	}
-	.forecast-card .text-xs {
-		font-size: 0.75rem;
+	/* Enhanced glassmorphism hover effects */
+	.glass-card:hover,
+	.glass-card-lg:hover {
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
 	}
 </style> 
