@@ -83,8 +83,8 @@
 
 <div class="hourly-forecast">
 	{#if weather && hourlyData.length > 0}
-		<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-			<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+		<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
+			<h3 class="text-xl font-bold text-glass mb-4 flex items-center">
 				<span class="text-2xl mr-3">⏰</span>
 				24-Hour Forecast
 			</h3>
@@ -96,14 +96,14 @@
 						
 						<div class="flex-shrink-0 text-center min-w-[80px]">
 							{#if isNewDay}
-								<div class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 border-b border-gray-200 dark:border-gray-600 pb-1">
+								<div class="text-xs font-semibold text-glass-muted mb-1 border-b border-glass-light-border dark:border-glass-dark-border pb-1">
 									{formatDay(hour.time)}
 								</div>
 							{/if}
 							
-							<div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+							<div class="glass-card rounded-glass p-3 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
 								<!-- Time -->
-								<div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+								<div class="text-sm font-medium text-glass-secondary mb-2">
 									{formatHour(hour.time)}
 								</div>
 								
@@ -113,7 +113,7 @@
 								</div>
 								
 								<!-- Temperature -->
-								<div class="text-lg font-bold text-gray-900 dark:text-white mb-1">
+								<div class="text-lg font-bold text-glass mb-1">
 									{Math.round(hour.temperature)}°
 								</div>
 								
@@ -123,7 +123,7 @@
 								</div>
 								
 								<!-- Wind Speed -->
-								<div class="text-xs text-gray-500 dark:text-gray-400">
+								<div class="text-xs text-glass-muted">
 									💨 {Math.round(hour.wind_speed)} km/h
 								</div>
 							</div>
@@ -133,7 +133,7 @@
 			</div>
 			
 			<!-- Legend -->
-			<div class="mt-4 flex flex-wrap gap-4 text-xs text-gray-600 dark:text-gray-400">
+			<div class="mt-4 flex flex-wrap gap-4 text-xs text-glass-muted">
 				<div class="flex items-center">
 					<span class="mr-1">💧</span>
 					<span>Precipitation chance</span>
@@ -149,18 +149,25 @@
 			</div>
 		</div>
 	{:else}
-		<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+		<div class="glass-card-lg p-8 text-center hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
 			<div class="text-6xl mb-4">⏰</div>
-			<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">No Hourly Data</h3>
-			<p class="text-gray-600 dark:text-gray-400">Hourly forecast data is not available.</p>
+			<h3 class="text-xl font-bold text-glass mb-2">No Hourly Data</h3>
+			<p class="text-glass-secondary">Hourly forecast data is not available.</p>
 		</div>
 	{/if}
 </div>
 
 <style>
+	/* Enhanced glassmorphism effects for hourly forecast */
+	.glass-card:hover {
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+	}
+	
+	/* Custom scrollbar styling for glassmorphism */
 	.hourly-forecast :global(.overflow-x-auto) {
 		scrollbar-width: thin;
-		scrollbar-color: #cbd5e0 #f7fafc;
+		scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 	}
 	
 	.hourly-forecast :global(.overflow-x-auto::-webkit-scrollbar) {
@@ -168,30 +175,34 @@
 	}
 	
 	.hourly-forecast :global(.overflow-x-auto::-webkit-scrollbar-track) {
-		background: #f7fafc;
+		background: rgba(255, 255, 255, 0.1);
 		border-radius: 3px;
 	}
 	
 	.hourly-forecast :global(.overflow-x-auto::-webkit-scrollbar-thumb) {
-		background: #cbd5e0;
+		background: rgba(255, 255, 255, 0.3);
 		border-radius: 3px;
 	}
 	
 	.hourly-forecast :global(.overflow-x-auto::-webkit-scrollbar-thumb:hover) {
-		background: #a0aec0;
+		background: rgba(255, 255, 255, 0.5);
 	}
 	
 	@media (prefers-color-scheme: dark) {
+		.hourly-forecast :global(.overflow-x-auto) {
+			scrollbar-color: rgba(71, 85, 105, 0.3) transparent;
+		}
+		
 		.hourly-forecast :global(.overflow-x-auto::-webkit-scrollbar-track) {
-			background: #2d3748;
+			background: rgba(15, 23, 42, 0.1);
 		}
 		
 		.hourly-forecast :global(.overflow-x-auto::-webkit-scrollbar-thumb) {
-			background: #4a5568;
+			background: rgba(71, 85, 105, 0.3);
 		}
 		
 		.hourly-forecast :global(.overflow-x-auto::-webkit-scrollbar-thumb:hover) {
-			background: #718096;
+			background: rgba(71, 85, 105, 0.5);
 		}
 	}
 </style> 
