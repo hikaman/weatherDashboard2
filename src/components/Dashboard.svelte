@@ -3,10 +3,7 @@
 	import { weatherStore, fetchWeatherData, getCurrentLocation, type WeatherData } from '../stores/weather';
 	import WeatherDisplay from './WeatherDisplay.svelte';
 	import HourlyForecast from './HourlyForecast.svelte';
-	import WardrobeSuggestions from './WardrobeSuggestions.svelte';
-	import ActivitySuggestions from './ActivitySuggestions.svelte';
-	import FoodSuggestions from './FoodSuggestions.svelte';
-	import ExerciseSuggestions from './ExerciseSuggestions.svelte';
+	import UnifiedSuggestions from './UnifiedSuggestions.svelte';
 	import CitySearch from './CitySearch.svelte';
 
 	export let weather: WeatherData | null = null;
@@ -77,15 +74,9 @@
 					<HourlyForecast {weather} />
 				</div>
 
-				<!-- Suggestion Cards Grid -->
-				<div class="space-y-8">
-					<WardrobeSuggestions {weather} />
-					<ActivitySuggestions {weather} />
-				</div>
-
-				<div class="space-y-8">
-					<FoodSuggestions {weather} />
-					<ExerciseSuggestions {weather} />
+				<!-- Unified Suggestions -->
+				<div class="lg:col-span-2">
+					<UnifiedSuggestions {weather} />
 				</div>
 			</div>
 		{/if}
