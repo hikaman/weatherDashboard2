@@ -243,15 +243,15 @@
   }
 </script>
 
-<div class="weather-card">
+<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
   <div class="flex items-center justify-between mb-6">
-    <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+    <h2 class="text-xl font-bold text-glass flex items-center">
       <span class="text-2xl mr-3">📔</span>
       Decision Journal
     </h2>
     <button
       on:click={() => showAddEntry = true}
-      class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+      class="glass-button bg-blue-500/20 dark:bg-blue-600/30 text-blue-800 dark:text-blue-200 border border-blue-300/50 dark:border-blue-500/50 hover:bg-blue-500/30 dark:hover:bg-blue-600/40 transition-all duration-200 text-sm"
     >
       + Add Entry
     </button>
@@ -259,17 +259,17 @@
 
   <!-- Badges Section -->
   <div class="mb-8">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+    <h3 class="text-lg font-semibold text-glass mb-4 flex items-center">
       <span class="text-xl mr-2">🏆</span>
       Achievements
     </h3>
     
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
       {#each availableBadges as badge}
-        <div class="badge-card p-3 rounded-lg border {badge.earned ? 'bg-yellow-50 border-yellow-300 dark:bg-yellow-900/20 dark:border-yellow-700' : 'bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700'} text-center">
+        <div class="glass-card p-3 text-center {badge.earned ? 'bg-yellow-50/30 dark:bg-yellow-900/20 border border-yellow-300/50 dark:border-yellow-700/50' : 'hover:bg-white/40 dark:hover:bg-slate-800/50'} transition-all duration-200 hover:scale-105">
           <div class="text-2xl mb-1 {badge.earned ? '' : 'grayscale opacity-50'}">{badge.emoji}</div>
-          <div class="text-xs font-semibold {badge.earned ? 'text-yellow-800 dark:text-yellow-200' : 'text-gray-600 dark:text-gray-400'}">{badge.name}</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{badge.description}</div>
+          <div class="text-xs font-semibold {badge.earned ? 'text-yellow-800 dark:text-yellow-200' : 'text-glass-secondary'}">{badge.name}</div>
+          <div class="text-xs text-glass-muted mt-1">{badge.description}</div>
           {#if badge.earned && badge.earnedDate}
             <div class="text-xs text-green-600 dark:text-green-400 mt-1">Earned {formatDate(badge.earnedDate)}</div>
           {/if}
@@ -280,7 +280,7 @@
 
   <!-- Journal Entries -->
   <div>
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+    <h3 class="text-lg font-semibold text-glass mb-4 flex items-center">
       <span class="text-xl mr-2">📝</span>
       Recent Entries
     </h3>
@@ -288,10 +288,10 @@
     {#if journalEntries.length === 0}
       <div class="text-center py-8">
         <div class="text-gray-400 text-4xl mb-3">📖</div>
-        <p class="text-gray-600 dark:text-gray-400 mb-4">No journal entries yet</p>
+        <p class="text-glass-secondary mb-4">No journal entries yet</p>
         <button
           on:click={() => showAddEntry = true}
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          class="glass-button bg-blue-500/20 dark:bg-blue-600/30 text-blue-800 dark:text-blue-200 border border-blue-300/50 dark:border-blue-500/50 hover:bg-blue-500/30 dark:hover:bg-blue-600/40 transition-all duration-200"
         >
           Create Your First Entry
         </button>
@@ -386,22 +386,22 @@
 
   <!-- Add Entry Modal -->
   {#if showAddEntry}
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full mx-4">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Add Journal Entry</h3>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+    <div class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300">
+      <div class="glass-card-lg p-6 rounded-glass-lg max-w-md w-full mx-4 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-300 animate-fade-in">
+        <h3 class="text-lg font-bold text-glass mb-4">Add Journal Entry</h3>
+        <p class="text-sm text-glass-secondary mb-4">
           Record your weather-informed decisions for today.
         </p>
         <div class="flex space-x-3">
           <button
             on:click={addJournalEntry}
-            class="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+            class="glass-button flex-1 bg-blue-500/20 dark:bg-blue-600/30 text-blue-800 dark:text-blue-200 border border-blue-300/50 dark:border-blue-500/50 hover:bg-blue-500/30 dark:hover:bg-blue-600/40 transition-all duration-200"
           >
             Add Entry
           </button>
           <button
             on:click={() => showAddEntry = false}
-            class="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
+            class="glass-button flex-1 text-glass-secondary hover:text-glass transition-all duration-200"
           >
             Cancel
           </button>
@@ -422,5 +422,20 @@
 
   .decision-item {
     @apply p-2 bg-gray-50 dark:bg-gray-800 rounded;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
   }
 </style> 
