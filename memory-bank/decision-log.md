@@ -54,4 +54,9 @@
 
 ## 13. Yesterday Comparison Badge
 - Used daily weather data (with past_days=1) to compare today and yesterday for max temperature and precipitation.
-- Implemented YesterdayComparisonBadge.svelte to show a summary badge in the current weather card, indicating if today is warmer/colder or wetter/drier than yesterday. 
+- Implemented YesterdayComparisonBadge.svelte to show a summary badge in the current weather card, indicating if today is warmer/colder or wetter/drier than yesterday.
+
+## 14. Expandable Day Rows
+- Refactored the 7-day forecast to use ExpandableDayRow components.
+- Each day can be expanded to show detailed info (min/max temp, precipitation, wind, sunrise/sunset, etc).
+- Improves accessibility and mobile usability. 

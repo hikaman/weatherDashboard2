@@ -3,9 +3,15 @@
 	import { t } from '../lib/i18n';
 	import AnimatedWeatherIcon from './AnimatedWeatherIcon.svelte';
 	import YesterdayComparisonBadge from './YesterdayComparisonBadge.svelte';
+	import ExpandableDayRow from './ExpandableDayRow.svelte';
 
 	export let weather: WeatherData | null;
 	export let currentLocation: string | null = null;
+
+	let expandedIndex: number | null = null;
+	function toggleDay(idx: number) {
+		expandedIndex = expandedIndex === idx ? null : idx;
+	}
 
 	// Weather code descriptions - now using translations
 	function getWeatherDescription(code: number): string {
@@ -134,26 +140,15 @@
 				<span class="text-xl mr-2">📅</span>
 				{$t.sevenDayForecast}
 			</h3>
-			<div class="overflow-x-auto">
-				<div class="flex md:grid md:grid-cols-7 gap-2 md:gap-4 min-w-max">
-					{#each weather.daily.time as date, index}
-						<div class="glass-card rounded-glass p-2 md:p-3 text-center flex flex-col items-center min-w-[72px] md:min-w-0 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
-							<div class="text-xs font-medium text-glass-muted mb-1">
-								{formatDate(date)}
-							</div>
-							<div class="text-xl mb-1">
-								{getWeatherIcon(weather.daily.weather_code[index])}
-							</div>
-							<div class="flex items-center justify-center gap-1 mb-1">
-								<span class="text-base font-bold text-glass">{weather.daily.temperature_2m_max[index]}°</span>
-								<span class="text-xs text-glass-secondary">/ {weather.daily.temperature_2m_min[index]}°</span>
-							</div>
-							<div class="text-xs text-blue-600 dark:text-blue-400">
-								💧 {weather.daily.precipitation_sum[index]} mm
-							</div>
-						</div>
-					{/each}
-				</div>
+			<div>
+				{#each weather.daily.time as date, index}
+					<ExpandableDayRow
+						{index}
+						{weather}
+						expanded={expandedIndex === index}
+						toggle={toggleDay}
+					/>
+				{/each}
 			</div>
 		</div>
 	{:else}
