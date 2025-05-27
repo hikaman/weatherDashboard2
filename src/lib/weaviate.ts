@@ -1,3 +1,4 @@
+// POSTPONED: Weaviate implementation is postponed. This file is currently not in use.
 import weaviate, { WeaviateClient, WeaviateClientConfig } from 'weaviate-ts-client';
 
 /**

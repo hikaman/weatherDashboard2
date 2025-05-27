@@ -1,3 +1,4 @@
+// POSTPONED: Weaviate implementation is postponed. This file is currently not in use.
 import type { WeatherResponse } from './openMeteo';
 import { generateEmbedding } from './embed';
 import { weaviateClient } from './weaviate';
