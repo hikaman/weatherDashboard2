@@ -31,7 +31,7 @@
 | 5 | Glassmorphic modals/sidebars                      | [x]    |
 | 6 | Accessibility & responsiveness audit              | [x]    |
 | 7 | Vitest tests for all stores and utils (90%+ coverage) | [x]    |
-| 8 | Forecast comparison box (yesterday/today/tomorrow, highlight changes) | [ ]    |
+| 8 | Forecast comparison box (yesterday/today/tomorrow, highlight changes) | [x]    |
 | 9 | City search input UI improvements (smaller input, beside localisation toggle, show location in today card) | [ ]    |
 | 10 | Feels‐Like vs. Actual Delta Chip                   | [ ]    |
 | 11 | UV & Air-Quality Strip                            | [ ]    |
@@ -56,3 +56,5 @@
 - 6: Accessibility and responsiveness improved: focus states, aria-live, keyboard nav, contrast, responsive layouts.
 - 7: All store and utility tests now pass after fixing the suggestion filter store test subscription issue.
 - Svelte component tests remain blocked by Svelte 5/Vitest compatibility issues.
+
+- 8: ForecastComparisonBox component compares yesterday, today, and tomorrow for key metrics, highlighting changes. API now fetches past_days=1 for yesterday's data.

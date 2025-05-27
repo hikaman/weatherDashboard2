@@ -7,6 +7,7 @@
 	import CitySearch from './CitySearch.svelte';
 	import { t } from '../lib/i18n';
 	import { lastCityStore } from '../stores/lastCity';
+	import ForecastComparisonBox from './ForecastComparisonBox.svelte';
 
 	export let weather: WeatherData | null = null;
 
@@ -78,6 +79,11 @@
 				<!-- Weather Display - Full width on mobile, left column on desktop -->
 				<div class="lg:col-span-2">
 					<WeatherDisplay {weather} />
+				</div>
+
+				<!-- Forecast Comparison Box - Full width -->
+				<div class="lg:col-span-2">
+					<ForecastComparisonBox />
 				</div>
 
 				<!-- Hourly Forecast - Full width -->

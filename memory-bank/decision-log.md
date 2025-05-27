@@ -29,4 +29,8 @@
 - 2024-XX-XX: Feature 7 (Vitest tests for stores/utils):
     - Issue: `suggestionFilterStore` test failed because the store subscription was immediately unsubscribed, so updates were not observed.
     - Decision: Keep the subscription active for the duration of the test and unsubscribe at the end.
-    - Result: Test now passes. All store and util tests pass. Svelte component tests remain blocked by Svelte 5/Vitest compatibility. 
+    - Result: Test now passes. All store and util tests pass. Svelte component tests remain blocked by Svelte 5/Vitest compatibility.
+
+## 8. Forecast Comparison Box
+- Decided to use Open-Meteo's `past_days=1` parameter to fetch yesterday's data along with today and tomorrow.
+- Implemented ForecastComparisonBox.svelte to display and highlight changes in key metrics (temperature, precipitation, wind) between days. 
