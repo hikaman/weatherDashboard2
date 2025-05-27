@@ -1,4 +1,9 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+
+declare global {
+	// Used for deterministic testing of isNightAtLocation
+	var __TEST_NOW: string | undefined;
+}
 
 export interface CurrentWeather {
 	temperature_2m: number;
@@ -228,3 +233,36 @@ async function reverseGeocode(latitude: number, longitude: number): Promise<stri
 		throw error;
 	}
 } 
+
+// Derived store: is it night at the selected location?
+// For testing, set globalThis.__TEST_NOW to an ISO string to override the current time.
+export const isNightAtLocation = derived(weatherStore, ($ws) => {
+	const data = $ws.data;
+	if (!data || !data.daily || !data.daily.sunrise || !data.daily.sunset) return false;
+	// Find today's index
+	const todayISO = (globalThis.__TEST_NOW ? new Date(globalThis.__TEST_NOW) : new Date()).toISOString().slice(0, 10);
+	const idx = data.daily.time.findIndex((d) => d === todayISO);
+	if (idx === -1) return false;
+	const sunrise = data.daily.sunrise[idx];
+	const sunset = data.daily.sunset[idx];
+	// Always compare times in UTC to avoid timezone issues
+	try {
+		let nowDate: Date;
+		if (typeof globalThis !== 'undefined' && globalThis.__TEST_NOW) {
+			nowDate = new Date(globalThis.__TEST_NOW);
+		} else {
+			const now = new Date().toLocaleString('en-US', { timeZone: data.timezone });
+			nowDate = new Date(now);
+		}
+		const sunriseDate = new Date(sunrise);
+		const sunsetDate = new Date(sunset);
+		// Compare using UTC values
+		return nowDate.getTime() < sunriseDate.getTime() || nowDate.getTime() >= sunsetDate.getTime();
+	} catch {
+		// Fallback: use local time
+		const now = new Date();
+		const sunriseDate = new Date(sunrise);
+		const sunsetDate = new Date(sunset);
+		return now.getTime() < sunriseDate.getTime() || now.getTime() >= sunsetDate.getTime();
+	}
+}); 

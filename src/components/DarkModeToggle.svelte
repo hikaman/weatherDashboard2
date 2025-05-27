@@ -18,9 +18,16 @@
   function toggleDarkMode() {
     isDark = !isDark;
     updateTheme();
-    
     if (browser) {
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('themeOverride', 'true'); // User override
+    }
+  }
+
+  // Allow user to clear override (double-click or long-press)
+  function clearOverride() {
+    if (browser) {
+      localStorage.removeItem('themeOverride');
     }
   }
 
@@ -37,6 +44,7 @@
 
 <button
   on:click={toggleDarkMode}
+  on:dblclick={clearOverride}
   class="glass-button p-3 rounded-glass hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 backdrop-blur-glass"
   aria-label="Toggle dark mode"
   title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}

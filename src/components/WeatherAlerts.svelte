@@ -35,5 +35,5 @@
 }
 .alert-chip {
   transition: background 0.2s;
-}
+  }
 </style> 

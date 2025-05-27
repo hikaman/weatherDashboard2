@@ -10,12 +10,9 @@
 	import ForecastComparisonBox from './ForecastComparisonBox.svelte';
 	import LanguageToggle from './LanguageToggle.svelte';
 	import UVAirQualityStrip from './UVAirQualityStrip.svelte';
-	import SunriseSunsetRing from './SunriseSunsetRing.svelte';
-	import SmartActivityPlanner from './SmartActivityPlanner.svelte';
 	import WeatherAlerts from './WeatherAlerts.svelte';
 	import { checkWeatherAlerts } from '../stores/alerts';
-	import { airQualityStore } from '../stores/airQuality';
-	import WardrobeCarousel from './WardrobeCarousel.svelte';
+	import { airQualityStore, fetchAirQuality } from '../stores/airQuality';
 
 	export let weather: WeatherData | null = null;
 
@@ -59,6 +56,11 @@
 	$: if (weather && $airQualityStore) {
 		checkWeatherAlerts({ hourly: weather.hourly, current: weather.current }, $airQualityStore.data);
 	}
+
+	// Fetch air quality data whenever weather location changes
+	$: if (weather && weather.latitude && weather.longitude) {
+		fetchAirQuality(weather.latitude, weather.longitude);
+	}
 </script>
 
 <div class="dashboard">
@@ -82,27 +84,11 @@
 				</p>
 			</div>
 		{:else}
-			<!-- City Search and Language Toggle Row -->
-			<div class="flex items-center gap-3 mb-8">
-				<CitySearch {currentLocation} />
-				<LanguageToggle />
-			</div>
-
 			<!-- Main Dashboard Grid -->
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 				<!-- Weather Display - Full width on mobile, left column on desktop -->
 				<div class="lg:col-span-2">
 					<WeatherDisplay {weather} {currentLocation} />
-				</div>
-
-				<!-- Sunrise/Sunset & Golden Hour Ring - Full width -->
-				<div class="lg:col-span-2">
-					<SunriseSunsetRing />
-				</div>
-
-				<!-- UV & Air Quality Strip - Full width -->
-				<div class="lg:col-span-2">
-					<UVAirQualityStrip />
 				</div>
 
 				<!-- Forecast Comparison Box - Full width -->
@@ -113,16 +99,6 @@
 				<!-- Hourly Forecast - Full width -->
 				<div class="lg:col-span-2">
 					<HourlyForecast {weather} />
-				</div>
-
-				<!-- Smart Activity Planner - Full width -->
-				<div class="lg:col-span-2">
-					<SmartActivityPlanner />
-				</div>
-
-				<!-- Wardrobe Carousel - Full width -->
-				<div class="lg:col-span-2">
-					<WardrobeCarousel />
 				</div>
 
 				<!-- Unified Suggestions -->

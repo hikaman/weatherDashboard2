@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { WeatherData } from '../stores/weather';
-	import { t } from '../lib/i18n';
+	import { t, currentLocale } from '../lib/i18n';
+	import AnimatedWeatherIcon from './AnimatedWeatherIcon.svelte';
+	import { isNightAtLocation as isNightAtLocationStore } from '../stores/weather';
 
 	export let weather: WeatherData | null;
 
@@ -45,9 +47,11 @@
 
 	function formatHour(dateString: string): string {
 		const date = new Date(dateString);
-		return date.toLocaleTimeString('en-US', {
-			hour: 'numeric',
-			hour12: true,
+		const locale = $currentLocale === 'de' ? 'de-DE' : 'en-US';
+		return date.toLocaleTimeString(locale, {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: $currentLocale !== 'de',
 		});
 	}
 
@@ -85,6 +89,19 @@
 		wind_speed: weather.hourly.wind_speed_10m[index],
 		humidity: weather.hourly.relative_humidity_2m[index],
 	})) : [];
+
+	$: isNight = $isNightAtLocationStore;
+
+	// Helper: is this hour at night?
+	function isNightAtHour(hourTime: string): boolean {
+		if (!weather?.daily?.time || !weather.daily.sunrise || !weather.daily.sunset) return false;
+		const dayIdx = weather.daily.time.findIndex((d) => hourTime.startsWith(d));
+		if (dayIdx === -1) return false;
+		const sunrise = new Date(weather.daily.sunrise[dayIdx]);
+		const sunset = new Date(weather.daily.sunset[dayIdx]);
+		const hour = new Date(hourTime);
+		return hour < sunrise || hour >= sunset;
+	}
 </script>
 
 <div class="hourly-forecast">
@@ -119,7 +136,7 @@
 								
 								<!-- Weather Icon -->
 								<div class="text-2xl mb-2">
-									{getWeatherIcon(hour.weather_code)}
+									<AnimatedWeatherIcon code={hour.weather_code} isNight={isNightAtHour(hour.time)} />
 								</div>
 								
 								<!-- Temperature -->

@@ -52,34 +52,82 @@ export function loadAirQualityCache(): AirQualityCurrent | null {
 export async function fetchAirQuality(latitude: number, longitude: number): Promise<void> {
   airQualityStore.update((state) => ({ ...state, loading: true, error: null }));
 
+  // Helper to set error
+  function setError(msg: string) {
+    airQualityStore.set({ data: null, loading: false, error: msg });
+  }
+
   try {
-    const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=european_aqi,us_aqi,pm10,pm2_5,no2,o3,uv_index&timezone=auto`;
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Air Quality API error: ${response.status}`);
+    // Try full current data first
+    let url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=european_aqi,us_aqi,pm10,pm2_5,no2,o3,uv_index&timezone=auto`;
+    let response = await fetch(url);
+    let data = await response.json();
+    if (response.ok && data.current) {
+      const aq: AirQualityCurrent = {
+        european_aqi: data.current.european_aqi,
+        us_aqi: data.current.us_aqi,
+        pm10: data.current.pm10,
+        pm2_5: data.current.pm2_5,
+        no2: data.current.no2,
+        o3: data.current.o3,
+        uv_index: data.current.uv_index,
+      };
+      saveAirQualityCache(aq);
+      airQualityStore.set({ data: aq, loading: false, error: null });
+      return;
     }
-    const data = await response.json();
-    if (!data.current) {
-      throw new Error('Invalid air quality data received');
+    // If 400 error, try only uv_index
+    if (response.status === 400 || !data.current) {
+      url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=uv_index&timezone=auto`;
+      response = await fetch(url);
+      data = await response.json();
+      if (response.ok && data.current) {
+        const aq: AirQualityCurrent = {
+          european_aqi: NaN,
+          us_aqi: NaN,
+          pm10: NaN,
+          pm2_5: NaN,
+          no2: NaN,
+          o3: NaN,
+          uv_index: data.current.uv_index,
+        };
+        saveAirQualityCache(aq);
+        airQualityStore.set({ data: aq, loading: false, error: null });
+        return;
+      }
     }
-    const aq: AirQualityCurrent = {
-      european_aqi: data.current.european_aqi,
-      us_aqi: data.current.us_aqi,
-      pm10: data.current.pm10,
-      pm2_5: data.current.pm2_5,
-      no2: data.current.no2,
-      o3: data.current.o3,
-      uv_index: data.current.uv_index,
-    };
-    saveAirQualityCache(aq);
-    airQualityStore.set({ data: aq, loading: false, error: null });
+    // If still fails, try hourly uv_index as fallback
+    url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=uv_index&timezone=auto`;
+    response = await fetch(url);
+    data = await response.json();
+    if (response.ok && data.hourly && data.hourly.uv_index && data.hourly.uv_index.length > 0) {
+      // Use the first hour as 'current'
+      const aq: AirQualityCurrent = {
+        european_aqi: NaN,
+        us_aqi: NaN,
+        pm10: NaN,
+        pm2_5: NaN,
+        no2: NaN,
+        o3: NaN,
+        uv_index: data.hourly.uv_index[0],
+      };
+      saveAirQualityCache(aq);
+      airQualityStore.set({ data: aq, loading: false, error: 'Only UV index available (hourly forecast)' });
+      return;
+    }
+    // All attempts failed
+    const cached = loadAirQualityCache();
+    if (cached) {
+      airQualityStore.set({ data: cached, loading: false, error: 'Showing cached air quality data.' });
+    } else {
+      setError('Air quality data is not available for this location.');
+    }
   } catch (error) {
     const cached = loadAirQualityCache();
     if (cached) {
-      airQualityStore.set({ data: cached, loading: false, error: null });
+      airQualityStore.set({ data: cached, loading: false, error: 'Showing cached air quality data.' });
     } else {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch air quality data';
-      airQualityStore.set({ data: null, loading: false, error: errorMessage });
+      setError('Failed to fetch air quality data.');
     }
   }
 } 

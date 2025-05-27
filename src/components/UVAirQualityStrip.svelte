@@ -24,6 +24,7 @@ function getAQIColor(aqi: number) {
 
 $: currentWeather = $weatherStore.data?.current;
 $: airQuality = $airQualityStore.data;
+$: airQualityError = $airQualityStore.error;
 </script>
 
 <div class="uv-aq-strip flex flex-wrap gap-3 items-center justify-center glass-card-lg p-3 mb-6" aria-label="UV and Air Quality">
@@ -70,6 +71,8 @@ $: airQuality = $airQualityStore.data;
       <span class="label">O₃</span>
       <span class="value">{airQuality.o3} μg/m³</span>
     </div>
+  {:else if airQualityError}
+    <div class="text-red-500 text-sm">{airQualityError}</div>
   {:else}
     <div class="text-glass-secondary text-sm">Loading UV and air quality data...</div>
   {/if}

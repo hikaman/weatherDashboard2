@@ -187,6 +187,16 @@ graph TD
 
 ---
 
+## 11. UI Night Mode & Accessibility (2025-05 Update)
+- The UI automatically switches between day and night mode based on the selected location's sunrise/sunset and timezone.
+- Weather icons visually reflect day/night at the location.
+- Manual override is respected (toggle sets override, double-click clears).
+- All interactive elements are accessible (keyboard, ARIA, focus states).
+- All new features are covered by tests (store, util, and integration).
+- The Smart Activity Planner feature/component has been removed from the dashboard and codebase per user request.
+
+---
+
 **Tip:**
 You can visualize the Mermaid diagrams directly in Markdown viewers, VSCode plugins, or on [mermaid.live](https://mermaid.live/).
 

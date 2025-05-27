@@ -173,3 +173,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [SvelteKit](https://kit.svelte.dev/) for the amazing framework
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
 - [Bun](https://bun.sh/) for fast package management
+
+## Night Mode Based on Location Time
+- The app automatically switches between day and night mode based on the selected location's sunrise/sunset and timezone.
+- Weather icons visually reflect day/night at the location.
+- Manual override is respected: toggling dark mode sets an override, double-clicking the toggle clears it to return to auto mode.
+
+## Accessibility & Testing
+- All interactive elements are accessible (keyboard, ARIA, focus states).
+- To run tests: `npm run test` (store, util, and integration tests for all features, including night mode logic).
+
+- Smart Activity Planner: This feature has been removed from the dashboard and codebase per user request.

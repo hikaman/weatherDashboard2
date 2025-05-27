@@ -39,13 +39,13 @@
 | 13 | Yesterday Comparison Badge                        | [x]    |
 | 14 | Expandable Day Rows                               | [x]    |
 | 15 | Drag-to-Scrub Hourly Graph                         | [x]    |
-| 16 | Smart Activity Planner                             | [x]    |
+| 16 | Smart Activity Planner                             | [removed]    |
 | 17 | Threshold-Based Push Alerts                        | [x]    |
 | 18 | Wardrobe Carousel                                   | [x]    |
 | 19 | Collapsible Header on Scroll                        | [ ]    |
 | 20 | Animated Icon Pack                                 | [ ]    |
-| 21 | Bottom-Sheet Quick-Search                           | [ ]    |
-| 22 | Night Mode Based on Location Time                      | [ ]    |
+| 21 | Bottom-Sheet Quick-Search                           | [x]    |
+| 22 | Night Mode Based on Location Time                      | [x]    |
 
 ## Notes
 - 1: Store and restore last searched city using localStorage and Svelte store.
@@ -65,5 +65,7 @@
 - 13: Yesterday Comparison Badge is now shown in the current weather card, comparing today and yesterday for temperature and precipitation.
 - 14: 7-day forecast now uses expandable day rows for detailed info (min/max temp, precip, wind, sunrise/sunset, etc).
 - 15: Hourly forecast now includes a drag-to-scrub temperature graph with tooltip for value/time.
-- 16: Smart Activity Planner now suggests optimal time slots for activities (outdoor, indoor, exercise) based on weather, UV, and AQI.
+- 16: Smart Activity Planner feature and component have been removed from the dashboard and codebase per user request.
 - 17: Threshold-based alerts (UV, AQI, rain, temp, wind) are now shown at the top of the dashboard. In-app banners, dismissible, with severity color.
+- 21: Bottom-Sheet Quick-Search now features a mini map (Leaflet), clickable recent and favorite cities, city switching updates the dashboard, and all elements are accessible and responsive.
+- 22: Night mode now automatically switches based on the selected location's sunrise/sunset and timezone. Weather icons reflect day/night. Manual override is respected. All changes are accessible and tested.

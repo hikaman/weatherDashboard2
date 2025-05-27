@@ -1,5 +1,6 @@
 <script lang="ts">
   export let code: number;
+  export let isNight: boolean = false;
 
   // Map weather codes to icon types
   function getIconType(code: number): string {
@@ -16,74 +17,145 @@
 </script>
 
 {#if iconType === 'clear'}
-  <!-- Animated sun with gradient, glow, and parallax rays -->
-  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Sunny">
-    <defs>
-      <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#FFF9C4" />
-        <stop offset="70%" stop-color="#FFD93B" />
-        <stop offset="100%" stop-color="#FFC107" />
-      </radialGradient>
-      <filter id="sunGlow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="4" result="glow" />
-        <feMerge>
-          <feMergeNode in="glow" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <!-- Sun core -->
-    <circle cx="32" cy="32" r="14" fill="url(#sunGradient)" filter="url(#sunGlow)">
-      <animate attributeName="r" values="14;16;14" dur="2s" repeatCount="indefinite" />
-    </circle>
-    <!-- Sun rays with parallax -->
-    {#each Array(8) as _, i}
-      <rect x="31" y="6" width="2" height="12" rx="1" fill="#FFD93B" opacity="0.85"
-        transform={`rotate(${i*45} 32 32)`}>
-        <animate attributeName="height" values="12;18;12" dur="2s" repeatCount="indefinite" begin={`${i*0.18}s`} />
-        <animate attributeName="opacity" values="0.85;1;0.85" dur="2s" repeatCount="indefinite" begin={`${i*0.18}s`} />
-      </rect>
-    {/each}
-    <!-- Subtle outer glow -->
-    <circle cx="32" cy="32" r="22" fill="#FFF9C4" opacity="0.18">
-      <animate attributeName="r" values="22;24;22" dur="2s" repeatCount="indefinite" />
-    </circle>
-  </svg>
+  {#if isNight}
+    <!-- Animated moon with glow and stars for night -->
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Clear night">
+      <defs>
+        <radialGradient id="moonGradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fffde4" />
+          <stop offset="80%" stop-color="#bfc6e0" />
+          <stop offset="100%" stop-color="#8a99b8" />
+        </radialGradient>
+        <filter id="moonGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="4" result="glow" />
+          <feMerge>
+            <feMergeNode in="glow" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- Moon core -->
+      <circle cx="36" cy="32" r="14" fill="url(#moonGradient)" filter="url(#moonGlow)">
+        <animate attributeName="r" values="14;16;14" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <!-- Crescent shadow -->
+      <ellipse cx="40" cy="32" rx="10" ry="13" fill="#232946" opacity="0.5" />
+      <!-- Stars -->
+      <circle cx="18" cy="18" r="1.2" fill="#fff" opacity="0.8">
+        <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.5s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="50" cy="14" r="0.8" fill="#fff" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.1;0.7" dur="2.2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="24" cy="48" r="0.9" fill="#fff" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.8s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  {:else}
+    <!-- Animated sun with gradient, glow, and parallax rays -->
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Sunny">
+      <defs>
+        <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFF9C4" />
+          <stop offset="70%" stop-color="#FFD93B" />
+          <stop offset="100%" stop-color="#FFC107" />
+        </radialGradient>
+        <filter id="sunGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="4" result="glow" />
+          <feMerge>
+            <feMergeNode in="glow" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- Sun core -->
+      <circle cx="32" cy="32" r="14" fill="url(#sunGradient)" filter="url(#sunGlow)">
+        <animate attributeName="r" values="14;16;14" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <!-- Sun rays with parallax -->
+      {#each Array(8) as _, i}
+        <rect x="31" y="6" width="2" height="12" rx="1" fill="#FFD93B" opacity="0.85"
+          transform={`rotate(${i*45} 32 32)`}>
+          <animate attributeName="height" values="12;18;12" dur="2s" repeatCount="indefinite" begin={`${i*0.18}s`} />
+          <animate attributeName="opacity" values="0.85;1;0.85" dur="2s" repeatCount="indefinite" begin={`${i*0.18}s`} />
+        </rect>
+      {/each}
+      <!-- Subtle outer glow -->
+      <circle cx="32" cy="32" r="22" fill="#FFF9C4" opacity="0.18">
+        <animate attributeName="r" values="22;24;22" dur="2s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  {/if}
 {:else if iconType === 'partly-cloudy'}
-  <!-- Sun + layered clouds, animated rays, gradients -->
-  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Partly cloudy">
-    <defs>
-      <radialGradient id="pcSunGradient" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#FFF9C4" />
-        <stop offset="70%" stop-color="#FFD93B" />
-        <stop offset="100%" stop-color="#FFC107" />
-      </radialGradient>
-      <linearGradient id="pcCloudGradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ECEFF1" />
-        <stop offset="100%" stop-color="#B0BEC5" />
-      </linearGradient>
-    </defs>
-    <!-- Sun core -->
-    <circle cx="22" cy="26" r="8" fill="url(#pcSunGradient)">
-      <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite" />
-    </circle>
-    <!-- Sun rays -->
-    {#each Array(6) as _, i}
-      <rect x="21" y="10" width="2" height="7" rx="1" fill="#FFD93B" opacity="0.7"
-        transform={`rotate(${i*60} 22 26)`}>
-        <animate attributeName="height" values="7;11;7" dur="2s" repeatCount="indefinite" begin={`${i*0.15}s`} />
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" begin={`${i*0.15}s`} />
-      </rect>
-    {/each}
-    <!-- Back cloud -->
-    <ellipse cx="40" cy="38" rx="16" ry="10" fill="url(#pcCloudGradient)" opacity="0.7">
-      <animate attributeName="rx" values="16;18;16" dur="2.5s" repeatCount="indefinite" />
-    </ellipse>
-    <!-- Front cloud -->
-    <ellipse cx="32" cy="44" rx="10" ry="6" fill="url(#pcCloudGradient)" opacity="0.9">
-      <animate attributeName="rx" values="10;12;10" dur="2.5s" repeatCount="indefinite" />
-    </ellipse>
-  </svg>
+  {#if isNight}
+    <!-- Moon + clouds for partly cloudy night -->
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Partly cloudy night">
+      <defs>
+        <radialGradient id="pcMoonGradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fffde4" />
+          <stop offset="80%" stop-color="#bfc6e0" />
+          <stop offset="100%" stop-color="#8a99b8" />
+        </radialGradient>
+        <linearGradient id="pcNightCloudGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#bfc6e0" />
+          <stop offset="100%" stop-color="#6b7280" />
+        </linearGradient>
+      </defs>
+      <!-- Moon core -->
+      <circle cx="22" cy="26" r="8" fill="url(#pcMoonGradient)">
+        <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <!-- Crescent shadow -->
+      <ellipse cx="25" cy="26" rx="5" ry="8" fill="#232946" opacity="0.4" />
+      <!-- Back cloud -->
+      <ellipse cx="40" cy="38" rx="16" ry="10" fill="url(#pcNightCloudGradient)" opacity="0.7">
+        <animate attributeName="rx" values="16;18;16" dur="2.5s" repeatCount="indefinite" />
+      </ellipse>
+      <!-- Front cloud -->
+      <ellipse cx="32" cy="44" rx="10" ry="6" fill="url(#pcNightCloudGradient)" opacity="0.9">
+        <animate attributeName="rx" values="10;12;10" dur="2.5s" repeatCount="indefinite" />
+      </ellipse>
+      <!-- Stars -->
+      <circle cx="50" cy="18" r="1.1" fill="#fff" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.5s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  {:else}
+    <!-- Sun + layered clouds, animated rays, gradients -->
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Partly cloudy">
+      <defs>
+        <radialGradient id="pcSunGradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFF9C4" />
+          <stop offset="70%" stop-color="#FFD93B" />
+          <stop offset="100%" stop-color="#FFC107" />
+        </radialGradient>
+        <linearGradient id="pcCloudGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ECEFF1" />
+          <stop offset="100%" stop-color="#B0BEC5" />
+        </linearGradient>
+      </defs>
+      <!-- Sun core -->
+      <circle cx="22" cy="26" r="8" fill="url(#pcSunGradient)">
+        <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <!-- Sun rays -->
+      {#each Array(6) as _, i}
+        <rect x="21" y="10" width="2" height="7" rx="1" fill="#FFD93B" opacity="0.7"
+          transform={`rotate(${i*60} 22 26)`}>
+          <animate attributeName="height" values="7;11;7" dur="2s" repeatCount="indefinite" begin={`${i*0.15}s`} />
+          <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" begin={`${i*0.15}s`} />
+        </rect>
+      {/each}
+      <!-- Back cloud -->
+      <ellipse cx="40" cy="38" rx="16" ry="10" fill="url(#pcCloudGradient)" opacity="0.7">
+        <animate attributeName="rx" values="16;18;16" dur="2.5s" repeatCount="indefinite" />
+      </ellipse>
+      <!-- Front cloud -->
+      <ellipse cx="32" cy="44" rx="10" ry="6" fill="url(#pcCloudGradient)" opacity="0.9">
+        <animate attributeName="rx" values="10;12;10" dur="2.5s" repeatCount="indefinite" />
+      </ellipse>
+    </svg>
+  {/if}
 {:else if iconType === 'cloudy'}
   <!-- Multiple animated clouds, gradients, parallax -->
   <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Cloudy">

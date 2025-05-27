@@ -274,21 +274,21 @@
 				{#each unifiedSuggestions as suggestion}
 					{#if filter[suggestion.type as SuggestionCategory]}
 						<div class="glass-card p-4 border {getCategoryColor(suggestion.type)} hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105" tabindex="0">
-							<div class="flex items-start gap-3">
-								<span class="text-3xl flex-shrink-0">{suggestion.icon}</span>
-								<div class="flex-1 min-w-0">
-									<div class="text-xs font-medium text-glass-muted uppercase tracking-wide mb-1">
-										{suggestion.category}
-									</div>
-									<div class="font-semibold text-glass text-base mb-2">
-										{suggestion.item}
-									</div>
-									<div class="text-sm text-glass-secondary leading-relaxed">
-										{suggestion.reason}
-									</div>
+						<div class="flex items-start gap-3">
+							<span class="text-3xl flex-shrink-0">{suggestion.icon}</span>
+							<div class="flex-1 min-w-0">
+								<div class="text-xs font-medium text-glass-muted uppercase tracking-wide mb-1">
+									{suggestion.category}
+								</div>
+								<div class="font-semibold text-glass text-base mb-2">
+									{suggestion.item}
+								</div>
+								<div class="text-sm text-glass-secondary leading-relaxed">
+									{suggestion.reason}
 								</div>
 							</div>
 						</div>
+					</div>
 					{/if}
 				{/each}
 			</div>

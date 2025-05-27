@@ -3,6 +3,8 @@ import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 import CitySearch from './CitySearch.svelte';
 import { lastCityStore } from '../stores/lastCity';
 import { writable } from 'svelte/store';
+import MiniMap from './MiniMap.svelte';
+import { fetchWeatherData, type GeocodingResult } from '../stores/weather';
 
 export let open = false;
 const dispatch = createEventDispatcher();
@@ -14,7 +16,11 @@ let currentY = 0;
 let dragging = false;
 let translateY = 0;
 
-const recentCities = writable<{name: string}[]>([]);
+const FAVORITE_CITIES_KEY = 'favoriteCities';
+const RECENT_CITIES_KEY = 'recentCities';
+
+const favoriteCities = writable<GeocodingResult[]>([]);
+const recentCities = writable<GeocodingResult[]>([]);
 
 function close() {
   dispatch('close');
@@ -54,15 +60,60 @@ function handleTouchEnd() {
   translateY = 0;
 }
 
+// Helper: Load from localStorage
+function loadCities(key: string): GeocodingResult[] {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) return arr;
+    return [];
+  } catch { return []; }
+}
+// Helper: Save to localStorage
+function saveCities(key: string, cities: GeocodingResult[]) {
+  try { localStorage.setItem(key, JSON.stringify(cities)); } catch {}
+}
+
+// Add to recents (most recent first, unique by lat/lon)
+function addRecent(city: GeocodingResult) {
+  let recents = loadCities(RECENT_CITIES_KEY);
+  recents = [city, ...recents.filter(c => c.latitude !== city.latitude || c.longitude !== city.longitude)];
+  recents = recents.slice(0, 8); // max 8
+  saveCities(RECENT_CITIES_KEY, recents);
+  recentCities.set(recents);
+}
+// Add/remove favorite
+function toggleFavorite(city: GeocodingResult) {
+  let favs = loadCities(FAVORITE_CITIES_KEY);
+  const exists = favs.some(c => c.latitude === city.latitude && c.longitude === city.longitude);
+  if (exists) {
+    favs = favs.filter(c => c.latitude !== city.latitude || c.longitude !== city.longitude);
+  } else {
+    favs = [city, ...favs];
+  }
+  saveCities(FAVORITE_CITIES_KEY, favs);
+  favoriteCities.set(favs);
+}
+function isFavorite(city: GeocodingResult) {
+  return $favoriteCities.some(c => c.latitude === city.latitude && c.longitude === city.longitude);
+}
+
+// Select city (from any source)
+async function selectCity(city: GeocodingResult) {
+  await fetchWeatherData(city.latitude, city.longitude, city.name);
+  addRecent(city);
+  close();
+}
+
 onMount(() => {
   if (open) {
     lastFocused = document.activeElement as HTMLElement;
     setTimeout(() => sheetRef?.focus(), 0);
     window.addEventListener('keydown', handleKeydown);
   }
-  // Load recent cities from localStorage
-  const recents = JSON.parse(localStorage.getItem('recentCities') || '[]');
-  recentCities.set(recents);
+  favoriteCities.set(loadCities(FAVORITE_CITIES_KEY));
+  recentCities.set(loadCities(RECENT_CITIES_KEY));
 });
 onDestroy(() => {
   window.removeEventListener('keydown', handleKeydown);
@@ -74,7 +125,7 @@ $: if (open && sheetRef) {
 </script>
 
 {#if open}
-  <div class="bsqs-backdrop" tabindex="-1" on:click={() => close()}></div>
+  <button class="bsqs-backdrop" aria-label="Close quick search" on:click={close} on:keydown={(e) => (e.key === 'Enter' || e.key === ' ' ? close() : undefined)} tabindex="0"></button>
   <div
     class="bsqs-sheet glass-card-lg"
     tabindex="0"
@@ -91,13 +142,54 @@ $: if (open && sheetRef) {
     <button class="bsqs-close" aria-label="Close quick search" on:click={close}>&times;</button>
     <div class="bsqs-content">
       <h2 class="text-lg font-bold mb-2">Quick City Search</h2>
-      <CitySearch />
+      <!-- Mini Map -->
+      <div class="mb-4">
+        <MiniMap on:citySelect={e => selectCity(e.detail)} />
+      </div>
+      <!-- City Search -->
+      <CitySearch on:select={e => selectCity(e.detail)} />
+      <!-- Favorites -->
+      <div class="mt-4">
+        <h3 class="text-sm font-semibold mb-1">Favorite Cities</h3>
+        <ul class="flex flex-wrap gap-2">
+          {#each $favoriteCities as city}
+            <button class="recent-chip flex items-center" aria-label={`Select favorite city ${city.name}`} on:click={() => selectCity(city)}>
+              <span>{city.name}</span>
+              <span
+                class="ml-1 text-yellow-400 cursor-pointer"
+                role="img"
+                aria-label="Unfavorite city"
+                tabindex="0"
+                on:click|stopPropagation={() => toggleFavorite(city)}
+                on:keydown|stopPropagation={(e) => (e.key === 'Enter' || e.key === ' ') && toggleFavorite(city)}
+              >&#9733;<span class="sr-only">Unfavorite</span></span>
+            </button>
+          {/each}
+          {#if !$favoriteCities.length}
+            <li class="text-xs text-glass-secondary">No favorites yet</li>
+          {/if}
+        </ul>
+      </div>
+      <!-- Recents -->
       <div class="mt-4">
         <h3 class="text-sm font-semibold mb-1">Recent Cities</h3>
         <ul class="flex flex-wrap gap-2">
           {#each $recentCities as city}
-            <li class="recent-chip">{city.name}</li>
+            <button class="recent-chip flex items-center" aria-label={`Select recent city ${city.name}`} on:click={() => selectCity(city)}>
+              <span>{city.name}</span>
+              <span
+                class="ml-1 text-yellow-400 opacity-60 hover:opacity-100 cursor-pointer"
+                role="img"
+                aria-label={isFavorite(city) ? 'Unfavorite city' : 'Favorite city'}
+                tabindex="0"
+                on:click|stopPropagation={() => toggleFavorite(city)}
+                on:keydown|stopPropagation={(e) => (e.key === 'Enter' || e.key === ' ') && toggleFavorite(city)}
+              >{isFavorite(city) ? '★' : '☆'}<span class="sr-only">{isFavorite(city) ? 'Unfavorite' : 'Favorite'}</span></span>
+            </button>
           {/each}
+          {#if !$recentCities.length}
+            <li class="text-xs text-glass-secondary">No recent cities</li>
+          {/if}
         </ul>
       </div>
     </div>

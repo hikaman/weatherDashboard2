@@ -3,16 +3,19 @@
   import WeatherBackground from '../components/WeatherBackground.svelte';
   import DarkModeToggle from '../components/DarkModeToggle.svelte';
   import LanguageToggle from '../components/LanguageToggle.svelte';
-  import { weatherStore } from '../stores/weather';
+  import { weatherStore, isNightAtLocation } from '../stores/weather';
   import { initLocale } from '../lib/i18n';
   import { onMount } from 'svelte';
   import BottomSheetQuickSearch from '../components/BottomSheetQuickSearch.svelte';
+  import { browser } from '$app/environment';
+  import CitySearch from '../components/CitySearch.svelte';
 
   $: weather = $weatherStore.data;
 
   let showControls = true;
   let lastScrollY = 0;
   let showQuickSearch = false;
+  let themeOverride = false;
 
   function handleScroll() {
     const currentY = window.scrollY;
@@ -26,19 +29,43 @@
     lastScrollY = currentY;
   }
 
+  // Watch for theme override in localStorage
+  function checkThemeOverride() {
+    if (browser) {
+      themeOverride = localStorage.getItem('themeOverride') === 'true';
+    }
+  }
+
+  // Auto-switch theme based on location time unless overridden
+  $: if (browser && !themeOverride) {
+    if ($isNightAtLocation) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
   onMount(() => {
     initLocale();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    checkThemeOverride();
+    window.addEventListener('storage', checkThemeOverride);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('storage', checkThemeOverride);
+    };
   });
 </script>
 
 <WeatherBackground {weather}>
   <!-- Controls -->
-  <div class="fixed top-4 right-4 z-50 flex gap-2 transition-all duration-300"
+  <div class="fixed top-4 right-4 z-50 flex gap-2 transition-all duration-300 items-center"
     style="transform: translateY({showControls ? '0' : '-60'}px); opacity: {showControls ? 1 : 0}; pointer-events: {showControls ? 'auto' : 'none'};"
     aria-live="polite"
   >
+    <CitySearch />
     <LanguageToggle />
     <DarkModeToggle />
   </div>

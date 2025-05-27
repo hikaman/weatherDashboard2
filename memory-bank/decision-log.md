@@ -66,9 +66,8 @@
 - Integrated at the top of the hourly forecast card.
 - Supports keyboard navigation and is accessible.
 
-## 16. Smart Activity Planner
-- Implemented SmartActivityPlanner.svelte to suggest optimal time slots for outdoor, indoor, and exercise activities based on hourly weather, UV, and AQI.
-- Integrated the planner below the hourly forecast in the dashboard.
+## 16. Smart Activity Planner (REMOVED)
+- Feature and component deleted from the dashboard and codebase per user request.
 
 ## 17. Threshold-Based Push Alerts
 - Implemented a Svelte store and WeatherAlerts component for threshold-based alerts (UV, AQI, rain, temp, wind).
@@ -77,4 +76,17 @@
 ## 18. Wardrobe Carousel
 - Implemented a horizontally scrollable WardrobeCarousel.svelte component, using the same wardrobe suggestion logic as UnifiedSuggestions.
 - Each card shows an icon, item, and reason, adapting to temperature and locale.
-- Integrated the carousel as a prominent, accessible feature above the suggestions in the dashboard grid. 
+- Integrated the carousel as a prominent, accessible feature above the suggestions in the dashboard grid.
+
+## 21. Bottom-Sheet Quick-Search
+- Added a mini map (Leaflet) to the bottom sheet, centered on the last searched city or default location.
+- Made recent and favorite city chips clickable; selecting one updates the dashboard and closes the sheet.
+- Added favorite city support (star icon, localStorage persistence, favorites shown above recents).
+- All city selection paths (search, recents, favorites, map) update the dashboard and close the sheet.
+- Ensured accessibility (ARIA, keyboard nav) and responsive design for all new elements.
+
+## 22. Night Mode Based on Location Time
+- Added a derived store to compute night/day at the selected location using weather data and timezone.
+- Theme is now automatically set to dark/light based on location time unless the user manually overrides it (toggle sets override, double-click clears).
+- Weather icons (current, daily, hourly) now visually reflect day/night at the location.
+- All changes are accessible, responsive, and tested. 

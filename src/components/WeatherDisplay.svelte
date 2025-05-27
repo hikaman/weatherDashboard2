@@ -1,17 +1,14 @@
 <script lang="ts">
 	import type { WeatherData } from '../stores/weather';
-	import { t } from '../lib/i18n';
+	import { t, currentLocale } from '../lib/i18n';
 	import AnimatedWeatherIcon from './AnimatedWeatherIcon.svelte';
 	import YesterdayComparisonBadge from './YesterdayComparisonBadge.svelte';
 	import ExpandableDayRow from './ExpandableDayRow.svelte';
+	import { isNightAtLocation as isNightAtLocationStore } from '../stores/weather';
 
 	export let weather: WeatherData | null;
 	export let currentLocation: string | null = null;
-
 	let expandedIndex: number | null = null;
-	function toggleDay(idx: number) {
-		expandedIndex = expandedIndex === idx ? null : idx;
-	}
 
 	// Weather code descriptions - now using translations
 	function getWeatherDescription(code: number): string {
@@ -71,20 +68,65 @@
 			return `${dayName} ${dayNumber}.${month}.`;
 		}
 	}
+
+	function handleDayClick(idx: number) {
+		expandedIndex = expandedIndex === idx ? null : idx;
+	}
+
+	$: isNight = $isNightAtLocationStore;
+
+	// Helper for UV risk color (copied from UVAirQualityStrip)
+	function getUVColor(uv: number) {
+		if (uv < 3) return 'bg-green-200 text-green-900';
+		if (uv < 6) return 'bg-yellow-200 text-yellow-900';
+		if (uv < 8) return 'bg-orange-200 text-orange-900';
+		if (uv < 11) return 'bg-red-200 text-red-900';
+		return 'bg-purple-200 text-purple-900';
+	}
+
+	// Wardrobe prose suggestion logic (boilerplate, not a carousel)
+	$: wardrobeProse = (() => {
+		if (!weather?.current?.temperature_2m) return '';
+		const temp = weather.current.temperature_2m;
+		const locale = $currentLocale;
+		let icon = '👕', item = '', reason = '';
+		if (temp > 25) {
+			icon = '👕';
+			item = locale === 'de' ? 'Leichte Sommerklamotten' : $t.lightBreathableClothing;
+			reason = locale === 'de' ? 'Die Sonne brennt – gönn dir etwas Luftiges, damit du cool bleibst.' : $t.lightBreathableReason;
+		} else if (temp > 15) {
+			icon = '🧥';
+			item = locale === 'de' ? 'Leichte Jacke im Zwiebel-Look' : $t.lightJacketJeans;
+			reason = locale === 'de' ? 'Das klassische "Zwiebel-Look"-Wetter: morgens frisch, nachmittags mild.' : $t.lightJacketReason;
+		} else if (temp > 5) {
+			icon = '🧶';
+			item = locale === 'de' ? 'Kuschelpullover & warme Hose' : $t.cozySweaterPants;
+			reason = locale === 'de' ? 'Ein Hauch von Kälte – Zeit, dem inneren Faultier mit einem flauschigen Pulli zu huldigen.' : $t.cozySweaterReason;
+		} else {
+			icon = '🧥';
+			item = locale === 'de' ? 'Dicker Wintermantel & Accessoires' : $t.winterCoatAccessories;
+			reason = locale === 'de' ? 'Es ist bitterkalt – zieh alles an, was nicht bei drei auf dem Kleiderbügel ist!' : $t.winterCoatReason;
+		}
+		return `${icon} ${item}. ${reason}`;
+	})();
 </script>
 
 <div class="weather-display">
 	{#if weather}
 		<!-- Current Weather Card -->
 		<div class="glass-card-lg p-6 mb-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105 relative">
-			<div class="flex items-center mb-2">
+			<div class="flex items-center mb-2 gap-3">
 				<span class="text-2xl mr-2">📍</span>
 				<span class="text-lg font-semibold text-glass">{currentLocation}</span>
-				<span class="ml-auto hidden md:inline-block absolute top-4 right-6"><YesterdayComparisonBadge /></span>
+				<span class="ml-3"><YesterdayComparisonBadge /></span>
+				<div class={`chip ${getUVColor(weather.current.uv_index)} ml-2`} style="max-width: 180px;" aria-label="UV Index">
+					<span class="icon">☀️</span>
+					<span class="label">UV</span>
+					<span class="value">{weather.current.uv_index?.toFixed(1)}</span>
+				</div>
 			</div>
-			<span class="block md:hidden mb-2"><YesterdayComparisonBadge /></span>
 			<h2 class="text-2xl font-bold text-glass mb-4 flex items-center">
-				<span class="mr-3"><AnimatedWeatherIcon code={weather.current.weather_code} /></span>
+				<span class="mr-3"><AnimatedWeatherIcon code={weather.current.weather_code} isNight={isNight} /></span>
 				{$t.currentWeather}
 			</h2>
 			<div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
@@ -127,10 +169,21 @@
 				</div>
 			</div>
 			
-			<div class="mt-4 p-3 glass-card rounded-glass">
+			<div class="flex justify-between mt-4 mb-2 text-lg text-glass-secondary">
+				{#if weather?.daily?.sunrise && weather?.daily?.sunset}
+					<span>🌅 {new Date(weather.daily.sunrise[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</span>
+					<span class="text-right">🌇 {new Date(weather.daily.sunset[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</span>
+				{/if}
+			</div>
+			<div class="mt-2 p-3 glass-card rounded-glass">
 				<div class="text-lg font-medium text-glass">
 					{getWeatherDescription(weather.current.weather_code)}
 				</div>
+				{#if wardrobeProse}
+					<div class="mt-3 text-base text-glass-secondary" aria-label="{$t.wardrobe} suggestion">
+						{wardrobeProse}
+					</div>
+				{/if}
 			</div>
 		</div>
 
@@ -140,17 +193,30 @@
 				<span class="text-xl mr-2">📅</span>
 				{$t.sevenDayForecast}
 			</h3>
-			<div>
+			<div class="seven-day-row flex flex-row gap-2 justify-between items-stretch overflow-x-auto">
 				{#each weather.daily.time as date, index}
-					<ExpandableDayRow
-						{index}
-						{weather}
-						expanded={expandedIndex === index}
-						toggle={toggleDay}
-					/>
+					<div on:click={() => handleDayClick(index)} style="cursor:pointer;">
+						<ExpandableDayRow {index} {weather} />
+					</div>
 				{/each}
 			</div>
 		</div>
+
+		{#if expandedIndex !== null}
+			<div class="glass-card p-4 mt-2 rounded-glass">
+				<div class="font-semibold text-glass mb-2">{formatDate(weather.daily.time[expandedIndex])}</div>
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-glass-secondary">
+					<div><span class="font-semibold">{$t.windSpeed}:</span> {weather.daily.wind_speed_10m_max[expandedIndex]} km/h</div>
+					<div><span class="font-semibold">{$t.precipitation}:</span> {weather.daily.precipitation_sum[expandedIndex]} mm</div>
+					<div class="font-semibold">🌅 Sunrise:</div>
+					<div>{new Date(weather.daily.sunrise[expandedIndex]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</div>
+					<div class="font-semibold">🌇 Sunset:</div>
+					<div>{new Date(weather.daily.sunset[expandedIndex]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</div>
+					<div class="col-span-2 md:col-span-4 mt-2"><span class="font-semibold">{$t.temperature}:</span> {weather.daily.temperature_2m_max[expandedIndex]}° / {weather.daily.temperature_2m_min[expandedIndex]}°</div>
+					<div class="col-span-2 md:col-span-4"><span class="font-semibold">{$t.currentWeather}:</span> {getWeatherDescription(weather.daily.weather_code[expandedIndex])}</div>
+				</div>
+			</div>
+		{/if}
 	{:else}
 		<div class="glass-card-lg p-8 text-center hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300">
 			<div class="text-6xl mb-4">🌤️</div>
@@ -200,5 +266,37 @@
 	.delta-chip.colder {
 		color: #3498db;
 		background: rgba(100, 180, 255, 0.18);
+	}
+	.seven-day-row {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		justify-content: space-between;
+		align-items: stretch;
+		overflow-x: auto;
+		margin-bottom: 0.5rem;
+	}
+	.chip {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		border-radius: 9999px;
+		padding: 0.4em 1.1em;
+		font-weight: 600;
+		font-size: 1em;
+		box-shadow: 0 1px 4px rgba(30,144,255,0.08);
+		min-width: 90px;
+		justify-content: center;
+	}
+	.icon {
+		font-size: 1.2em;
+	}
+	.label {
+		font-size: 0.95em;
+		opacity: 0.7;
+	}
+	.value {
+		font-size: 1.1em;
+		margin-left: 0.2em;
 	}
 </style> 
