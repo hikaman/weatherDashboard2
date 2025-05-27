@@ -23,4 +23,10 @@
 ## 6. Accessibility & Responsiveness Audit
 - Added visible focus states, aria-live regions, and keyboard navigation to all major interactive elements.
 - Improved color contrast and ensured all layouts are responsive for mobile, tablet, and desktop.
-- Prioritized WCAG compliance and screen reader compatibility for all user-facing features. 
+- Prioritized WCAG compliance and screen reader compatibility for all user-facing features.
+
+## 7. Vitest Tests for Stores/Utils
+- 2024-XX-XX: Feature 7 (Vitest tests for stores/utils):
+    - Issue: `suggestionFilterStore` test failed because the store subscription was immediately unsubscribed, so updates were not observed.
+    - Decision: Keep the subscription active for the duration of the test and unsubscribe at the end.
+    - Result: Test now passes. All store and util tests pass. Svelte component tests remain blocked by Svelte 5/Vitest compatibility. 
