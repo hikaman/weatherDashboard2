@@ -39,7 +39,7 @@
 | 13 | Yesterday Comparison Badge                        | [x]    |
 | 14 | Expandable Day Rows                               | [x]    |
 | 15 | Drag-to-Scrub Hourly Graph                         | [x]    |
-| 16 | Smart Activity Planner                             | [ ]    |
+| 16 | Smart Activity Planner                             | [x]    |
 | 17 | Threshold-Based Push Alerts                        | [ ]    |
 | 18 | Wardrobe Carousel                                   | [ ]    |
 | 19 | Collapsible Header on Scroll                        | [ ]    |
@@ -65,3 +65,4 @@
 - 13: Yesterday Comparison Badge is now shown in the current weather card, comparing today and yesterday for temperature and precipitation.
 - 14: 7-day forecast now uses expandable day rows for detailed info (min/max temp, precip, wind, sunrise/sunset, etc).
 - 15: Hourly forecast now includes a drag-to-scrub temperature graph with tooltip for value/time.
+- 16: Smart Activity Planner now suggests optimal time slots for activities (outdoor, indoor, exercise) based on weather, UV, and AQI.

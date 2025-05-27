@@ -11,6 +11,7 @@
 	import LanguageToggle from './LanguageToggle.svelte';
 	import UVAirQualityStrip from './UVAirQualityStrip.svelte';
 	import SunriseSunsetRing from './SunriseSunsetRing.svelte';
+	import SmartActivityPlanner from './SmartActivityPlanner.svelte';
 
 	export let weather: WeatherData | null = null;
 
@@ -103,6 +104,11 @@
 				<!-- Hourly Forecast - Full width -->
 				<div class="lg:col-span-2">
 					<HourlyForecast {weather} />
+				</div>
+
+				<!-- Smart Activity Planner - Full width -->
+				<div class="lg:col-span-2">
+					<SmartActivityPlanner />
 				</div>
 
 				<!-- Unified Suggestions -->

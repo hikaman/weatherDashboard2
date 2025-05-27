@@ -64,4 +64,8 @@
 ## 15. Drag-to-Scrub Hourly Graph
 - Added DragScrubHourlyGraph.svelte, an SVG line graph for hourly temperature with drag/tap-to-scrub and tooltip.
 - Integrated at the top of the hourly forecast card.
-- Supports keyboard navigation and is accessible. 
+- Supports keyboard navigation and is accessible.
+
+## 16. Smart Activity Planner
+- Implemented SmartActivityPlanner.svelte to suggest optimal time slots for outdoor, indoor, and exercise activities based on hourly weather, UV, and AQI.
+- Integrated the planner below the hourly forecast in the dashboard. 
