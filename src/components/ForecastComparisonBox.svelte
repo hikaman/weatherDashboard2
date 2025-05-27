@@ -99,20 +99,33 @@ interface ComparisonData {
 
 function proseSummary(data: ComparisonData | null, $t: any) {
   if (!data) return '';
+
+  // Helper to build descriptive phrases
+  const describeWind = (speed: number) => `${speed.toFixed(1)} km/h`;
+
   if ($t.today === 'Heute') {
     // German
-    const tempTrend = getTrendText(data.today.max, data.yesterday.max) === 'slightly warmer' ? 'etwas wärmer' : getTrendText(data.today.max, data.yesterday.max) === 'slightly cooler' ? 'etwas kühler' : 'ungefähr gleich warm';
-    const precipTrend = getPrecipText(data.today.precip, data.yesterday.precip) === 'more precipitation' ? 'mehr Niederschlag' : getPrecipText(data.today.precip, data.yesterday.precip) === 'less precipitation' ? 'weniger Niederschlag' : 'keine Änderung beim Niederschlag';
-    const tomorrowTrend = getTrendText(data.tomorrow.max, data.today.max) === 'slightly warmer' ? 'etwas wärmer' : getTrendText(data.tomorrow.max, data.today.max) === 'slightly cooler' ? 'etwas kühler' : 'ungefähr gleich warm';
-    const tomorrowPrecip = getPrecipText(data.tomorrow.precip, data.today.precip) === 'more precipitation' ? 'mehr Niederschlag' : getPrecipText(data.tomorrow.precip, data.today.precip) === 'less precipitation' ? 'weniger Niederschlag' : 'keine Änderung beim Niederschlag';
-    return `Gestern lag die Höchsttemperatur bei ${data.yesterday.max.toFixed(1)}°C und die Tiefsttemperatur bei ${data.yesterday.min.toFixed(1)}°C. Der Wind erreichte bis zu ${data.yesterday.wind.toFixed(1)} km/h, und es fielen ${data.yesterday.precip.toFixed(1)} mm Niederschlag. Heute ist es ${tempTrend} (${data.today.max.toFixed(1)}°C), mit ${precipTrend}. Für morgen wird ${tomorrowTrend} (${data.tomorrow.max.toFixed(1)}°C) und ${tomorrowPrecip} erwartet.`;
+    const tempTrendToday = getTrendText(data.today.max, data.yesterday.max) === 'slightly warmer' ? 'wärmer' : getTrendText(data.today.max, data.yesterday.max) === 'slightly cooler' ? 'kühler' : 'ähnlich warm';
+    const precipTrendToday = getPrecipText(data.today.precip, data.yesterday.precip) === 'more precipitation' ? 'mehr Niederschlag' : getPrecipText(data.today.precip, data.yesterday.precip) === 'less precipitation' ? 'weniger Niederschlag' : 'ähnlichen Niederschlag';
+
+    const tempTrendTomorrow = getTrendText(data.tomorrow.max, data.today.max) === 'slightly warmer' ? 'wärmer' : getTrendText(data.tomorrow.max, data.today.max) === 'slightly cooler' ? 'kühler' : 'ähnlich warm';
+    const precipTrendTomorrow = getPrecipText(data.tomorrow.precip, data.today.precip) === 'more precipitation' ? 'mehr Niederschlag' : getPrecipText(data.tomorrow.precip, data.today.precip) === 'less precipitation' ? 'weniger Niederschlag' : 'ähnlichen Niederschlag';
+
+    return `Gestern lag die Höchsttemperatur bei ${data.yesterday.max.toFixed(1)}°C, die Tiefsttemperatur bei ${data.yesterday.min.toFixed(1)}°C und der Wind erreichte ${describeWind(data.yesterday.wind)}. Insgesamt fielen ${data.yesterday.precip.toFixed(1)} mm Niederschlag.` +
+    ` Heute wird es ${tempTrendToday} – die Temperaturen bewegen sich zwischen ${data.today.min.toFixed(1)}°C und ${data.today.max.toFixed(1)}°C. ` +
+    `Es ist mit ${precipTrendToday} (${data.today.precip.toFixed(1)} mm) und Windgeschwindigkeiten um ${describeWind(data.today.wind)} zu rechnen.` +
+    ` Für morgen zeichnet sich ein ${tempTrendTomorrow} Tag ab (≈ ${data.tomorrow.max.toFixed(1)}°C / ${data.tomorrow.min.toFixed(1)}°C) bei ${precipTrendTomorrow} (${data.tomorrow.precip.toFixed(1)} mm) und einem erwarteten Wind um ${describeWind(data.tomorrow.wind)}.`;
   } else {
     // English
-    const tempTrend = getTrendText(data.today.max, data.yesterday.max);
-    const precipTrend = getPrecipText(data.today.precip, data.yesterday.precip);
-    const tomorrowTrend = getTrendText(data.tomorrow.max, data.today.max);
-    const tomorrowPrecip = getPrecipText(data.tomorrow.precip, data.today.precip);
-    return `Yesterday, the maximum temperature was ${data.yesterday.max.toFixed(1)}°C with a minimum of ${data.yesterday.min.toFixed(1)}°C. Winds reached up to ${data.yesterday.wind.toFixed(1)} km/h, and there was ${data.yesterday.precip.toFixed(1)} mm of precipitation. Today is ${tempTrend} (${data.today.max.toFixed(1)}°C), with ${precipTrend}. Looking ahead, tomorrow is expected to be ${tomorrowTrend} (${data.tomorrow.max.toFixed(1)}°C) with ${tomorrowPrecip}.`;
+    const tempTrendToday = getTrendText(data.today.max, data.yesterday.max);
+    const precipTrendToday = getPrecipText(data.today.precip, data.yesterday.precip);
+
+    const tempTrendTomorrow = getTrendText(data.tomorrow.max, data.today.max);
+    const precipTrendTomorrow = getPrecipText(data.tomorrow.precip, data.today.precip);
+
+    return `Yesterday featured a high of ${data.yesterday.max.toFixed(1)}°C and a low of ${data.yesterday.min.toFixed(1)}°C. Winds peaked at ${describeWind(data.yesterday.wind)}, accompanied by ${data.yesterday.precip.toFixed(1)} mm of precipitation.` +
+    ` Today will feel ${tempTrendToday}, ranging between ${data.today.min.toFixed(1)}°C and ${data.today.max.toFixed(1)}°C, with ${precipTrendToday} expected (${data.today.precip.toFixed(1)} mm) and winds around ${describeWind(data.today.wind)}.` +
+    ` Looking ahead, tomorrow should be ${tempTrendTomorrow}, topping out near ${data.tomorrow.max.toFixed(1)}°C (low of ${data.tomorrow.min.toFixed(1)}°C). Expect ${precipTrendTomorrow} (${data.tomorrow.precip.toFixed(1)} mm) and winds close to ${describeWind(data.tomorrow.wind)}.`;
   }
 }
 </script>

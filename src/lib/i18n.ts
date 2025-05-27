@@ -134,6 +134,14 @@ export interface Translations {
 	wetterThanYesterday: string;
 	drierThanYesterday: string;
 	similarToYesterday: string;
+	
+	// Weather alert messages
+	alertUV: string;
+	alertAQI: string;
+	alertRain: string;
+	alertHot: string;
+	alertCold: string;
+	alertWind: string;
 }
 
 const translations: Record<Locale, Translations> = {
@@ -266,9 +274,17 @@ const translations: Record<Locale, Translations> = {
 		// Yesterday Comparison Badge
 		warmerThanYesterday: 'Warmer than yesterday',
 		colderThanYesterday: 'Colder than yesterday',
-		wetterThanYesterday: 'Wetter than yesterday',
+		wetterThanYesterday: 'More rain than yesterday',
 		drierThanYesterday: 'Drier than yesterday',
 		similarToYesterday: 'Similar to yesterday',
+		
+		// Weather alert messages
+		alertUV: 'High UV index! Take sun protection.',
+		alertAQI: 'Poor air quality! Limit outdoor activity.',
+		alertRain: 'Heavy rain expected today.',
+		alertHot: 'Very hot temperatures expected.',
+		alertCold: 'Very cold temperatures expected.',
+		alertWind: 'Strong winds expected.',
 	},
 	de: {
 		// General
@@ -397,11 +413,19 @@ const translations: Record<Locale, Translations> = {
 		noWeatherDataMessage: 'Suchen Sie nach einer Stadt oder erlauben Sie Standortzugriff, um Wetterinformationen zu sehen.',
 		
 		// Yesterday Comparison Badge
-		warmerThanYesterday: 'Warmer als gestern',
-		colderThanYesterday: 'Kühler als gestern',
-		wetterThanYesterday: 'Wetter als gestern',
-		drierThanYesterday: 'Trockener als gestern',
-		similarToYesterday: 'Ähnliches Wetter wie gestern',
+		warmerThanYesterday: 'Wärmer als gestern',
+		colderThanYesterday: 'Kälter als gestern',
+		wetterThanYesterday: 'Mehr Regen als gestern',
+		drierThanYesterday: 'Weniger Regen als gestern',
+		similarToYesterday: 'Ähnlich wie gestern',
+		
+		// Weather alert messages
+		alertUV: 'Hoher UV-Index! Sonnenschutz empfohlen.',
+		alertAQI: 'Schlechte Luftqualität! Aktivitäten im Freien einschränken.',
+		alertRain: 'Heute wird starker Regen erwartet.',
+		alertHot: 'Sehr hohe Temperaturen erwartet.',
+		alertCold: 'Sehr niedrige Temperaturen erwartet.',
+		alertWind: 'Starker Wind erwartet.',
 	}
 };
 

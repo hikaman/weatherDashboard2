@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
+import { t } from '../lib/i18n';
 
 export interface WeatherAlert {
   type: string;
@@ -23,26 +24,26 @@ export function checkWeatherAlerts({ hourly, current }: any, airQuality: any) {
   if (!hourly || !current) return alertsStore.set([]);
   // UV
   if (current.uv_index >= thresholds.uv) {
-    alerts.push({ type: 'uv', message: 'High UV index! Take sun protection.', severity: 'warning' });
+    alerts.push({ type: 'uv', message: get(t).alertUV, severity: 'warning' });
   }
   // AQI
   if (airQuality?.european_aqi >= thresholds.aqi) {
-    alerts.push({ type: 'aqi', message: 'Poor air quality! Limit outdoor activity.', severity: 'warning' });
+    alerts.push({ type: 'aqi', message: get(t).alertAQI, severity: 'warning' });
   }
   // Rain
   if (hourly.precipitation.some((v: number) => v >= thresholds.rain)) {
-    alerts.push({ type: 'rain', message: 'Heavy rain expected today.', severity: 'info' });
+    alerts.push({ type: 'rain', message: get(t).alertRain, severity: 'info' });
   }
   // Temp
   if (hourly.temperature_2m.some((v: number) => v >= thresholds.tempHigh)) {
-    alerts.push({ type: 'tempHigh', message: 'Very hot temperatures expected.', severity: 'danger' });
+    alerts.push({ type: 'tempHigh', message: get(t).alertHot, severity: 'danger' });
   }
   if (hourly.temperature_2m.some((v: number) => v <= thresholds.tempLow)) {
-    alerts.push({ type: 'tempLow', message: 'Very cold temperatures expected.', severity: 'danger' });
+    alerts.push({ type: 'tempLow', message: get(t).alertCold, severity: 'danger' });
   }
   // Wind
   if (hourly.wind_speed_10m.some((v: number) => v >= thresholds.wind)) {
-    alerts.push({ type: 'wind', message: 'Strong winds expected.', severity: 'info' });
+    alerts.push({ type: 'wind', message: get(t).alertWind, severity: 'info' });
   }
   alertsStore.set(alerts);
 } 
