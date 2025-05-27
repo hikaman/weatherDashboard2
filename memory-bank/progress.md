@@ -28,7 +28,7 @@
 | 2 | Weather data cache for offline support            | [x]    |  
 | 3 | Suggestion filter/toggle component                | [x]    |  
 | 4 | Animated weather icons                            | [x]    |  
-| 5 | Glassmorphic modals/sidebars                      | [ ]    |
+| 5 | Glassmorphic modals/sidebars                      | [x]    |
 | 6 | Accessibility & responsiveness audit              | [ ]    |
 | 7 | Vitest tests for all components (90%+ coverage)   | [ ]    |
 | 8 | Forecast comparison box (yesterday/today/tomorrow, highlight changes) | [ ]    |
@@ -52,3 +52,4 @@
 - 2: Weather data is cached in localStorage and used for offline fallback.
 - 3: Suggestion filter/toggle UI and store implemented; suggestions update live.
 - 4: Animated SVG weather icons integrated in main weather display.
+- 5: Reusable, accessible glassmorphic modal component implemented.

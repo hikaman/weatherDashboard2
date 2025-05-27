@@ -14,4 +14,8 @@
 
 ## 4. Animated Weather Icons
 - Opted for a custom Svelte component using animated SVGs for weather icons, mapped by weather code.
-- This ensures smooth, performant, and visually appealing icons without external dependencies. 
+- This ensures smooth, performant, and visually appealing icons without external dependencies.
+
+## 5. Glassmorphic Modals/Sidebars
+- Created a reusable, accessible modal component with glassmorphism (blur, transparency, rounded corners).
+- Modal supports keyboard navigation, focus trap, and ESC to close, ensuring accessibility and modern design. 
