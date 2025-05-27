@@ -33,4 +33,9 @@
 
 ## 8. Forecast Comparison Box
 - Decided to use Open-Meteo's `past_days=1` parameter to fetch yesterday's data along with today and tomorrow.
-- Implemented ForecastComparisonBox.svelte to display and highlight changes in key metrics (temperature, precipitation, wind) between days. 
+- Implemented ForecastComparisonBox.svelte to display and highlight changes in key metrics (temperature, precipitation, wind) between days.
+
+## 9. City Search Input UI Improvements
+- Made the city search input smaller and more compact for a cleaner look.
+- Placed the city search input beside the language toggle for a unified top-row control.
+- Moved the current location display to the today card in WeatherDisplay for better clarity and visibility. 

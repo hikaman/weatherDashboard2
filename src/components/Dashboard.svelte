@@ -8,6 +8,7 @@
 	import { t } from '../lib/i18n';
 	import { lastCityStore } from '../stores/lastCity';
 	import ForecastComparisonBox from './ForecastComparisonBox.svelte';
+	import LanguageToggle from './LanguageToggle.svelte';
 
 	export let weather: WeatherData | null = null;
 
@@ -69,16 +70,17 @@
 				</p>
 			</div>
 		{:else}
-			<!-- City Search -->
-			<div class="mb-8">
+			<!-- City Search and Language Toggle Row -->
+			<div class="flex items-center gap-3 mb-8">
 				<CitySearch {currentLocation} />
+				<LanguageToggle />
 			</div>
 
 			<!-- Main Dashboard Grid -->
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 				<!-- Weather Display - Full width on mobile, left column on desktop -->
 				<div class="lg:col-span-2">
-					<WeatherDisplay {weather} />
+					<WeatherDisplay {weather} {currentLocation} />
 				</div>
 
 				<!-- Forecast Comparison Box - Full width -->

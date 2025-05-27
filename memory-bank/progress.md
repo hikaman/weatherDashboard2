@@ -32,7 +32,7 @@
 | 6 | Accessibility & responsiveness audit              | [x]    |
 | 7 | Vitest tests for all stores and utils (90%+ coverage) | [x]    |
 | 8 | Forecast comparison box (yesterday/today/tomorrow, highlight changes) | [x]    |
-| 9 | City search input UI improvements (smaller input, beside localisation toggle, show location in today card) | [ ]    |
+| 9 | City search input UI improvements (smaller input, beside localisation toggle, show location in today card) | [x]    |
 | 10 | Feels‐Like vs. Actual Delta Chip                   | [ ]    |
 | 11 | UV & Air-Quality Strip                            | [ ]    |
 | 12 | Sunrise / Sunset & Golden-Hour Ring                | [ ]    |
@@ -58,3 +58,4 @@
 - Svelte component tests remain blocked by Svelte 5/Vitest compatibility issues.
 
 - 8: ForecastComparisonBox component compares yesterday, today, and tomorrow for key metrics, highlighting changes. API now fetches past_days=1 for yesterday's data.
+- 9: City search input is now smaller and beside the language toggle; current location is shown in the today card.
