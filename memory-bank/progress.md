@@ -29,7 +29,7 @@
 | 3 | Suggestion filter/toggle component                | [x]    |  
 | 4 | Animated weather icons                            | [x]    |  
 | 5 | Glassmorphic modals/sidebars                      | [x]    |
-| 6 | Accessibility & responsiveness audit              | [ ]    |
+| 6 | Accessibility & responsiveness audit              | [x]    |
 | 7 | Vitest tests for all components (90%+ coverage)   | [ ]    |
 | 8 | Forecast comparison box (yesterday/today/tomorrow, highlight changes) | [ ]    |
 | 9 | City search input UI improvements (smaller input, beside localisation toggle, show location in today card) | [ ]    |
@@ -53,3 +53,4 @@
 - 3: Suggestion filter/toggle UI and store implemented; suggestions update live.
 - 4: Animated SVG weather icons integrated in main weather display.
 - 5: Reusable, accessible glassmorphic modal component implemented.
+- 6: Accessibility and responsiveness improved: focus states, aria-live, keyboard nav, contrast, responsive layouts.

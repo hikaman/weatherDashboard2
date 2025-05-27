@@ -103,7 +103,7 @@
       
       <!-- Search Results Dropdown -->
       {#if showResults && results.length > 0}
-        <div class="absolute top-full left-0 right-0 mt-2 glass-card-lg rounded-glass-lg shadow-glass-lg z-50 max-h-60 overflow-y-auto">
+        <div class="absolute top-full left-0 right-0 mt-2 glass-card-lg rounded-glass-lg shadow-glass-lg z-50 max-h-60 overflow-y-auto" aria-live="polite">
           {#each results as city}
             <button
               type="button"
@@ -143,5 +143,14 @@
 <style>
   .city-search {
     position: relative;
+  }
+  .glass-input:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+  }
+  .glass-card-lg[aria-live="polite"] {
+    background: rgba(255,255,255,0.85);
+    color: #1e293b;
   }
 </style> 

@@ -263,7 +263,7 @@
 <SuggestionFilter />
 
 <div class="unified-suggestions">
-	<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
+	<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105" aria-live="polite">
 		<h2 class="text-xl font-bold text-glass mb-6 flex items-center">
 			<span class="text-2xl mr-3">💡</span>
 			{$t.smartSuggestions}
@@ -273,7 +273,7 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				{#each unifiedSuggestions as suggestion}
 					{#if filter[suggestion.type as SuggestionCategory]}
-						<div class="glass-card p-4 border {getCategoryColor(suggestion.type)} hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
+						<div class="glass-card p-4 border {getCategoryColor(suggestion.type)} hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105" tabindex="0">
 							<div class="flex items-start gap-3">
 								<span class="text-3xl flex-shrink-0">{suggestion.icon}</span>
 								<div class="flex-1 min-w-0">
@@ -307,5 +307,10 @@
 	.glass-card:hover {
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);
+	}
+	.glass-card:focus-visible {
+		outline: 2px solid #38bdf8;
+		outline-offset: 2px;
+		box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
 	}
 </style> 

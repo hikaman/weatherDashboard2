@@ -205,7 +205,7 @@
     
     <!-- Alert List -->
     {#each alerts as alert}
-      <div class="{getAlertClasses(alert.type)} animate-fade-in">
+      <div class="{getAlertClasses(alert.type)} animate-fade-in" tabindex="0">
         <div class="flex items-start justify-between">
           <div class="flex items-start space-x-3">
             <span class="text-2xl animate-pulse">{alert.icon}</span>
@@ -258,5 +258,11 @@
   
   .animate-fade-in {
     animation: fade-in 0.3s ease-out;
+  }
+  .glass-card:focus-visible,
+  .glass-card-lg:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
   }
 </style> 

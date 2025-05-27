@@ -159,4 +159,13 @@
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);
 	}
+	.glass-card:focus-visible,
+	.glass-card-lg:focus-visible {
+		outline: 2px solid #38bdf8;
+		outline-offset: 2px;
+		box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+	}
+	.text-glass, .text-glass-muted, .text-glass-secondary {
+		text-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 0px 1px rgba(0,0,0,0.12);
+	}
 </style> 

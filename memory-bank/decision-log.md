@@ -18,4 +18,9 @@
 
 ## 5. Glassmorphic Modals/Sidebars
 - Created a reusable, accessible modal component with glassmorphism (blur, transparency, rounded corners).
-- Modal supports keyboard navigation, focus trap, and ESC to close, ensuring accessibility and modern design. 
+- Modal supports keyboard navigation, focus trap, and ESC to close, ensuring accessibility and modern design.
+
+## 6. Accessibility & Responsiveness Audit
+- Added visible focus states, aria-live regions, and keyboard navigation to all major interactive elements.
+- Improved color contrast and ensured all layouts are responsive for mobile, tablet, and desktop.
+- Prioritized WCAG compliance and screen reader compatibility for all user-facing features. 

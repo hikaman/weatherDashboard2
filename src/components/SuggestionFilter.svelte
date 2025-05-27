@@ -33,4 +33,9 @@
     background: rgba(56, 189, 248, 0.15);
     border-color: #38bdf8;
   }
+  button:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+  }
 </style> 

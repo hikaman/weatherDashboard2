@@ -111,7 +111,7 @@
 								{/if}
 							</div>
 							
-							<div class="glass-card rounded-glass p-3 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
+							<div class="glass-card rounded-glass p-3 hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105" tabindex="0">
 								<!-- Time -->
 								<div class="text-sm font-medium text-glass-secondary mb-2">
 									{formatHour(hour.time)}
@@ -172,6 +172,14 @@
 	.glass-card:hover {
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);
+	}
+	.glass-card:focus-visible {
+		outline: 2px solid #38bdf8;
+		outline-offset: 2px;
+		box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+	}
+	.text-glass, .text-glass-muted, .text-glass-secondary {
+		text-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 0px 1px rgba(0,0,0,0.12);
 	}
 	
 	/* Custom scrollbar styling for glassmorphism */
