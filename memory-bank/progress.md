@@ -35,7 +35,7 @@
 | 9 | City search input UI improvements (smaller input, beside localisation toggle, show location in today card) | [x]    |
 | 10 | Feels‐Like vs. Actual Delta Chip                   | [x]    |
 | 11 | UV & Air-Quality Strip                            | [x]    |
-| 12 | Sunrise / Sunset & Golden-Hour Ring                | [ ]    |
+| 12 | Sunrise / Sunset & Golden-Hour Ring                | [x]    |
 | 13 | Yesterday Comparison Badge                        | [ ]    |
 | 14 | Expandable Day Rows                               | [ ]    |
 | 15 | Drag-to-Scrub Hourly Graph                         | [ ]    |
@@ -61,3 +61,4 @@
 - 9: City search input is now smaller and beside the language toggle; current location is shown in the today card.
 - 10: Feels-Like vs. Actual Delta Chip is now shown in the current weather card, with color and icon for warmer/colder.
 - 11: UV & Air-Quality Strip is now shown below the weather card, with color-coded risk and pollutant chips for UV, AQI, PM2.5, PM10, NO2, and O3.
+- 12: Sunrise/Sunset & Golden-Hour Ring is now shown below the weather card, using daily sunrise/sunset data from the API.

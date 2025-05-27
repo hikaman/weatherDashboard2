@@ -10,6 +10,7 @@
 	import ForecastComparisonBox from './ForecastComparisonBox.svelte';
 	import LanguageToggle from './LanguageToggle.svelte';
 	import UVAirQualityStrip from './UVAirQualityStrip.svelte';
+	import SunriseSunsetRing from './SunriseSunsetRing.svelte';
 
 	export let weather: WeatherData | null = null;
 
@@ -82,6 +83,11 @@
 				<!-- Weather Display - Full width on mobile, left column on desktop -->
 				<div class="lg:col-span-2">
 					<WeatherDisplay {weather} {currentLocation} />
+				</div>
+
+				<!-- Sunrise/Sunset & Golden Hour Ring - Full width -->
+				<div class="lg:col-span-2">
+					<SunriseSunsetRing />
 				</div>
 
 				<!-- UV & Air Quality Strip - Full width -->
