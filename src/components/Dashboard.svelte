@@ -1,22 +1,42 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { weatherStore, fetchWeatherData, getCurrentLocation, type WeatherData } from '../stores/weather';
+	import { weatherStore, fetchWeatherData, getCurrentLocation, type WeatherData, loadWeatherCache } from '../stores/weather';
 	import WeatherDisplay from './WeatherDisplay.svelte';
 	import HourlyForecast from './HourlyForecast.svelte';
 	import UnifiedSuggestions from './UnifiedSuggestions.svelte';
 	import CitySearch from './CitySearch.svelte';
 	import { t } from '../lib/i18n';
+	import { lastCityStore } from '../stores/lastCity';
 
 	export let weather: WeatherData | null = null;
 
 	let loading = false;
 	let error: string | null = null;
+	let usingCache = false;
 
 	// Subscribe to weather store
 	$: ({ data: weather, loading, error, currentLocation } = $weatherStore);
 
 	// Load weather data on mount
 	onMount(async () => {
+		if (!navigator.onLine) {
+			const cached = loadWeatherCache();
+			if (cached) {
+				weatherStore.update((state) => ({
+					...state,
+					data: cached.data,
+					currentLocation: cached.locationName,
+					loading: false,
+					error: null,
+				}));
+				usingCache = true;
+				return;
+			}
+		}
+		if ($lastCityStore) {
+			await fetchWeatherData($lastCityStore.latitude, $lastCityStore.longitude, $lastCityStore.name);
+			return;
+		}
 		// Try to get user's current location
 		const location = await getCurrentLocation();
 		if (location) {
@@ -70,6 +90,12 @@
 					<UnifiedSuggestions {weather} />
 				</div>
 			</div>
+
+			{#if usingCache}
+				<div class="glass-card-lg p-4 text-center mb-4">
+					<span class="text-yellow-600 dark:text-yellow-300">Offline: Showing cached weather data.</span>
+				</div>
+			{/if}
 		{/if}
 	</div>
 </div>

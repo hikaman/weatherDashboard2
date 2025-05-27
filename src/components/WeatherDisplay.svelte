@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { WeatherData } from '../stores/weather';
 	import { t } from '../lib/i18n';
+	import AnimatedWeatherIcon from './AnimatedWeatherIcon.svelte';
 
 	export let weather: WeatherData | null;
 
@@ -69,7 +70,7 @@
 		<!-- Current Weather Card -->
 		<div class="glass-card-lg p-6 mb-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
 			<h2 class="text-2xl font-bold text-glass mb-4 flex items-center">
-				<span class="text-3xl mr-3">{getWeatherIcon(weather.current.weather_code)}</span>
+				<span class="mr-3"><AnimatedWeatherIcon code={weather.current.weather_code} /></span>
 				{$t.currentWeather}
 			</h2>
 			

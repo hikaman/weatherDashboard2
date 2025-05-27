@@ -64,6 +64,35 @@ const initialState: WeatherState = {
 
 export const weatherStore = writable<WeatherState>(initialState);
 
+const WEATHER_CACHE_KEY = 'weatherwise-weather-cache';
+
+function saveWeatherCache(data: WeatherData, locationName: string) {
+	try {
+		localStorage.setItem(
+			WEATHER_CACHE_KEY,
+			JSON.stringify({ data, locationName, timestamp: Date.now() })
+		);
+	} catch {}
+}
+
+export function loadWeatherCache(): { data: WeatherData; locationName: string } | null {
+	try {
+		const raw = localStorage.getItem(WEATHER_CACHE_KEY);
+		if (!raw) return null;
+		const parsed = JSON.parse(raw);
+		if (
+			typeof parsed === 'object' &&
+			parsed.data &&
+			typeof parsed.locationName === 'string'
+		) {
+			return { data: parsed.data, locationName: parsed.locationName };
+		}
+		return null;
+	} catch {
+		return null;
+	}
+}
+
 // Sanitize input to prevent XSS
 function sanitizeInput(input: string): string {
 	return input.replace(/[<>\"'&]/g, '').trim();
@@ -98,6 +127,9 @@ export async function fetchWeatherData(latitude: number, longitude: number, loca
 				currentLocation = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
 			}
 		}
+
+		// Save to cache
+		saveWeatherCache(data, currentLocation);
 
 		weatherStore.update((state) => ({
 			...state,

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { WeatherData } from '../stores/weather';
 	import { t, currentLocale } from '../lib/i18n';
+	import { suggestionFilterStore, type SuggestionCategory } from '../stores/suggestionFilter';
+	import SuggestionFilter from './SuggestionFilter.svelte';
 
 	export let weather: WeatherData | null;
 
@@ -254,7 +256,11 @@
 			weather.current.wind_speed_10m
 		)
 		: [];
+
+	$: filter = $suggestionFilterStore;
 </script>
+
+<SuggestionFilter />
 
 <div class="unified-suggestions">
 	<div class="glass-card-lg p-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
@@ -266,22 +272,24 @@
 		{#if unifiedSuggestions.length > 0}
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				{#each unifiedSuggestions as suggestion}
-					<div class="glass-card p-4 border {getCategoryColor(suggestion.type)} hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
-						<div class="flex items-start gap-3">
-							<span class="text-3xl flex-shrink-0">{suggestion.icon}</span>
-							<div class="flex-1 min-w-0">
-								<div class="text-xs font-medium text-glass-muted uppercase tracking-wide mb-1">
-									{suggestion.category}
-								</div>
-								<div class="font-semibold text-glass text-base mb-2">
-									{suggestion.item}
-								</div>
-								<div class="text-sm text-glass-secondary leading-relaxed">
-									{suggestion.reason}
+					{#if filter[suggestion.type as SuggestionCategory]}
+						<div class="glass-card p-4 border {getCategoryColor(suggestion.type)} hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 hover:scale-105">
+							<div class="flex items-start gap-3">
+								<span class="text-3xl flex-shrink-0">{suggestion.icon}</span>
+								<div class="flex-1 min-w-0">
+									<div class="text-xs font-medium text-glass-muted uppercase tracking-wide mb-1">
+										{suggestion.category}
+									</div>
+									<div class="font-semibold text-glass text-base mb-2">
+										{suggestion.item}
+									</div>
+									<div class="text-sm text-glass-secondary leading-relaxed">
+										{suggestion.reason}
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{/if}
 				{/each}
 			</div>
 		{:else}

@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { searchCities, fetchWeatherData, type GeocodingResult } from '../stores/weather';
   import { t } from '../lib/i18n';
+  import { setLastCity } from '../stores/lastCity';
   
   export let currentLocation: string | null = null;
   
@@ -50,6 +51,9 @@
     
     // Fetch weather for selected city
     await fetchWeatherData(city.latitude, city.longitude, locationName);
+    
+    // Persist last searched city
+    setLastCity({ name: city.name, latitude: city.latitude, longitude: city.longitude });
     
     // Dispatch selection event
     dispatch('select', city);
