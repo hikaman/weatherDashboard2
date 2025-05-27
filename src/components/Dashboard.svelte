@@ -9,6 +9,7 @@
 	import { lastCityStore } from '../stores/lastCity';
 	import ForecastComparisonBox from './ForecastComparisonBox.svelte';
 	import LanguageToggle from './LanguageToggle.svelte';
+	import UVAirQualityStrip from './UVAirQualityStrip.svelte';
 
 	export let weather: WeatherData | null = null;
 
@@ -81,6 +82,11 @@
 				<!-- Weather Display - Full width on mobile, left column on desktop -->
 				<div class="lg:col-span-2">
 					<WeatherDisplay {weather} {currentLocation} />
+				</div>
+
+				<!-- UV & Air Quality Strip - Full width -->
+				<div class="lg:col-span-2">
+					<UVAirQualityStrip />
 				</div>
 
 				<!-- Forecast Comparison Box - Full width -->

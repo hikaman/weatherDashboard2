@@ -42,4 +42,8 @@
 
 ## 10. Feels‐Like vs. Actual Delta Chip
 - Added 'apparent_temperature' to the Open-Meteo API call and CurrentWeather type.
-- The current weather card now shows a Feels-Like vs. Actual Delta Chip, with color and icon to indicate if it feels warmer or colder than the actual temperature. 
+- The current weather card now shows a Feels-Like vs. Actual Delta Chip, with color and icon to indicate if it feels warmer or colder than the actual temperature.
+
+## 11. UV & Air-Quality Strip
+- Decided to fetch UV index with the main weather API call and air quality data (AQI, PM2.5, PM10, NO2, O3) from Open-Meteo's air-quality API.
+- Implemented UVAirQualityStrip.svelte to show a color-coded strip with UV, AQI, and pollutant chips below the weather card for quick risk assessment. 
