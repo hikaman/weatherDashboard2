@@ -115,15 +115,12 @@
 	{#if weather}
 		<!-- Current Weather Card -->
 		<div class="glass-card-lg p-6 mb-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105 relative">
-			<div class="flex items-center mb-2 gap-3">
-				<span class="text-2xl mr-2">📍</span>
-				<span class="text-lg font-semibold text-glass">{currentLocation}</span>
-				<span class="ml-3"><YesterdayComparisonBadge /></span>
-				<div class={`chip ${getUVColor(weather.current.uv_index)} ml-2`} style="max-width: 180px;" aria-label="UV Index">
-					<span class="icon">☀️</span>
-					<span class="label">UV</span>
-					<span class="value">{weather.current.uv_index?.toFixed(1)}</span>
+			<div class="flex flex-col items-start mb-2 gap-1">
+				<div class="flex items-center gap-2">
+					<span class="text-2xl">📍</span>
+					<span class="text-lg font-semibold text-glass">{currentLocation}</span>
 				</div>
+				<div class="mt-1"><YesterdayComparisonBadge /></div>
 			</div>
 			<h2 class="text-2xl font-bold text-glass mb-4 flex items-center">
 				<span class="mr-3"><AnimatedWeatherIcon code={weather.current.weather_code} isNight={isNight} /></span>
@@ -169,12 +166,6 @@
 				</div>
 			</div>
 			
-			<div class="flex justify-between mt-4 mb-2 text-lg text-glass-secondary">
-				{#if weather?.daily?.sunrise && weather?.daily?.sunset}
-					<span>🌅 {new Date(weather.daily.sunrise[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</span>
-					<span class="text-right">🌇 {new Date(weather.daily.sunset[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</span>
-				{/if}
-			</div>
 			<div class="mt-2 p-3 glass-card rounded-glass">
 				<div class="text-lg font-medium text-glass">
 					{getWeatherDescription(weather.current.weather_code)}
@@ -185,6 +176,27 @@
 					</div>
 				{/if}
 			</div>
+		</div>
+
+		<!-- Sunrise, UV, Sunset Card -->
+		<div class="glass-card-lg p-4 mb-4 flex justify-between items-stretch text-lg text-glass-secondary gap-2">
+			{#if weather?.daily?.sunrise && weather?.daily?.sunset}
+				<div class="flex-1 flex flex-col items-center justify-center">
+					<span>🌅</span>
+					<span>{new Date(weather.daily.sunrise[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</span>
+				</div>
+				<div class="flex-1 flex flex-col items-center justify-center">
+					<div class={`chip ${getUVColor(weather.current.uv_index)} w-full justify-center`} style="max-width: 120px; min-height: 40px;" aria-label="UV Index">
+						<span class="icon">☀️</span>
+						<span class="label">UV</span>
+						<span class="value">{weather.current.uv_index?.toFixed(1)}</span>
+					</div>
+				</div>
+				<div class="flex-1 flex flex-col items-center justify-center">
+					<span>🌇</span>
+					<span>{new Date(weather.daily.sunset[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: $currentLocale !== 'de' })}</span>
+				</div>
+			{/if}
 		</div>
 
 		<!-- 7-Day Forecast -->

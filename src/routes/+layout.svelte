@@ -9,6 +9,7 @@
   import BottomSheetQuickSearch from '../components/BottomSheetQuickSearch.svelte';
   import { browser } from '$app/environment';
   import CitySearch from '../components/CitySearch.svelte';
+  import BurgerMenu from '../components/BurgerMenu.svelte';
 
   $: weather = $weatherStore.data;
 
@@ -61,13 +62,11 @@
 
 <WeatherBackground {weather}>
   <!-- Controls -->
-  <div class="fixed top-4 right-4 z-50 flex gap-2 transition-all duration-300 items-center"
+  <div class="fixed top-4 right-4 z-50 transition-all duration-300"
     style="transform: translateY({showControls ? '0' : '-60'}px); opacity: {showControls ? 1 : 0}; pointer-events: {showControls ? 'auto' : 'none'};"
     aria-live="polite"
   >
-    <CitySearch />
-    <LanguageToggle />
-    <DarkModeToggle />
+    <BurgerMenu />
   </div>
   
   <!-- FAB for Quick Search -->
