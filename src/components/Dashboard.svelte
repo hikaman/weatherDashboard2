@@ -105,6 +105,18 @@
 				<div class="lg:col-span-2">
 					<UnifiedSuggestions {weather} />
 				</div>
+
+				<!-- Meteoblue Weather Map Card -->
+				<div class="glass-card-lg p-4 lg:col-span-2 flex flex-col items-center">
+					<iframe src="https://www.meteoblue.com/en/weather/maps/widget?windAnimation=0&gust=0&satellite=0&cloudsAndPrecipitation=1&temperature=1&sunshine=1&extremeForecastIndex=1&geoloc=detect&tempunit=C&windunit=km%252Fh&lengthunit=metric&zoom=6&autowidth=auto"
+						frameborder="0"
+						sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
+						style="width: 100%; height: 420px; overflow:hidden;"></iframe>
+					<div class="mt-2 text-xs text-center">
+						<!-- DO NOT REMOVE THIS LINK -->
+						<a href="https://www.meteoblue.com/en/weather/maps/index?utm_source=map_widget&utm_medium=linkus&utm_content=map&utm_campaign=Weather%2BWidget" target="_blank" rel="noopener" class="underline text-blue-600">meteoblue</a>
+					</div>
+				</div>
 			</div>
 
 			{#if usingCache}
