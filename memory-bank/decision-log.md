@@ -59,4 +59,9 @@
 ## 14. Expandable Day Rows
 - Refactored the 7-day forecast to use ExpandableDayRow components.
 - Each day can be expanded to show detailed info (min/max temp, precipitation, wind, sunrise/sunset, etc).
-- Improves accessibility and mobile usability. 
+- Improves accessibility and mobile usability.
+
+## 15. Drag-to-Scrub Hourly Graph
+- Added DragScrubHourlyGraph.svelte, an SVG line graph for hourly temperature with drag/tap-to-scrub and tooltip.
+- Integrated at the top of the hourly forecast card.
+- Supports keyboard navigation and is accessible. 
