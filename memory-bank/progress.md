@@ -36,7 +36,7 @@
 | 10 | Feels‐Like vs. Actual Delta Chip                   | [x]    |
 | 11 | UV & Air-Quality Strip                            | [x]    |
 | 12 | Sunrise / Sunset & Golden-Hour Ring                | [x]    |
-| 13 | Yesterday Comparison Badge                        | [ ]    |
+| 13 | Yesterday Comparison Badge                        | [x]    |
 | 14 | Expandable Day Rows                               | [ ]    |
 | 15 | Drag-to-Scrub Hourly Graph                         | [ ]    |
 | 16 | Smart Activity Planner                             | [ ]    |
@@ -62,3 +62,4 @@
 - 10: Feels-Like vs. Actual Delta Chip is now shown in the current weather card, with color and icon for warmer/colder.
 - 11: UV & Air-Quality Strip is now shown below the weather card, with color-coded risk and pollutant chips for UV, AQI, PM2.5, PM10, NO2, and O3.
 - 12: Sunrise/Sunset & Golden-Hour Ring is now shown below the weather card, using daily sunrise/sunset data from the API.
+- 13: Yesterday Comparison Badge is now shown in the current weather card, comparing today and yesterday for temperature and precipitation.

@@ -50,4 +50,8 @@
 
 ## 12. Sunrise / Sunset & Golden-Hour Ring
 - Added 'sunrise' and 'sunset' to the daily weather API call and DailyWeather type.
-- Implemented SunriseSunsetRing.svelte to show a ring with sunrise, sunset, current time, and golden hour arcs below the weather card using SVG. 
+- Implemented SunriseSunsetRing.svelte to show a ring with sunrise, sunset, current time, and golden hour arcs below the weather card using SVG.
+
+## 13. Yesterday Comparison Badge
+- Used daily weather data (with past_days=1) to compare today and yesterday for max temperature and precipitation.
+- Implemented YesterdayComparisonBadge.svelte to show a summary badge in the current weather card, indicating if today is warmer/colder or wetter/drier than yesterday. 

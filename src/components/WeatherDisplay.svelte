@@ -2,6 +2,7 @@
 	import type { WeatherData } from '../stores/weather';
 	import { t } from '../lib/i18n';
 	import AnimatedWeatherIcon from './AnimatedWeatherIcon.svelte';
+	import YesterdayComparisonBadge from './YesterdayComparisonBadge.svelte';
 
 	export let weather: WeatherData | null;
 	export let currentLocation: string | null = null;
@@ -69,11 +70,13 @@
 <div class="weather-display">
 	{#if weather}
 		<!-- Current Weather Card -->
-		<div class="glass-card-lg p-6 mb-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105">
+		<div class="glass-card-lg p-6 mb-6 hover:bg-white/30 dark:hover:bg-slate-800/40 transition-all duration-300 hover:scale-105 relative">
 			<div class="flex items-center mb-2">
 				<span class="text-2xl mr-2">📍</span>
 				<span class="text-lg font-semibold text-glass">{currentLocation}</span>
+				<span class="ml-auto hidden md:inline-block absolute top-4 right-6"><YesterdayComparisonBadge /></span>
 			</div>
+			<span class="block md:hidden mb-2"><YesterdayComparisonBadge /></span>
 			<h2 class="text-2xl font-bold text-glass mb-4 flex items-center">
 				<span class="mr-3"><AnimatedWeatherIcon code={weather.current.weather_code} /></span>
 				{$t.currentWeather}

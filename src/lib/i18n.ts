@@ -127,6 +127,13 @@ export interface Translations {
 	// Additional UI text
 	sevenDayForecast: string;
 	noWeatherDataMessage: string;
+	
+	// Yesterday Comparison Badge
+	warmerThanYesterday: string;
+	colderThanYesterday: string;
+	wetterThanYesterday: string;
+	drierThanYesterday: string;
+	similarToYesterday: string;
 }
 
 const translations: Record<Locale, Translations> = {
@@ -255,6 +262,13 @@ const translations: Record<Locale, Translations> = {
 		// Additional UI text
 		sevenDayForecast: '7-Day Forecast',
 		noWeatherDataMessage: 'Search for a city or allow location access to see weather information.',
+		
+		// Yesterday Comparison Badge
+		warmerThanYesterday: 'Warmer than yesterday',
+		colderThanYesterday: 'Colder than yesterday',
+		wetterThanYesterday: 'Wetter than yesterday',
+		drierThanYesterday: 'Drier than yesterday',
+		similarToYesterday: 'Similar to yesterday',
 	},
 	de: {
 		// General
@@ -381,6 +395,13 @@ const translations: Record<Locale, Translations> = {
 		// Additional UI text
 		sevenDayForecast: '7-Tage-Vorhersage',
 		noWeatherDataMessage: 'Suchen Sie nach einer Stadt oder erlauben Sie Standortzugriff, um Wetterinformationen zu sehen.',
+		
+		// Yesterday Comparison Badge
+		warmerThanYesterday: 'Warmer als gestern',
+		colderThanYesterday: 'Kühler als gestern',
+		wetterThanYesterday: 'Wetter als gestern',
+		drierThanYesterday: 'Trockener als gestern',
+		similarToYesterday: 'Ähnliches Wetter wie gestern',
 	}
 };
 
