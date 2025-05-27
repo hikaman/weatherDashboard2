@@ -113,6 +113,7 @@ export async function fetchWeatherData(latitude: number, longitude: number, loca
 	weatherStore.update((state) => ({ ...state, loading: true, error: null }));
 
 	try {
+		// Always request yesterday's data
 		const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature,uv_index&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,relative_humidity_2m,uv_index&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max,sunrise,sunset&timezone=auto&forecast_days=7&forecast_hours=24&past_days=1`;
 
 		const response = await fetch(url);
@@ -121,10 +122,28 @@ export async function fetchWeatherData(latitude: number, longitude: number, loca
 		}
 
 		const data: WeatherData = await response.json();
-		
 		// Validate required fields
 		if (!data.current || !data.daily || !data.hourly) {
 			throw new Error('Invalid weather data received');
+		}
+
+		// Timezone handling: Open-Meteo returns dates in UTC or the requested timezone. We use the API's date strings directly for comparison.
+
+		// Check if yesterday's data is present
+		const todayStr = new Date().toISOString().slice(0, 10); // UTC date string
+		const idxToday = data.daily.time.findIndex((d) => d === todayStr);
+		const idxYesterday = idxToday - 1;
+		if (idxYesterday < 0) {
+			console.warn('[fetchWeatherData] Yesterday\'s data is missing from API response. daily.time:', data.daily.time);
+			// Optionally, set a user-friendly error but still proceed
+			weatherStore.update((state) => ({
+				...state,
+				loading: false,
+				error: 'No data for yesterday available. Showing available forecast data.',
+				data,
+				currentLocation: locationName || state.currentLocation,
+			}));
+			return;
 		}
 
 		// Get location name if not provided

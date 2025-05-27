@@ -6,10 +6,16 @@ import { get } from 'svelte/store';
 
 const comparison = derived(weatherStore, ($ws) => {
   const daily = $ws.data?.daily;
-  if (!daily) return null;
+  if (!daily) {
+    console.log('[YesterdayComparisonBadge] No daily weather data available.');
+    return null;
+  }
   const todayStr = new Date().toISOString().slice(0, 10);
   const idxToday = daily.time.findIndex((d) => d === todayStr);
-  if (idxToday <= 0) return null;
+  if (idxToday <= 0) {
+    console.log('[YesterdayComparisonBadge] Today index not found or is first day:', { idxToday, todayStr });
+    return null;
+  }
   const idxYesterday = idxToday - 1;
   return {
     tempMaxToday: daily.temperature_2m_max[idxToday],
@@ -29,7 +35,10 @@ function getSummary(c: {
   precipToday: number;
   precipYesterday: number;
 } | null) {
-  if (!c) return null;
+  if (!c) {
+    console.log('[YesterdayComparisonBadge] No comparison data available for summary.');
+    return null;
+  }
   const tempDelta = c.tempMaxToday - c.tempMaxYesterday;
   const precipDelta = c.precipToday - c.precipYesterday;
   let msg = '', icon = '', color = '';

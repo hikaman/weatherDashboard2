@@ -9,10 +9,8 @@
 	import { lastCityStore } from '../stores/lastCity';
 	import ForecastComparisonBox from './ForecastComparisonBox.svelte';
 	import LanguageToggle from './LanguageToggle.svelte';
-	import UVAirQualityStrip from './UVAirQualityStrip.svelte';
 	import WeatherAlerts from './WeatherAlerts.svelte';
 	import { checkWeatherAlerts } from '../stores/alerts';
-	import { airQualityStore, fetchAirQuality } from '../stores/airQuality';
 
 	export let weather: WeatherData | null = null;
 
@@ -25,9 +23,11 @@
 
 	// Load weather data on mount
 	onMount(async () => {
+		console.log('[Dashboard] onMount triggered.');
 		if (!navigator.onLine) {
 			const cached = loadWeatherCache();
 			if (cached) {
+				console.log('[Dashboard] Loaded weather data from cache:', cached);
 				weatherStore.update((state) => ({
 					...state,
 					data: cached.data,
@@ -37,30 +37,25 @@
 				}));
 				usingCache = true;
 				return;
+			} else {
+				console.log('[Dashboard] No cached weather data available.');
 			}
 		}
 		if ($lastCityStore) {
+			console.log('[Dashboard] Fetching weather data for last city:', $lastCityStore);
 			await fetchWeatherData($lastCityStore.latitude, $lastCityStore.longitude, $lastCityStore.name);
 			return;
 		}
 		// Try to get user's current location
 		const location = await getCurrentLocation();
 		if (location) {
+			console.log('[Dashboard] Fetched current location:', location);
 			await fetchWeatherData(location.latitude, location.longitude);
 		} else {
-			// Default to a major city (London) if location access is denied
+			console.log('[Dashboard] Location access denied or unavailable. Defaulting to London.');
 			await fetchWeatherData(51.5074, -0.1278);
 		}
 	});
-
-	$: if (weather && $airQualityStore) {
-		checkWeatherAlerts({ hourly: weather.hourly, current: weather.current }, $airQualityStore.data);
-	}
-
-	// Fetch air quality data whenever weather location changes
-	$: if (weather && weather.latitude && weather.longitude) {
-		fetchAirQuality(weather.latitude, weather.longitude);
-	}
 </script>
 
 <div class="dashboard">

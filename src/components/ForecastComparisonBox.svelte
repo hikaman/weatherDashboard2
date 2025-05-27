@@ -2,6 +2,7 @@
 import { weatherStore } from '../stores/weather';
 import { derived } from 'svelte/store';
 import { t } from '../lib/i18n';
+import { onMount } from 'svelte';
 
 // Helper to get index for yesterday, today, tomorrow
 function getDayIndices(daily: { time: string[] }) {
@@ -16,28 +17,51 @@ function getDayIndices(daily: { time: string[] }) {
 }
 
 const comparisonData = derived(weatherStore, ($weatherStore) => {
-  if (!$weatherStore.data) return null;
-  const { daily } = $weatherStore.data;
-  const { idxYesterday, idxToday, idxTomorrow } = getDayIndices(daily);
-  if (
-    idxYesterday < 0 ||
-    idxToday < 0 ||
-    idxTomorrow < 0 ||
-    !daily.temperature_2m_max[idxYesterday] ||
-    !daily.temperature_2m_max[idxToday] ||
-    !daily.temperature_2m_max[idxTomorrow]
-  ) {
+  if (!$weatherStore.data) {
+    if ($weatherStore.error) {
+      console.log('[ForecastComparisonBox] Weather store error:', $weatherStore.error);
+    } else {
+      console.log('[ForecastComparisonBox] No weather data available in store.');
+    }
     return null;
   }
-  return {
-    yesterday: {
+  const { daily } = $weatherStore.data;
+  const { idxYesterday, idxToday, idxTomorrow } = getDayIndices(daily);
+  // Defensive: Check indices are within bounds
+  const validIndices = [idxToday, idxTomorrow].every(idx => idx >= 0 && idx < daily.time.length);
+  if (!validIndices) {
+    console.log('[ForecastComparisonBox] Invalid today/tomorrow indices:', { idxToday, idxTomorrow, dailyTimeLength: daily.time.length });
+    return null;
+  }
+  // Defensive: Check all required data fields are present and not undefined/null for today/tomorrow
+  const requiredFields = [
+    daily.temperature_2m_max,
+    daily.temperature_2m_min,
+    daily.precipitation_sum,
+    daily.weather_code,
+    daily.wind_speed_10m_max
+  ];
+  const allFieldsPresent = requiredFields.every(arr =>
+    [idxToday, idxTomorrow].every(idx => arr[idx] !== undefined && arr[idx] !== null)
+  );
+  if (!allFieldsPresent) {
+    console.log('[ForecastComparisonBox] Missing required data for today or tomorrow.');
+    return null;
+  }
+  // Only include yesterday if available
+  let yesterday = null;
+  if (idxYesterday >= 0 && idxYesterday < daily.time.length && requiredFields.every(arr => arr[idxYesterday] !== undefined && arr[idxYesterday] !== null)) {
+    yesterday = {
       date: daily.time[idxYesterday],
       max: daily.temperature_2m_max[idxYesterday],
       min: daily.temperature_2m_min[idxYesterday],
       precip: daily.precipitation_sum[idxYesterday],
       code: daily.weather_code[idxYesterday],
       wind: daily.wind_speed_10m_max[idxYesterday],
-    },
+    };
+  }
+  return {
+    yesterday,
     today: {
       date: daily.time[idxToday],
       max: daily.temperature_2m_max[idxToday],
@@ -128,6 +152,10 @@ function proseSummary(data: ComparisonData | null, $t: any) {
     ` Looking ahead, tomorrow should be ${tempTrendTomorrow}, topping out near ${data.tomorrow.max.toFixed(1)}°C (low of ${data.tomorrow.min.toFixed(1)}°C). Expect ${precipTrendTomorrow} (${data.tomorrow.precip.toFixed(1)} mm) and winds close to ${describeWind(data.tomorrow.wind)}.`;
   }
 }
+
+onMount(() => {
+  console.log('[ForecastComparisonBox] Component mounted.');
+});
 </script>
 
 <style>
@@ -191,60 +219,92 @@ function proseSummary(data: ComparisonData | null, $t: any) {
   {:else if $weatherStore.error}
     <div>Error loading weather data.</div>
   {:else if $comparisonData}
-    <div class="mb-3 prose-summary" style="font-size:1.05em;color:#222;">
-      {proseSummary($comparisonData, $t)}
-    </div>
-    <div style="margin-top:1rem;">
-      <strong>{($t.today === 'Heute' ? 'Veränderungen' : 'Changes')}:</strong>
-      <div class="days two" style="font-size:0.97em;">
-        <div class="day" aria-label="Yesterday to Today">
-          <div class="metric">
-            {($t.temperature || ($t.today === 'Heute' ? 'Höchsttemperatur' : 'Max Temperature'))}: <span class={"diff-" + diff($comparisonData.today.max, $comparisonData.yesterday.max)}>
-              {#if diff($comparisonData.today.max, $comparisonData.yesterday.max) === 'up'}↑{/if}
-              {#if diff($comparisonData.today.max, $comparisonData.yesterday.max) === 'down'}↓{/if}
-              {Math.abs($comparisonData.today.max - $comparisonData.yesterday.max).toFixed(1)}°C
-            </span>
+    {#if $comparisonData.yesterday}
+      <div class="mb-3 prose-summary" style="font-size:1.05em;color:#222;">
+        {proseSummary($comparisonData, $t)}
+      </div>
+      <div style="margin-top:1rem;">
+        <strong>{($t.today === 'Heute' ? 'Veränderungen' : 'Changes')}:</strong>
+        <div class="days two" style="font-size:0.97em;">
+          <div class="day" aria-label="Yesterday to Today">
+            <div class="metric">
+              {($t.temperature || ($t.today === 'Heute' ? 'Höchsttemperatur' : 'Max Temperature'))}: <span class={"diff-" + diff($comparisonData.today.max, $comparisonData.yesterday.max)}>
+                {#if diff($comparisonData.today.max, $comparisonData.yesterday.max) === 'up'}↑{/if}
+                {#if diff($comparisonData.today.max, $comparisonData.yesterday.max) === 'down'}↓{/if}
+                {Math.abs($comparisonData.today.max - $comparisonData.yesterday.max).toFixed(1)}°C
+              </span>
+            </div>
+            <div class="metric">
+              {($t.precipitation || ($t.today === 'Heute' ? 'Niederschlag' : 'Precipitation'))}: <span class={"diff-" + diff($comparisonData.today.precip, $comparisonData.yesterday.precip)}>
+                {#if diff($comparisonData.today.precip, $comparisonData.yesterday.precip) === 'up'}↑{/if}
+                {#if diff($comparisonData.today.precip, $comparisonData.yesterday.precip) === 'down'}↓{/if}
+                {Math.abs($comparisonData.today.precip - $comparisonData.yesterday.precip).toFixed(1)} mm
+              </span>
+            </div>
+            <div class="metric">
+              {($t.windSpeed || ($t.today === 'Heute' ? 'Windgeschwindigkeit' : 'Wind Speed'))}: <span class={"diff-" + diff($comparisonData.today.wind, $comparisonData.yesterday.wind)}>
+                {#if diff($comparisonData.today.wind, $comparisonData.yesterday.wind) === 'up'}↑{/if}
+                {#if diff($comparisonData.today.wind, $comparisonData.yesterday.wind) === 'down'}↓{/if}
+                {Math.abs($comparisonData.today.wind - $comparisonData.yesterday.wind).toFixed(1)} km/h
+              </span>
+            </div>
           </div>
-          <div class="metric">
-            {($t.precipitation || ($t.today === 'Heute' ? 'Niederschlag' : 'Precipitation'))}: <span class={"diff-" + diff($comparisonData.today.precip, $comparisonData.yesterday.precip)}>
-              {#if diff($comparisonData.today.precip, $comparisonData.yesterday.precip) === 'up'}↑{/if}
-              {#if diff($comparisonData.today.precip, $comparisonData.yesterday.precip) === 'down'}↓{/if}
-              {Math.abs($comparisonData.today.precip - $comparisonData.yesterday.precip).toFixed(1)} mm
-            </span>
-          </div>
-          <div class="metric">
-            {($t.windSpeed || ($t.today === 'Heute' ? 'Windgeschwindigkeit' : 'Wind Speed'))}: <span class={"diff-" + diff($comparisonData.today.wind, $comparisonData.yesterday.wind)}>
-              {#if diff($comparisonData.today.wind, $comparisonData.yesterday.wind) === 'up'}↑{/if}
-              {#if diff($comparisonData.today.wind, $comparisonData.yesterday.wind) === 'down'}↓{/if}
-              {Math.abs($comparisonData.today.wind - $comparisonData.yesterday.wind).toFixed(1)} km/h
-            </span>
-          </div>
-        </div>
-        <div class="day" aria-label="Today to Tomorrow">
-          <div class="metric">
-            {($t.temperature || ($t.today === 'Heute' ? 'Höchsttemperatur' : 'Max Temperature'))}: <span class={"diff-" + diff($comparisonData.tomorrow.max, $comparisonData.today.max)}>
-              {#if diff($comparisonData.tomorrow.max, $comparisonData.today.max) === 'up'}↑{/if}
-              {#if diff($comparisonData.tomorrow.max, $comparisonData.today.max) === 'down'}↓{/if}
-              {Math.abs($comparisonData.tomorrow.max - $comparisonData.today.max).toFixed(1)}°C
-            </span>
-          </div>
-          <div class="metric">
-            {($t.precipitation || ($t.today === 'Heute' ? 'Niederschlag' : 'Precipitation'))}: <span class={"diff-" + diff($comparisonData.tomorrow.precip, $comparisonData.today.precip)}>
-              {#if diff($comparisonData.tomorrow.precip, $comparisonData.today.precip) === 'up'}↑{/if}
-              {#if diff($comparisonData.tomorrow.precip, $comparisonData.today.precip) === 'down'}↓{/if}
-              {Math.abs($comparisonData.tomorrow.precip - $comparisonData.today.precip).toFixed(1)} mm
-            </span>
-          </div>
-          <div class="metric">
-            {($t.windSpeed || ($t.today === 'Heute' ? 'Windgeschwindigkeit' : 'Wind Speed'))}: <span class={"diff-" + diff($comparisonData.tomorrow.wind, $comparisonData.today.wind)}>
-              {#if diff($comparisonData.tomorrow.wind, $comparisonData.today.wind) === 'up'}↑{/if}
-              {#if diff($comparisonData.tomorrow.wind, $comparisonData.today.wind) === 'down'}↓{/if}
-              {Math.abs($comparisonData.tomorrow.wind - $comparisonData.today.wind).toFixed(1)} km/h
-            </span>
+          <div class="day" aria-label="Today to Tomorrow">
+            <div class="metric">
+              {($t.temperature || ($t.today === 'Heute' ? 'Höchsttemperatur' : 'Max Temperature'))}: <span class={"diff-" + diff($comparisonData.tomorrow.max, $comparisonData.today.max)}>
+                {#if diff($comparisonData.tomorrow.max, $comparisonData.today.max) === 'up'}↑{/if}
+                {#if diff($comparisonData.tomorrow.max, $comparisonData.today.max) === 'down'}↓{/if}
+                {Math.abs($comparisonData.tomorrow.max - $comparisonData.today.max).toFixed(1)}°C
+              </span>
+            </div>
+            <div class="metric">
+              {($t.precipitation || ($t.today === 'Heute' ? 'Niederschlag' : 'Precipitation'))}: <span class={"diff-" + diff($comparisonData.tomorrow.precip, $comparisonData.today.precip)}>
+                {#if diff($comparisonData.tomorrow.precip, $comparisonData.today.precip) === 'up'}↑{/if}
+                {#if diff($comparisonData.tomorrow.precip, $comparisonData.today.precip) === 'down'}↓{/if}
+                {Math.abs($comparisonData.tomorrow.precip - $comparisonData.today.precip).toFixed(1)} mm
+              </span>
+            </div>
+            <div class="metric">
+              {($t.windSpeed || ($t.today === 'Heute' ? 'Windgeschwindigkeit' : 'Wind Speed'))}: <span class={"diff-" + diff($comparisonData.tomorrow.wind, $comparisonData.today.wind)}>
+                {#if diff($comparisonData.tomorrow.wind, $comparisonData.today.wind) === 'up'}↑{/if}
+                {#if diff($comparisonData.tomorrow.wind, $comparisonData.today.wind) === 'down'}↓{/if}
+                {Math.abs($comparisonData.tomorrow.wind - $comparisonData.today.wind).toFixed(1)} km/h
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    {:else}
+      <div>No data for yesterday available. Showing today and tomorrow only.</div>
+      <div style="margin-top:1rem;">
+        <strong>{($t.today === 'Heute' ? 'Veränderungen' : 'Changes')}:</strong>
+        <div class="days two" style="font-size:0.97em;">
+          <div class="day" aria-label="Today to Tomorrow">
+            <div class="metric">
+              {($t.temperature || ($t.today === 'Heute' ? 'Höchsttemperatur' : 'Max Temperature'))}: <span class={"diff-" + diff($comparisonData.tomorrow.max, $comparisonData.today.max)}>
+                {#if diff($comparisonData.tomorrow.max, $comparisonData.today.max) === 'up'}↑{/if}
+                {#if diff($comparisonData.tomorrow.max, $comparisonData.today.max) === 'down'}↓{/if}
+                {Math.abs($comparisonData.tomorrow.max - $comparisonData.today.max).toFixed(1)}°C
+              </span>
+            </div>
+            <div class="metric">
+              {($t.precipitation || ($t.today === 'Heute' ? 'Niederschlag' : 'Precipitation'))}: <span class={"diff-" + diff($comparisonData.tomorrow.precip, $comparisonData.today.precip)}>
+                {#if diff($comparisonData.tomorrow.precip, $comparisonData.today.precip) === 'up'}↑{/if}
+                {#if diff($comparisonData.tomorrow.precip, $comparisonData.today.precip) === 'down'}↓{/if}
+                {Math.abs($comparisonData.tomorrow.precip - $comparisonData.today.precip).toFixed(1)} mm
+              </span>
+            </div>
+            <div class="metric">
+              {($t.windSpeed || ($t.today === 'Heute' ? 'Windgeschwindigkeit' : 'Wind Speed'))}: <span class={"diff-" + diff($comparisonData.tomorrow.wind, $comparisonData.today.wind)}>
+                {#if diff($comparisonData.tomorrow.wind, $comparisonData.today.wind) === 'up'}↑{/if}
+                {#if diff($comparisonData.tomorrow.wind, $comparisonData.today.wind) === 'down'}↓{/if}
+                {Math.abs($comparisonData.tomorrow.wind - $comparisonData.today.wind).toFixed(1)} km/h
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    {/if}
   {:else}
     <div>No forecast comparison data available.</div>
   {/if}
