@@ -15,6 +15,7 @@
 	import WeatherAlerts from './WeatherAlerts.svelte';
 	import { checkWeatherAlerts } from '../stores/alerts';
 	import { airQualityStore } from '../stores/airQuality';
+	import WardrobeCarousel from './WardrobeCarousel.svelte';
 
 	export let weather: WeatherData | null = null;
 
@@ -117,6 +118,11 @@
 				<!-- Smart Activity Planner - Full width -->
 				<div class="lg:col-span-2">
 					<SmartActivityPlanner />
+				</div>
+
+				<!-- Wardrobe Carousel - Full width -->
+				<div class="lg:col-span-2">
+					<WardrobeCarousel />
 				</div>
 
 				<!-- Unified Suggestions -->

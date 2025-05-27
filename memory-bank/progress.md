@@ -41,7 +41,7 @@
 | 15 | Drag-to-Scrub Hourly Graph                         | [x]    |
 | 16 | Smart Activity Planner                             | [x]    |
 | 17 | Threshold-Based Push Alerts                        | [x]    |
-| 18 | Wardrobe Carousel                                   | [ ]    |
+| 18 | Wardrobe Carousel                                   | [x]    |
 | 19 | Collapsible Header on Scroll                        | [ ]    |
 | 20 | Animated Icon Pack                                 | [ ]    |
 | 21 | Bottom-Sheet Quick-Search                           | [ ]    |

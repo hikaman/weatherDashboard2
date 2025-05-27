@@ -72,4 +72,9 @@
 
 ## 17. Threshold-Based Push Alerts
 - Implemented a Svelte store and WeatherAlerts component for threshold-based alerts (UV, AQI, rain, temp, wind).
-- Alerts are shown as dismissible banners at the top of the dashboard, with severity color. 
+- Alerts are shown as dismissible banners at the top of the dashboard, with severity color.
+
+## 18. Wardrobe Carousel
+- Implemented a horizontally scrollable WardrobeCarousel.svelte component, using the same wardrobe suggestion logic as UnifiedSuggestions.
+- Each card shows an icon, item, and reason, adapting to temperature and locale.
+- Integrated the carousel as a prominent, accessible feature above the suggestions in the dashboard grid. 

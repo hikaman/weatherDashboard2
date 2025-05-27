@@ -32,7 +32,7 @@ const recommendations = derived([
         type: 'outdoor',
         time,
         icon: '🏃‍♂️',
-        reason: `${t('outdoorAdventures')}: ${Math.round(temp)}°C, UV ${uv ?? '-'}, AQI ${aqi ?? '-'}`
+        reason: `${$t.outdoorAdventures}: ${Math.round(temp)}°C, UV ${uv ?? '-'}, AQI ${aqi ?? '-'}`
       });
     }
     // Indoor: precip > 1 or temp < 8 or temp > 28 or AQI > 60
@@ -41,7 +41,7 @@ const recommendations = derived([
         type: 'indoor',
         time,
         icon: '🏠',
-        reason: `${t('indoorActivities')}: ${Math.round(temp)}°C, ${precip}mm, AQI ${aqi ?? '-'}`
+        reason: `${$t.indoorActivities}: ${Math.round(temp)}°C, ${precip}mm, AQI ${aqi ?? '-'}`
       });
     }
     // Exercise: 10–22°C, precip < 0.1, UV < 5, AQI < 30
@@ -50,7 +50,7 @@ const recommendations = derived([
         type: 'exercise',
         time,
         icon: '🤸‍♂️',
-        reason: `${t('exercise')}: ${Math.round(temp)}°C, UV ${uv ?? '-'}, AQI ${aqi ?? '-'}`
+        reason: `${$t.exercise}: ${Math.round(temp)}°C, UV ${uv ?? '-'}, AQI ${aqi ?? '-'}`
       });
     }
   }
