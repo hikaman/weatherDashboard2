@@ -12,6 +12,9 @@
 	import UVAirQualityStrip from './UVAirQualityStrip.svelte';
 	import SunriseSunsetRing from './SunriseSunsetRing.svelte';
 	import SmartActivityPlanner from './SmartActivityPlanner.svelte';
+	import WeatherAlerts from './WeatherAlerts.svelte';
+	import { checkWeatherAlerts } from '../stores/alerts';
+	import { airQualityStore } from '../stores/airQuality';
 
 	export let weather: WeatherData | null = null;
 
@@ -51,10 +54,15 @@
 			await fetchWeatherData(51.5074, -0.1278);
 		}
 	});
+
+	$: if (weather && $airQualityStore) {
+		checkWeatherAlerts({ hourly: weather.hourly, current: weather.current }, $airQualityStore.data);
+	}
 </script>
 
 <div class="dashboard">
 	<div class="container mx-auto px-4 py-8">
+		<WeatherAlerts />
 		<!-- Loading State -->
 		{#if loading}
 			<div class="glass-card-lg p-8 text-center">

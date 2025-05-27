@@ -40,7 +40,7 @@
 | 14 | Expandable Day Rows                               | [x]    |
 | 15 | Drag-to-Scrub Hourly Graph                         | [x]    |
 | 16 | Smart Activity Planner                             | [x]    |
-| 17 | Threshold-Based Push Alerts                        | [ ]    |
+| 17 | Threshold-Based Push Alerts                        | [x]    |
 | 18 | Wardrobe Carousel                                   | [ ]    |
 | 19 | Collapsible Header on Scroll                        | [ ]    |
 | 20 | Animated Icon Pack                                 | [ ]    |
@@ -66,3 +66,4 @@
 - 14: 7-day forecast now uses expandable day rows for detailed info (min/max temp, precip, wind, sunrise/sunset, etc).
 - 15: Hourly forecast now includes a drag-to-scrub temperature graph with tooltip for value/time.
 - 16: Smart Activity Planner now suggests optimal time slots for activities (outdoor, indoor, exercise) based on weather, UV, and AQI.
+- 17: Threshold-based alerts (UV, AQI, rain, temp, wind) are now shown at the top of the dashboard. In-app banners, dismissible, with severity color.

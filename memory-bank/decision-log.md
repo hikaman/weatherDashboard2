@@ -68,4 +68,8 @@
 
 ## 16. Smart Activity Planner
 - Implemented SmartActivityPlanner.svelte to suggest optimal time slots for outdoor, indoor, and exercise activities based on hourly weather, UV, and AQI.
-- Integrated the planner below the hourly forecast in the dashboard. 
+- Integrated the planner below the hourly forecast in the dashboard.
+
+## 17. Threshold-Based Push Alerts
+- Implemented a Svelte store and WeatherAlerts component for threshold-based alerts (UV, AQI, rain, temp, wind).
+- Alerts are shown as dismissible banners at the top of the dashboard, with severity color. 
