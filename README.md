@@ -2,6 +2,14 @@
 
 A modern, responsive weather dashboard built with SvelteKit, TypeScript, and Tailwind CSS. Get real-time weather data and personalized suggestions for wardrobe, activities, food, and exercises based on current weather conditions.
 
+---
+
+## High-Level Codebase Summary
+
+See [docs/codebase-summary.md](docs/codebase-summary.md) for a detailed high-level summary of the codebase, including project structure, conventions, and recommendations.
+
+---
+
 ## Features
 
 ### Weather Data Display
@@ -10,29 +18,63 @@ A modern, responsive weather dashboard built with SvelteKit, TypeScript, and Tai
 - **7-Day Forecast**: Extended forecast with daily high/low temperatures and weather icons
 - **Location Support**: Automatic geolocation or manual city search
 - **Real-time Updates**: Fresh weather data from Open-Meteo API
+- **Yesterday/Today Comparison**: Visual badge for temperature and precipitation changes
+- **UV & Air Quality Strip**: Color-coded risk and pollutant chips
+- **Sunrise/Sunset & Golden-Hour Ring**: Visual ring for daily sun events
+- **Night Mode**: Auto-switches based on location time, with manual override
 
 ### Smart Suggestions 2.0
-- **Wardrobe**: Passende Outfits – vom luftigen Sommer-Look bis zum "Zwiebel-Look" für wechselhaftes Wetter  
-- **Food**: Kulinarische Inspiration – erfrischende Bowls an heißen Tagen oder wärmende Suppen, wenn es fröstelt  
-- **Activity**: Immer zwei Ideen – ein aktiver Vorschlag (z. B. Power-Run) und ein gemütlich-anspruchsvoller Tipp (z. B. Escape-Room)  
-- **E-Commerce Add-On**: Zu jeder Kategorie gibt es einen kreativen Shopping-Hinweis (🛍️, 🍱, 🎒) mit Affiliate-Link
+- **Wardrobe**: Personalized outfit suggestions
+- **Food**: Contextual meal ideas
+- **Activity**: Active and cozy suggestions
+- **E-Commerce Add-On**: Shopping hints with affiliate links
+- **Wardrobe Carousel**: Scrollable, accessible outfit cards
 
-### User Experience & Internationalisierung
-- **Mehrsprachigkeit**: Vollständige deutsche & englische Oberfläche, inkl. Zufallstexte in den Vorschlägen  
-- **Language Toggle**: 🇩🇪 ↔ 🇺🇸 Schalter oben rechts speichert deine Sprachwahl  
-- **Responsive Design & Dark-Mode**: Desktop ↔ Mobile, helle & dunkle Glas-Optik  
-- **City Search**: Autocomplete mit Geocoding-API  
-- **Offline Support**: Wetterdaten-Cache (1 h)  
-- **Accessibility**: WCAG 2.1 AA, ARIA, Tastatur-Navigation
+### User Experience & Internationalization
+- **Multi-language**: Full German & English support
+- **Language Toggle**: Saves user preference
+- **Responsive Design & Dark-Mode**: Mobile-first, glassmorphic UI
+- **City Search**: Autocomplete with geocoding
+- **Offline Support**: Weather data cache (1h)
+- **Accessibility**: WCAG 2.1 AA, ARIA, keyboard navigation
+
+### Additional Features
+- **Bottom-Sheet Quick-Search**: Mini map, recent/favorite cities
+- **Threshold-Based Alerts**: Dismissible banners for severe weather
+- **Expandable Day Rows**: Detailed 7-day forecast
+- **Drag-to-Scrub Hourly Graph**: Interactive temperature graph
 
 ## Technology Stack
 
-- **Frontend**: SvelteKit 2.16+ with TypeScript
-- **Styling**: Tailwind CSS 3.4+ with responsive design
-- **API**: Open-Meteo (weather and geocoding) - no API key required
-- **Package Manager**: Bun for fast dependency management
+- **Frontend**: SvelteKit 2.16+ with TypeScript (strict mode)
+- **Styling**: Tailwind CSS 3.4+, Shadcn components
+- **API**: Open-Meteo (weather, geocoding, air quality)
+- **Package Manager**: Bun
 - **Testing**: Vitest with @testing-library/svelte
-- **Code Quality**: ESLint, Prettier, and TypeScript strict mode
+- **Code Quality**: ESLint, Prettier
+- **Internationalization**: Paraglide.js
+
+## Project Structure (excerpt)
+
+```
+src/
+├── components/           # Svelte UI components (dashboard, weather, search, modals, etc.)
+├── routes/               # SvelteKit file-based routing (layouts, pages)
+├── lib/                  # Utilities, API integrations, i18n, state mappers, city list
+├── stores/               # Svelte stores for weather, air quality, alerts, filters
+├── utils/                # Utility functions (e.g., weather themes)
+memory-bank/              # Project decisions, context, progress, patterns
+.cursor/rules/            # Core rules, tailored guidelines, SvelteKit dev guide
+docs/                     # Documentation (see codebase-summary.md)
+```
+
+## For More Information
+
+- See [docs/codebase-summary.md](docs/codebase-summary.md) for a high-level summary
+- See `memory-bank/` for decision logs, technical context, and product context
+- See `.cursor/rules/` for project rules and SvelteKit development guide
+
+---
 
 ## Getting Started
 
@@ -79,26 +121,6 @@ bun run lint         # Lint code
 bun run lint:fix     # Fix linting issues
 bun run format       # Format code
 bun run format:check # Check code formatting
-```
-
-## Project Structure (excerpt)
-
-```
-src/
-├── components/
-│   ├── Dashboard.svelte          # Gesamt-Dashboard
-│   ├── WeatherDisplay.svelte     # Aktuelles Wetter & Forecasts
-│   ├── CitySearch.svelte         # Standortsuche mit Autocomplete
-│   ├── HourlyForecast.svelte     # 24-h-Vorhersage
-│   ├── UnifiedSuggestions.svelte # Neue, kombinierte Vorschläge (Wardrobe, Food, Activity)
-│   ├── LanguageToggle.svelte     # 🇩🇪/🇺🇸 Umschalter
-│   └── WeatherBackground.svelte  # Wetter-abhängige Hintergründe
-├── lib/
-│   └── i18n.ts                   # Internationalisierung (de/en)
-├── stores/
-│   └── weather.ts                # Wetter-Store & API-Integration
-└── routes/
-    └── +layout.svelte            # Globale Layout-Komponenten
 ```
 
 ## API Integration

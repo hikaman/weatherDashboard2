@@ -1,5 +1,7 @@
 # System Patterns
 
+> For a high-level summary of system patterns and architecture, see [docs/codebase-summary.md](../docs/codebase-summary.md).
+
 ## System Architecture
 - SvelteKit frontend with modular components (Dashboard, WeatherDisplay, UnifiedSuggestions, etc.)
 - Weather data from Open-Meteo API; geocoding for city search

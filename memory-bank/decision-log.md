@@ -1,5 +1,10 @@
 # Decision Log
 
+## 2024-XX-XX: High-Level Codebase Summary Added
+- A comprehensive high-level summary of the codebase has been created and added to [docs/codebase-summary.md](../docs/codebase-summary.md).
+- The summary covers project structure, key conventions, notable features, and recommendations.
+- It is informed by the memory bank, .cursor/rules, and the SvelteKit development guide.
+
 ## 1. Last Searched City Persistence
 - Decided to use a dedicated Svelte store (`lastCityStore`) synced with localStorage for robust, type-safe persistence.
 - Store is updated on city search and restored on app load, ensuring seamless user experience.

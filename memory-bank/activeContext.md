@@ -1,5 +1,7 @@
 # Active Context
 
+> For a high-level summary of the codebase and current priorities, see [docs/codebase-summary.md](../docs/codebase-summary.md).
+
 ## Current Work Focus
 - Implementing and refining the core dashboard and suggestion features
 - Integrating e-commerce and contextual advertising

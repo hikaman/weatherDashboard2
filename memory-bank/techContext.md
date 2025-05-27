@@ -1,5 +1,7 @@
 # Tech Context
 
+> For a high-level architectural and technical overview, see [docs/codebase-summary.md](../docs/codebase-summary.md).
+
 ## Technologies Used
 - SvelteKit 2.16+ (frontend)
 - TypeScript (strict mode)

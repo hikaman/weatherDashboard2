@@ -1,5 +1,7 @@
 # Project Brief
 
+> For a concise high-level overview of project goals, scope, and structure, see [docs/codebase-summary.md](../docs/codebase-summary.md).
+
 ## Project Name
 WeatherWise Dashboard (WeatherSync Decision Hub MVP)
 

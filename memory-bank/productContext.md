@@ -1,5 +1,7 @@
 # Product Context
 
+> For a high-level summary of the product and user experience context, see [docs/codebase-summary.md](../docs/codebase-summary.md).
+
 ## Why This Project Exists
 To reduce decision fatigue and enhance daily planning by providing weather-driven recommendations for wardrobe, fitness, meals, and activities.
 

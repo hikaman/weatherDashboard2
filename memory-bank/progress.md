@@ -1,5 +1,7 @@
 # Progress
 
+> **Note:** For a high-level summary of the codebase structure, conventions, and recommendations, see [docs/codebase-summary.md](../docs/codebase-summary.md). This summary is kept up to date with major project changes and informs ongoing progress tracking.
+
 ## What Works
 - Real-time weather data and forecasts
 - Unified, personalized suggestions for wardrobe, food, activity, and exercise
