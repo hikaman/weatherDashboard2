@@ -6,6 +6,7 @@ export interface CurrentWeather {
 	wind_speed_10m: number;
 	precipitation: number;
 	weather_code: number;
+	apparent_temperature: number;
 }
 
 export interface DailyWeather {
@@ -103,7 +104,7 @@ export async function fetchWeatherData(latitude: number, longitude: number, loca
 	weatherStore.update((state) => ({ ...state, loading: true, error: null }));
 
 	try {
-		const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&timezone=auto&forecast_days=7&forecast_hours=24&past_days=1`;
+		const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,apparent_temperature&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&timezone=auto&forecast_days=7&forecast_hours=24&past_days=1`;
 
 		const response = await fetch(url);
 		if (!response.ok) {

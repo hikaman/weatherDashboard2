@@ -78,13 +78,22 @@
 				<span class="mr-3"><AnimatedWeatherIcon code={weather.current.weather_code} /></span>
 				{$t.currentWeather}
 			</h2>
-			
-			<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-				<div class="weather-stat">
+			<div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
+				<div class="weather-stat relative">
 					<div class="text-3xl font-bold text-blue-600 dark:text-blue-400">
 						{weather.current.temperature_2m}°C
 					</div>
 					<div class="text-sm text-glass-muted">{$t.temperature}</div>
+					{#if weather.current.apparent_temperature !== undefined}
+						<!-- Feels-Like Delta Chip -->
+						{#if Math.abs(weather.current.apparent_temperature - weather.current.temperature_2m) >= 1}
+							<span class="delta-chip {weather.current.apparent_temperature > weather.current.temperature_2m ? 'warmer' : 'colder'}" aria-label="Feels-like temperature delta">
+								{weather.current.apparent_temperature > weather.current.temperature_2m ? '↑' : '↓'}
+								{Math.abs(weather.current.apparent_temperature - weather.current.temperature_2m).toFixed(1)}°C
+								{weather.current.apparent_temperature > weather.current.temperature_2m ? $t.feelsWarmer : $t.feelsColder}
+							</span>
+						{/if}
+					{/if}
 				</div>
 				
 				<div class="weather-stat">
@@ -172,5 +181,26 @@
 	}
 	.text-glass, .text-glass-muted, .text-glass-secondary {
 		text-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 0px 1px rgba(0,0,0,0.12);
+	}
+	.delta-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25em;
+		font-size: 0.95em;
+		font-weight: 600;
+		border-radius: 9999px;
+		padding: 0.2em 0.7em;
+		margin-top: 0.5em;
+		margin-left: 0.2em;
+		background: rgba(255,255,255,0.7);
+		box-shadow: 0 1px 4px rgba(30,144,255,0.08);
+	}
+	.delta-chip.warmer {
+		color: #e67e22;
+		background: rgba(255, 215, 100, 0.18);
+	}
+	.delta-chip.colder {
+		color: #3498db;
+		background: rgba(100, 180, 255, 0.18);
 	}
 </style> 

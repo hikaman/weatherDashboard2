@@ -38,4 +38,8 @@
 ## 9. City Search Input UI Improvements
 - Made the city search input smaller and more compact for a cleaner look.
 - Placed the city search input beside the language toggle for a unified top-row control.
-- Moved the current location display to the today card in WeatherDisplay for better clarity and visibility. 
+- Moved the current location display to the today card in WeatherDisplay for better clarity and visibility.
+
+## 10. Feels‐Like vs. Actual Delta Chip
+- Added 'apparent_temperature' to the Open-Meteo API call and CurrentWeather type.
+- The current weather card now shows a Feels-Like vs. Actual Delta Chip, with color and icon to indicate if it feels warmer or colder than the actual temperature. 

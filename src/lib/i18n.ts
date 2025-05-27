@@ -22,6 +22,8 @@ export interface Translations {
 	windSpeed: string;
 	precipitation: string;
 	feelsLike: string;
+	feelsWarmer: string;
+	feelsColder: string;
 	
 	// Time & Date
 	today: string;
@@ -148,6 +150,8 @@ const translations: Record<Locale, Translations> = {
 		windSpeed: 'Wind Speed',
 		precipitation: 'Precipitation',
 		feelsLike: 'Feels like',
+		feelsWarmer: 'feels warmer',
+		feelsColder: 'feels colder',
 		
 		// Time & Date
 		today: 'Today',
@@ -272,6 +276,8 @@ const translations: Record<Locale, Translations> = {
 		windSpeed: 'Windgeschwindigkeit',
 		precipitation: 'Niederschlag',
 		feelsLike: 'Gefühlt wie',
+		feelsWarmer: 'feels warmer',
+		feelsColder: 'feels colder',
 		
 		// Time & Date
 		today: 'Heute',
