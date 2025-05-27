@@ -13,12 +13,14 @@
 	import WeatherAlerts from './WeatherAlerts.svelte';
 	import { checkWeatherAlerts } from '../stores/alerts';
 	import { airQualityStore, fetchAirQuality } from '../stores/airQuality';
+	import type { GeocodingResult } from '../stores/weather';
 
 	export let weather: WeatherData | null = null;
 
 	let loading = false;
 	let error: string | null = null;
 	let usingCache = false;
+	let selectedCity: GeocodingResult | null = null;
 
 	// Subscribe to weather store
 	$: ({ data: weather, loading, error, currentLocation } = $weatherStore);
@@ -61,6 +63,14 @@
 	$: if (weather && weather.latitude && weather.longitude) {
 		fetchAirQuality(weather.latitude, weather.longitude);
 	}
+
+	function handleCitySelect(event: CustomEvent<GeocodingResult>) {
+		selectedCity = event.detail;
+	}
+
+	$: meteoblueSrc = selectedCity
+		? `https://www.meteoblue.com/en/weather/maps/widget?latitude=${selectedCity.latitude}&longitude=${selectedCity.longitude}&windAnimation=0&gust=0&satellite=0&cloudsAndPrecipitation=1&temperature=1&sunshine=1&extremeForecastIndex=1&geoloc=fixed&tempunit=C&windunit=km%2Fh&lengthunit=metric&zoom=6&autowidth=auto`
+		: 'https://www.meteoblue.com/en/weather/maps/widget?windAnimation=0&gust=0&satellite=0&cloudsAndPrecipitation=1&temperature=1&sunshine=1&extremeForecastIndex=1&geoloc=detect&tempunit=C&windunit=km%2Fh&lengthunit=metric&zoom=6&autowidth=auto';
 </script>
 
 <div class="dashboard">
@@ -91,6 +101,11 @@
 					<WeatherDisplay {weather} {currentLocation} />
 				</div>
 
+				<!-- City Search -->
+				<div class="lg:col-span-2">
+					<CitySearch on:select={handleCitySelect} />
+				</div>
+
 				<!-- Forecast Comparison Box - Full width -->
 				<div class="lg:col-span-2">
 					<ForecastComparisonBox />
@@ -108,7 +123,7 @@
 
 				<!-- Meteoblue Weather Map Card -->
 				<div class="glass-card-lg p-4 lg:col-span-2 flex flex-col items-center">
-					<iframe src="https://www.meteoblue.com/en/weather/maps/widget?windAnimation=0&gust=0&satellite=0&cloudsAndPrecipitation=1&temperature=1&sunshine=1&extremeForecastIndex=1&geoloc=detect&tempunit=C&windunit=km%252Fh&lengthunit=metric&zoom=6&autowidth=auto"
+					<iframe src={meteoblueSrc}
 						frameborder="0"
 						sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
 						style="width: 100%; height: 420px; overflow:hidden;"></iframe>
