@@ -14,10 +14,26 @@
   - Memory Bank and .cursor/rules are up to date.
   - Most features are implemented and documented for web.
 - **Assumptions:**  
-  - React Native + Expo will be used for mobile (can be changed if you specify otherwise).
+  - **Capacitor** will be used as the cross-platform solution to wrap the SvelteKit (or web) app for native iOS and Android deployment. (Can be changed if you specify otherwise.)
   - All business logic, stores, and as much UI as possible will be shared between web and mobile.
   - Prompt-driven workflow will be markdown-based, with human review/edit at each stage.
   - All code, assets, and documentation will be prepared for store submission.
+
+---
+
+## 1a. Why Capacitor?
+
+- **Maximum Code Sharing:** Reuse your existing SvelteKit/web codebase for mobile with minimal changes.
+- **Native APIs:** Access device features (camera, geolocation, notifications, etc.) via plugins or custom native code.
+- **App Store/Play Store Ready:** Produces native builds for both iOS and Android, suitable for store submission.
+- **Web-First:** Your web app remains a first-class citizen; you can deploy to web, iOS, and Android from the same project.
+- **Modern Tooling:** Integrates well with modern frontend frameworks and build tools.
+- **Active Community:** Well-supported and widely used in production apps.
+
+**Considerations:**
+- Some UI/UX tweaks may be needed for mobile (touch targets, navigation, etc.).
+- Advanced native features may require custom plugin development.
+- For most apps, performance is excellent; for highly complex/animation-heavy UIs, native frameworks may have an edge.
 
 ---
 
@@ -26,21 +42,20 @@
 ### Phase 1: Foundation & Stack Setup
 
 **1.1. Framework Confirmation**  
-- Evaluate Svelte Native, React Native, Flutter, Expo.
-- Confirm React Native + Expo for maximum code sharing and store readiness.
+- Confirm Capacitor as the cross-platform solution for native iOS/Android builds.
 - Document decision in `/memory-bank/decision-log.md`.
 
 **1.2. Monorepo Structure**  
 - Set up monorepo with:
+  - `/web/` (SvelteKit app)
+  - `/mobile/` (Capacitor project wrapping the web app)
   - `/shared/` (business logic, stores, utilities, shared UI)
-  - `/mobile/` (React Native/Expo app)
-  - `/web/` (existing SvelteKit app)
   - `/prompts/` (prompt-driven workflow markdowns)
   - `/docs/`, `/memory-bank/` (context, architecture, compliance, progress)
 - Add linting, formatting, and commit hooks.
 
 **1.3. CI/CD Pipeline**  
-- Set up automated builds for Android (APK/AAB) and iOS (IPA).
+- Set up automated builds for Android (APK/AAB) and iOS (IPA) using Capacitor CLI.
 - Integrate linting, tests, and artifact generation.
 - Add scripts for store asset generation and submission readiness.
 
@@ -73,9 +88,10 @@
 - Unified suggestions (wardrobe, food, activity, exercise).
 - Responsive, accessible UI (shared components, platform-specific tweaks).
 - E-commerce and ad integration (shared logic, platform-specific UI as needed).
+- Integrate Capacitor plugins for native features (e.g., geolocation, notifications).
 
 **3.2. Platform-Specific Enhancements**  
-- Native navigation, gestures, notifications.
+- Native navigation, gestures, notifications (via Capacitor plugins).
 - Permissions (location, notifications).
 - Offline support and local storage.
 
@@ -100,7 +116,7 @@
 - Accessibility and privacy audits.
 
 **4.3. Store Submission**  
-- Prepare and upload builds to App Store and Play Store.
+- Prepare and upload builds to App Store and Play Store using Capacitor native projects.
 - Address review feedback and resubmit as needed.
 
 **4.4. Release & Post-Launch**  
@@ -113,23 +129,24 @@
 
 | #  | Task | Acceptance Criteria | Story Points | Status | Priority | Dependencies | Constraints |
 |----|------|--------------------|-------------|--------|----------|--------------|-------------|
-| 1  | Confirm cross-platform framework | Framework selected and documented | 1 | Todo | High | None | Must support iOS/Android/web |
-| 2  | Set up monorepo | Repo builds for all platforms, linting passes | 3 | Todo | High | 1 | Use selected framework |
+| 1  | Confirm Capacitor as cross-platform solution | Decision documented in memory bank | 1 | Todo | High | None | Must support iOS/Android/web |
+| 2  | Set up monorepo with Capacitor | Repo builds for web and mobile, linting passes | 3 | Todo | High | 1 | Use Capacitor |
 | 3  | Implement prompt workflow | Prompts generate/edit markdown files | 5 | Todo | High | 2 | Markdown or simple UI |
 | 4  | Pilot prompt workflow | Sample feature flows through all stages | 3 | Todo | High | 3 | None |
 | 5  | Port weather data logic | Weather data loads on all platforms | 5 | Todo | High | 2 | API keys, network access |
 | 6  | Implement shared UI components | UI matches design on all platforms | 8 | Todo | High | 5 | Platform-specific tweaks |
-| 7  | Prepare store assets | Icons, screenshots, privacy policy ready | 3 | Todo | High | 6 | Brand guidelines |
-| 8  | Accessibility audit | All features pass accessibility tests | 5 | Todo | High | 6 | WCAG, ARIA, iOS/Android |
-| 9  | Internationalization | App supports multiple languages | 5 | Todo | Medium | 6 | Translation files |
-| 10 | Store submission | App accepted on both stores | 8 | Todo | High | 7,8,9 | Store guidelines |
+| 7  | Integrate Capacitor plugins | Native features (geolocation, notifications) work on mobile | 5 | Todo | High | 2,5 | Plugin compatibility |
+| 8  | Prepare store assets | Icons, screenshots, privacy policy ready | 3 | Todo | High | 6 | Brand guidelines |
+| 9  | Accessibility audit | All features pass accessibility tests | 5 | Todo | High | 6 | WCAG, ARIA, iOS/Android |
+| 10 | Internationalization | App supports multiple languages | 5 | Todo | Medium | 6 | Translation files |
+| 11 | Store submission | App accepted on both stores | 8 | Todo | High | 7,8,9,10 | Store guidelines |
 
 ---
 
 ## 4. Dependencies & Constraints
 
 - **Dependencies:**  
-  - Framework selection impacts all downstream tasks  
+  - Capacitor integration impacts all downstream tasks  
   - Store asset preparation depends on finalized UI  
   - E-commerce integration may require legal/compliance review
 
@@ -157,5 +174,5 @@
 
 ---
 
-**If you want to proceed with execution, reply with "ACT" and specify any changes or preferences (e.g., framework choice).**  
+**If you want to proceed with execution, reply with "ACT" and specify any changes or preferences (e.g., plugin selection, UI priorities).**  
 **If you want to adjust the plan, specify which sections or tasks to update.** 
