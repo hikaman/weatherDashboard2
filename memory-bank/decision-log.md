@@ -19,6 +19,7 @@
 
 ## 4. Animated Weather Icons
 - Opted for a custom Svelte component using animated SVGs for weather icons, mapped by weather code.
+- Animated SVG icons are currently grouped by weather type (e.g., all rain codes share a rain icon). Individual icons for each WMO code are planned.
 - This ensures smooth, performant, and visually appealing icons without external dependencies.
 
 ## 5. Glassmorphic Modals/Sidebars

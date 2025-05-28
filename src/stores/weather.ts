@@ -135,15 +135,7 @@ export async function fetchWeatherData(latitude: number, longitude: number, loca
 		const idxYesterday = idxToday - 1;
 		if (idxYesterday < 0) {
 			console.warn('[fetchWeatherData] Yesterday\'s data is missing from API response. daily.time:', data.daily.time);
-			// Optionally, set a user-friendly error but still proceed
-			weatherStore.update((state) => ({
-				...state,
-				loading: false,
-				error: 'No data for yesterday available. Showing available forecast data.',
-				data,
-				currentLocation: locationName || state.currentLocation,
-			}));
-			return;
+			// Continue normally - the app will handle missing yesterday data gracefully
 		}
 
 		// Get location name if not provided

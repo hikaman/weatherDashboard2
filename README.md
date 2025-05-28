@@ -22,6 +22,7 @@ See [docs/codebase-summary.md](docs/codebase-summary.md) for a detailed high-lev
 - **UV & Air Quality Strip**: Color-coded risk and pollutant chips
 - **Sunrise/Sunset & Golden-Hour Ring**: Visual ring for daily sun events
 - **Night Mode**: Auto-switches based on location time, with manual override
+- **Weather Icons**: Animated SVG icons are shown for weather conditions. Icons are grouped by weather type (e.g., all rain codes share a rain icon). Individual icons for each WMO weather code are planned.
 
 ### Smart Suggestions 2.0
 - **Wardrobe**: Personalized outfit suggestions

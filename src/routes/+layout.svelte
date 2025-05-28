@@ -62,7 +62,7 @@
 
 <WeatherBackground {weather}>
   <!-- Controls -->
-  <div class="fixed top-4 right-4 z-50 transition-all duration-300"
+  <div class="fixed top-4 right-4 z-[1001] transition-all duration-300"
     style="transform: translateY({showControls ? '0' : '-60'}px); opacity: {showControls ? 1 : 0}; pointer-events: {showControls ? 'auto' : 'none'};"
     aria-live="polite"
   >
@@ -81,6 +81,17 @@
   {/if}
 
   <BottomSheetQuickSearch open={showQuickSearch} on:close={() => showQuickSearch = false} />
+
+  <div class="site-header">
+    <span class="logo-svg" aria-label="wetter.tools logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+        <circle cx="16" cy="16" r="12" fill="#facc15"/>
+        <ellipse cx="22" cy="22" rx="8" ry="5" fill="#60a5fa"/>
+        <ellipse cx="12" cy="22" rx="6" ry="4" fill="#bae6fd"/>
+      </svg>
+    </span>
+    <span class="logo-text">wetter.tools</span>
+  </div>
 
   <main class="min-h-screen p-4 md:p-6 lg:p-8">
     <slot />
@@ -124,5 +135,30 @@
     height: 3rem;
     font-size: 1.3rem;
   }
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.7em 1.2em 0.7em 1.2em;
+  font-family: inherit;
+  font-size: 1.35em;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 0.01em;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 2px 12px rgba(30,144,255,0.06);
+  z-index: 100;
+}
+.logo-svg {
+  display: flex;
+  align-items: center;
+}
+.logo-text {
+  font-family: inherit;
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 0.01em;
 }
 </style> 

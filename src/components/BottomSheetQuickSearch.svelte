@@ -5,6 +5,7 @@ import { lastCityStore } from '../stores/lastCity';
 import { writable } from 'svelte/store';
 import MiniMap from './MiniMap.svelte';
 import { fetchWeatherData, type GeocodingResult } from '../stores/weather';
+import { t } from '../lib/i18n';
 
 export let open = false;
 const dispatch = createEventDispatcher();
@@ -125,7 +126,7 @@ $: if (open && sheetRef) {
 </script>
 
 {#if open}
-  <button class="bsqs-backdrop" aria-label="Close quick search" on:click={close} on:keydown={(e) => (e.key === 'Enter' || e.key === ' ' ? close() : undefined)} tabindex="0"></button>
+  <button class="bsqs-backdrop" aria-label="{$t.closeQuickSearch}" on:click={close} on:keydown={(e) => (e.key === 'Enter' || e.key === ' ' ? close() : undefined)} tabindex="0"></button>
   <div
     class="bsqs-sheet glass-card-lg"
     tabindex="0"
@@ -138,8 +139,8 @@ $: if (open && sheetRef) {
     on:touchmove={handleTouchMove}
     on:touchend={handleTouchEnd}
   >
-    <div class="bsqs-handle" aria-label="Drag to close"></div>
-    <button class="bsqs-close" aria-label="Close quick search" on:click={close}>&times;</button>
+    <div class="bsqs-handle" aria-label="{$t.dragToClose}"></div>
+    <button class="bsqs-close" aria-label="{$t.closeQuickSearch}" on:click={close}>&times;</button>
     <div class="bsqs-content">
       <h2 class="text-lg font-bold mb-2">Quick City Search</h2>
       <!-- Mini Map -->
@@ -158,7 +159,7 @@ $: if (open && sheetRef) {
               <span
                 class="ml-1 text-yellow-400 cursor-pointer"
                 role="img"
-                aria-label="Unfavorite city"
+                aria-label="{$t.unfavoriteCity}"
                 tabindex="0"
                 on:click|stopPropagation={() => toggleFavorite(city)}
                 on:keydown|stopPropagation={(e) => (e.key === 'Enter' || e.key === ' ') && toggleFavorite(city)}

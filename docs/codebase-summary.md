@@ -30,6 +30,7 @@
 - Internationalization and accessibility as first-class concerns.
 - Extensive documentation and decision logs in the memory bank.
 - Adherence to custom and SvelteKit best practices via .cursor/rules.
+- Animated SVG weather icons are mapped by weather type group (not yet per individual WMO code).
 
 ## Recommendations & Observations
 

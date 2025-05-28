@@ -2,6 +2,7 @@
   import { weatherStore } from '../stores/weather';
   import { getMiniShopData, trackPurchase, type Product } from '../lib/ecommerce';
   import { onMount } from 'svelte';
+  import { t } from '../lib/i18n';
 
   let shopData: ReturnType<typeof getMiniShopData> | null = null;
   let selectedCategory = 0;
@@ -84,7 +85,7 @@
   {#if !shopData}
     <div class="text-center py-8">
       <div class="text-gray-400 text-4xl mb-3">🏪</div>
-      <p class="text-gray-600 dark:text-gray-400">Loading shop...</p>
+      <p class="text-gray-600 dark:text-gray-400">{$t.loadingShop}</p>
     </div>
   {:else}
     <!-- Category Tabs -->
@@ -163,7 +164,7 @@
     {#if shopData.categories[selectedCategory].products.length === 0}
       <div class="text-center py-8">
         <div class="text-gray-400 text-3xl mb-2">📦</div>
-        <p class="text-gray-600 dark:text-gray-400">No products available for this category</p>
+        <p class="text-gray-600 dark:text-gray-400">{$t.noProductsAvailable}</p>
       </div>
     {/if}
 

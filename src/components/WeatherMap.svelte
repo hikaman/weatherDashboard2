@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { weatherData } from '../stores/weather';
+  import { t } from '../lib/i18n';
   
   let mapContainer: HTMLDivElement;
   let map: any;
@@ -234,7 +235,7 @@
         <div class="flex items-center justify-center h-full">
           <div class="text-center">
             <div class="text-4xl mb-2">🌍</div>
-            <p class="text-gray-600 dark:text-gray-400">Loading map...</p>
+            <p class="text-gray-600 dark:text-gray-400">{$t.loadingMap}</p>
           </div>
         </div>
       {/if}
@@ -270,7 +271,7 @@
     {#if activityPins.length === 0}
       <div class="text-center py-6">
         <div class="text-gray-400 text-3xl mb-2">🎯</div>
-        <p class="text-gray-600 dark:text-gray-400">Loading activities...</p>
+        <p class="text-gray-600 dark:text-gray-400">{$t.loadingActivities}</p>
       </div>
     {:else}
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

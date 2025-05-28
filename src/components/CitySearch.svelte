@@ -135,6 +135,7 @@
     border-radius: 0.75rem;
     border: 1.5px solid rgba(56,189,248,0.18);
     box-shadow: 0 1px 6px rgba(56,189,248,0.08);
+    color: #222;
     transition: border 0.2s, box-shadow 0.2s;
   }
   .glass-input:focus-visible {
@@ -143,6 +144,20 @@
     box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
     border-color: #38bdf8;
     background: rgba(255,255,255,0.95);
+  }
+  /* Dark mode fix for input contrast */
+  :global(html.dark) .glass-input {
+    background: rgba(30,41,59,0.95);
+    color: #f3f4f6;
+    border: 1.5px solid rgba(56,189,248,0.28);
+  }
+  :global(html.dark) .glass-input::placeholder {
+    color: #a0aec0;
+    opacity: 1;
+  }
+  .glass-input::placeholder {
+    color: #888;
+    opacity: 1;
   }
   .city-search .relative {
     z-index: 30;

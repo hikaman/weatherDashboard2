@@ -55,7 +55,7 @@ $: arc = $sunTimes ? getArcAngles($sunTimes.sunrise, $sunTimes.sunset) : null;
 
 </script>
 
-<div class="sunring glass-card-lg p-4 flex flex-col items-center justify-center mb-6" aria-label="Sunrise, Sunset, and Golden Hour">
+<div class="sunring glass-card-lg p-4 flex flex-col items-center justify-center mb-6" aria-label="{$t.sunriseSunsetGoldenHour}">
   {#if $sunTimes && arc}
     <svg width="120" height="120" viewBox="0 0 120 120" class="block mb-2">
       <!-- Full day ring -->
@@ -67,18 +67,16 @@ $: arc = $sunTimes ? getArcAngles($sunTimes.sunrise, $sunTimes.sunset) : null;
       <!-- Current time marker -->
       <circle {...polarToXY(nowMin)} r="6" fill="#2563eb" stroke="#fff" stroke-width="2" />
     </svg>
-    <div class="flex gap-6 text-glass-secondary text-sm">
-      <div class="flex items-center gap-1">
-        <span aria-label="Sunrise">🌅</span>
-        <span>{new Date($sunTimes.sunrise).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-      </div>
-      <div class="flex items-center gap-1">
-        <span aria-label="Sunset">🌇</span>
-        <span>{new Date($sunTimes.sunset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+    <div class="mt-3 text-center">
+      <div class="text-sm text-glass-secondary flex items-center justify-center gap-4">
+        <span aria-label="{$t.sunrise}">🌅</span>
+        <span class="text-glass">{new Date($sunTimes.sunrise).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        <span aria-label="{$t.sunset}">🌇</span>
+        <span class="text-glass">{new Date($sunTimes.sunset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
     </div>
   {:else}
-    <div class="text-glass-secondary text-sm">Loading sunrise and sunset times...</div>
+    <div class="text-glass-secondary text-sm">{$t.loadingSunriseSunset}</div>
   {/if}
 </div>
 

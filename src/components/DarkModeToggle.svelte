@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
+  import { t } from '../lib/i18n';
 
   let isDark = false;
 
@@ -46,7 +47,7 @@
   on:click={toggleDarkMode}
   on:dblclick={clearOverride}
   class="glass-button p-3 rounded-glass hover:bg-white/40 dark:hover:bg-slate-800/50 transition-all duration-200 backdrop-blur-glass"
-  aria-label="Toggle dark mode"
+  aria-label="{$t.toggleDarkMode}"
   title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
 >
   {#if isDark}

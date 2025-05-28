@@ -2,6 +2,7 @@
   import { alertsStore, type WeatherAlert } from '../stores/alerts';
   import { onDestroy } from 'svelte';
   import { writable } from 'svelte/store';
+  import { t } from '../lib/i18n';
   
   const alerts = writable<WeatherAlert[]>([]);
   const unsubscribe = alertsStore.subscribe((a) => alerts.set(a));
@@ -23,7 +24,7 @@
     {#each $alerts as alert, idx}
       <div class={`alert-chip ${getColor(alert.severity)} flex items-center gap-3 px-4 py-2 rounded-lg shadow`} role="alert">
         <span class="font-bold">{alert.message}</span>
-        <button class="ml-auto text-lg px-2 py-1 rounded hover:bg-white/30 focus:outline-none" aria-label="Dismiss alert" on:click={() => dismiss(idx)}>&times;</button>
+        <button class="ml-auto text-lg px-2 py-1 rounded hover:bg-white/30 focus:outline-none" aria-label="{$t.dismissAlert}" on:click={() => dismiss(idx)}>&times;</button>
       </div>
     {/each}
   </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { weatherData } from '../stores/weather';
   import { onMount } from 'svelte';
+  import { t } from '../lib/i18n';
   
   // Mock transition data for now - will integrate with weather state mapper later
   interface TimelineItem {
@@ -132,7 +133,7 @@
   {#if timelineItems.length === 0}
     <div class="text-center py-8">
       <div class="text-gray-400 text-4xl mb-3">🌤️</div>
-      <p class="text-gray-600 dark:text-gray-400">Loading timeline...</p>
+      <p class="text-gray-600 dark:text-gray-400">{$t.loadingTimeline}</p>
     </div>
   {:else}
     <!-- Timeline Container -->

@@ -27,46 +27,46 @@ $: airQuality = $airQualityStore.data;
 $: airQualityError = $airQualityStore.error;
 </script>
 
-<div class="uv-aq-strip flex flex-wrap gap-3 items-center justify-center glass-card-lg p-3 mb-6" aria-label="UV and Air Quality">
+<div class="uv-aq-strip flex flex-wrap gap-3 items-center justify-center glass-card-lg p-3 mb-6" aria-label="{$t.uvAndAirQuality}">
   {#if currentWeather && airQuality}
     <!-- UV Index -->
-    <div class={`chip ${getUVColor(currentWeather.uv_index)}`} aria-label="UV Index">
+    <div class={`chip ${getUVColor(currentWeather.uv_index)}`} aria-label="{$t.uvIndex}">
       <span class="icon">☀️</span>
       <span class="label">UV</span>
       <span class="value">{currentWeather.uv_index.toFixed(1)}</span>
     </div>
     <!-- European AQI -->
-    <div class={`chip ${getAQIColor(airQuality.european_aqi)}`} aria-label="European AQI">
+    <div class={`chip ${getAQIColor(airQuality.european_aqi)}`} aria-label="{$t.europeanAQI}">
       <span class="icon">🌫️</span>
       <span class="label">EU AQI</span>
       <span class="value">{airQuality.european_aqi}</span>
     </div>
     <!-- US AQI -->
-    <div class={`chip ${getAQIColor(airQuality.us_aqi)}`} aria-label="US AQI">
+    <div class={`chip ${getAQIColor(airQuality.us_aqi)}`} aria-label="{$t.usAQI}">
       <span class="icon">🇺🇸</span>
       <span class="label">US AQI</span>
       <span class="value">{airQuality.us_aqi}</span>
     </div>
     <!-- PM2.5 -->
-    <div class="chip bg-blue-100 text-blue-900" aria-label="PM2.5">
+    <div class="chip bg-blue-100 text-blue-900" aria-label="{$t.pm25}">
       <span class="icon">🟤</span>
       <span class="label">PM2.5</span>
       <span class="value">{airQuality.pm2_5} μg/m³</span>
     </div>
     <!-- PM10 -->
-    <div class="chip bg-blue-50 text-blue-900" aria-label="PM10">
+    <div class="chip bg-blue-50 text-blue-900" aria-label="{$t.pm10}">
       <span class="icon">⚪</span>
       <span class="label">PM10</span>
       <span class="value">{airQuality.pm10} μg/m³</span>
     </div>
     <!-- NO2 -->
-    <div class="chip bg-yellow-50 text-yellow-900" aria-label="NO2">
+    <div class="chip bg-yellow-50 text-yellow-900" aria-label="{$t.no2}">
       <span class="icon">🟡</span>
       <span class="label">NO₂</span>
       <span class="value">{airQuality.no2} μg/m³</span>
     </div>
     <!-- O3 -->
-    <div class="chip bg-green-50 text-green-900" aria-label="Ozone">
+    <div class="chip bg-green-50 text-green-900" aria-label="{$t.ozone}">
       <span class="icon">🟢</span>
       <span class="label">O₃</span>
       <span class="value">{airQuality.o3} μg/m³</span>
@@ -74,7 +74,7 @@ $: airQualityError = $airQualityStore.error;
   {:else if airQualityError}
     <div class="text-red-500 text-sm">{airQualityError}</div>
   {:else}
-    <div class="text-glass-secondary text-sm">Loading UV and air quality data...</div>
+    <div class="text-glass-secondary text-sm">{$t.loadingUVAirQuality}</div>
   {/if}
 </div>
 

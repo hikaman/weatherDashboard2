@@ -28,6 +28,7 @@ export interface Translations {
 	// Time & Date
 	today: string;
 	tomorrow: string;
+	yesterday: string;
 	
 	// Days of week
 	monday: string;
@@ -142,6 +143,58 @@ export interface Translations {
 	alertHot: string;
 	alertCold: string;
 	alertWind: string;
+
+	// Forecast Comparison
+	loadingForecastComparison: string;
+	errorLoadingWeatherData: string;
+	noYesterdayDataAvailable: string;
+	noForecastComparisonDataAvailable: string;
+	changes: string;
+	maxTemperature: string;
+
+	// Loading States
+	loadingUVAirQuality: string;
+	loadingTimeline: string;
+	loadingShop: string;
+	noProductsAvailable: string;
+	loadingMap: string;
+	loadingActivities: string;
+	loadingSunriseSunset: string;
+
+	// Aria Labels
+	openMenu: string;
+	closeQuickSearch: string;
+	toggleDarkMode: string;
+	toggleLanguage: string;
+	uvAndAirQuality: string;
+	uvIndex: string;
+	europeanAQI: string;
+	usAQI: string;
+	pm25: string;
+	pm10: string;
+	no2: string;
+	ozone: string;
+	forecastComparisonAriaLabel: string;
+	yesterdayToToday: string;
+	todayToTomorrow: string;
+	hourlyTemperatureGraph: string;
+	sunrise: string;
+	sunset: string;
+	sunriseSunsetGoldenHour: string;
+	dragToClose: string;
+	unfavoriteCity: string;
+	dismissAlert: string;
+
+	// Weather Icons Aria Labels
+	clearNight: string;
+	sunny: string;
+	partlyCloudyNight: string;
+	partlyCloudyIcon: string;
+	cloudyIcon: string;
+	rainyIcon: string;
+	snowy: string;
+	thunderstormIcon: string;
+	foggy: string;
 }
 
 const translations: Record<Locale, Translations> = {
@@ -171,6 +224,7 @@ const translations: Record<Locale, Translations> = {
 		// Time & Date
 		today: 'Today',
 		tomorrow: 'Tomorrow',
+		yesterday: 'Yesterday',
 		
 		// Days of week
 		monday: 'Mon',
@@ -285,6 +339,58 @@ const translations: Record<Locale, Translations> = {
 		alertHot: 'Very hot temperatures expected.',
 		alertCold: 'Very cold temperatures expected.',
 		alertWind: 'Strong winds expected.',
+
+		// Forecast Comparison
+		loadingForecastComparison: 'Loading forecast comparison...',
+		errorLoadingWeatherData: 'Error loading weather data',
+		noYesterdayDataAvailable: 'No data available for yesterday',
+		noForecastComparisonDataAvailable: 'No data available for forecast comparison',
+		changes: 'Changes',
+		maxTemperature: 'Max Temperature',
+
+		// Loading States
+		loadingUVAirQuality: 'Loading UV and Air Quality data...',
+		loadingTimeline: 'Loading timeline...',
+		loadingShop: 'Loading shop data...',
+		noProductsAvailable: 'No products available',
+		loadingMap: 'Loading map...',
+		loadingActivities: 'Loading activities...',
+		loadingSunriseSunset: 'Loading sunrise and sunset data...',
+
+		// Aria Labels
+		openMenu: 'Open menu',
+		closeQuickSearch: 'Close quick search',
+		toggleDarkMode: 'Toggle dark mode',
+		toggleLanguage: 'Toggle language',
+		uvAndAirQuality: 'UV and Air Quality',
+		uvIndex: 'UV Index',
+		europeanAQI: 'European AQI',
+		usAQI: 'US AQI',
+		pm25: 'PM2.5',
+		pm10: 'PM10',
+		no2: 'NO2',
+		ozone: 'Ozone',
+		forecastComparisonAriaLabel: 'Forecast Comparison',
+		yesterdayToToday: 'Yesterday to Today',
+		todayToTomorrow: 'Today to Tomorrow',
+		hourlyTemperatureGraph: 'Hourly Temperature Graph',
+		sunrise: 'Sunrise',
+		sunset: 'Sunset',
+		sunriseSunsetGoldenHour: 'Sunrise/Sunset Golden Hour',
+		dragToClose: 'Drag to close',
+		unfavoriteCity: 'Unfavorite city',
+		dismissAlert: 'Dismiss alert',
+
+		// Weather Icons Aria Labels
+		clearNight: 'Clear night',
+		sunny: 'Sunny',
+		partlyCloudyNight: 'Partly cloudy night',
+		partlyCloudyIcon: 'Partly cloudy',
+		cloudyIcon: 'Cloudy',
+		rainyIcon: 'Rainy',
+		snowy: 'Snowy',
+		thunderstormIcon: 'Thunderstorm icon',
+		foggy: 'Foggy',
 	},
 	de: {
 		// General
@@ -312,6 +418,7 @@ const translations: Record<Locale, Translations> = {
 		// Time & Date
 		today: 'Heute',
 		tomorrow: 'Morgen',
+		yesterday: 'Gestern',
 		
 		// Days of week
 		monday: 'Mo',
@@ -426,6 +533,58 @@ const translations: Record<Locale, Translations> = {
 		alertHot: 'Sehr hohe Temperaturen erwartet.',
 		alertCold: 'Sehr niedrige Temperaturen erwartet.',
 		alertWind: 'Starker Wind erwartet.',
+
+		// Forecast Comparison
+		loadingForecastComparison: 'Vorhersagevergleich wird geladen...',
+		errorLoadingWeatherData: 'Fehler beim Laden der Wetterdaten',
+		noYesterdayDataAvailable: 'Keine Daten verfügbar für gestern',
+		noForecastComparisonDataAvailable: 'Keine Daten verfügbar für Vorhersagevergleich',
+		changes: 'Änderungen',
+		maxTemperature: 'Maximale Temperatur',
+
+		// Loading States
+		loadingUVAirQuality: 'UV- und Luftqualitätsdaten werden geladen...',
+		loadingTimeline: 'Zeitachse wird geladen...',
+		loadingShop: 'Shop-Daten werden geladen...',
+		noProductsAvailable: 'Keine Produkte verfügbar',
+		loadingMap: 'Karte wird geladen...',
+		loadingActivities: 'Aktivitäten werden geladen...',
+		loadingSunriseSunset: 'Sonnenaufgangs- und Sonnenuntergangsdaten werden geladen...',
+
+		// Aria Labels
+		openMenu: 'Menü öffnen',
+		closeQuickSearch: 'Schnellsuche schließen',
+		toggleDarkMode: 'Dunkelmodus umschalten',
+		toggleLanguage: 'Sprache umschalten',
+		uvAndAirQuality: 'UV und Luftqualität',
+		uvIndex: 'UV-Index',
+		europeanAQI: 'Europäische AQI',
+		usAQI: 'US AQI',
+		pm25: 'PM2.5',
+		pm10: 'PM10',
+		no2: 'NO2',
+		ozone: 'Ozon',
+		forecastComparisonAriaLabel: 'Vorhersagevergleich',
+		yesterdayToToday: 'Gestern zu Heute',
+		todayToTomorrow: 'Heute zu Morgen',
+		hourlyTemperatureGraph: 'Stundenverlauf der Temperatur',
+		sunrise: 'Sonnenaufgang',
+		sunset: 'Sonnenuntergang',
+		sunriseSunsetGoldenHour: 'Sonnenaufgang/Sonnenuntergang Golden Hour',
+		dragToClose: 'Ziehen Sie zum Schließen',
+		unfavoriteCity: 'Stadt entfernen',
+		dismissAlert: 'Warnung schließen',
+
+		// Weather Icons Aria Labels
+		clearNight: 'Klarer Nachthimmel',
+		sunny: 'Sonnig',
+		partlyCloudyNight: 'Teilweise bewölkt Nachthimmel',
+		partlyCloudyIcon: 'Teilweise bewölkt',
+		cloudyIcon: 'Bedeckt',
+		rainyIcon: 'Regen',
+		snowy: 'Schnee',
+		thunderstormIcon: 'Gewitter-Symbol',
+		foggy: 'Nebel',
 	}
 };
 

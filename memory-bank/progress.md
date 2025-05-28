@@ -45,7 +45,7 @@
 | 17 | Threshold-Based Push Alerts                        | [x]    |
 | 18 | Wardrobe Carousel                                   | [x]    |
 | 19 | Collapsible Header on Scroll                        | [ ]    |
-| 20 | Animated Icon Pack                                 | [ ]    |
+| 20 | Animated Icon Pack (per WMO code)                 | [ ]    |
 | 21 | Bottom-Sheet Quick-Search                           | [x]    |
 | 22 | Night Mode Based on Location Time                      | [x]    |
 
@@ -71,3 +71,4 @@
 - 17: Threshold-based alerts (UV, AQI, rain, temp, wind) are now shown at the top of the dashboard. In-app banners, dismissible, with severity color.
 - 21: Bottom-Sheet Quick-Search now features a mini map (Leaflet), clickable recent and favorite cities, city switching updates the dashboard, and all elements are accessible and responsive.
 - 22: Night mode now automatically switches based on the selected location's sunrise/sunset and timezone. Weather icons reflect day/night. Manual override is respected. All changes are accessible and tested.
+- Animated SVG weather icons are currently grouped by weather type. Individual icons for each WMO code are planned.

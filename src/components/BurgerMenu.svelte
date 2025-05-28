@@ -1,4 +1,5 @@
 <script lang="ts">
+import { t } from '../lib/i18n';
 import CitySearch from './CitySearch.svelte';
 import LanguageToggle from './LanguageToggle.svelte';
 import DarkModeToggle from './DarkModeToggle.svelte';
@@ -30,8 +31,8 @@ onDestroy(() => {
 });
 </script>
 
-<div class="relative z-50">
-  <button class="burger-btn glassy" aria-label="Open menu" on:click={toggleMenu}>
+<div class="relative z-50 burger-menu-z">
+  <button class="burger-btn" aria-label="{$t.openMenu}" on:click={toggleMenu}>
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <line x1="8" y1="10" x2="24" y2="10" />
       <line x1="8" y1="16" x2="24" y2="16" />
@@ -51,24 +52,30 @@ onDestroy(() => {
 
 <style>
 .burger-btn {
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 2.88rem;
+  height: 2.88rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1.5px solid rgba(56,189,248,0.25);
-  background: rgba(255,255,255,0.22);
+  border: 1.5px solid #2563eb;
+  background: #2563eb;
   box-shadow: 0 6px 24px 0 rgba(56,189,248,0.10), 0 1.5px 6px 0 rgba(30,64,175,0.08);
   backdrop-filter: blur(10px);
   transition: background 0.2s, box-shadow 0.2s, border 0.2s;
-  color: #2563eb;
+  color: #fff;
+  transform: scale(0.9);
 }
 .burger-btn:hover, .burger-btn:focus {
-  background: rgba(56,189,248,0.18);
-  border: 1.5px solid #38bdf8;
-  box-shadow: 0 0 0 4px rgba(56,189,248,0.18), 0 6px 24px 0 rgba(56,189,248,0.13);
+  background: #1746a2;
+  border: 1.5px solid #1746a2;
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.18), 0 6px 24px 0 rgba(56,189,248,0.13);
   outline: none;
+}
+.burger-btn svg {
+  width: 28.8px;
+  height: 28.8px;
+  stroke: #fff;
 }
 .glassy {
   background: rgba(255,255,255,0.22);
@@ -89,5 +96,8 @@ onDestroy(() => {
   padding: 0.1rem 0.3rem !important;
   min-width: 0 !important;
   min-height: 0 !important;
+}
+.burger-menu-z {
+  z-index: 1000 !important;
 }
 </style> 
