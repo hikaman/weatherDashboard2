@@ -6,18 +6,115 @@
   html {
     font-family: system-ui, sans-serif;
   }
+  
+  body {
+    @apply transition-colors duration-300;
+  }
+  
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer components {
-  .weather-card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg;
+  /* Glassmorphism Base Components */
+  .glass-card {
+    @apply bg-glass-light dark:bg-glass-dark backdrop-blur-glass border border-glass-light-border dark:border-glass-dark-border rounded-glass shadow-glass transition-all duration-300;
   }
   
-  .suggestion-card {
-    @apply bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-700 dark:to-gray-600 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-300;
+  .glass-card-lg {
+    @apply bg-glass-light dark:bg-glass-dark backdrop-blur-glass-lg border border-glass-light-border dark:border-glass-dark-border rounded-glass-lg shadow-glass-lg transition-all duration-300;
   }
   
-  .alert-banner {
-    @apply bg-red-100 dark:bg-red-900 border-l-4 border-red-500 text-red-700 dark:text-red-200 p-4 rounded-r-lg;
+  .glass-button {
+    @apply bg-glass-light dark:bg-glass-dark backdrop-blur-glass border border-glass-light-border dark:border-glass-dark-border rounded-glass px-4 py-2 transition-all duration-200 hover:bg-white/30 dark:hover:bg-slate-800/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50;
+  }
+  
+  .glass-input {
+    @apply bg-glass-light dark:bg-glass-dark backdrop-blur-glass border border-glass-light-border dark:border-glass-dark-border rounded-glass px-3 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50;
+  }
+  
+  /* Weather Background Utilities */
+  .weather-bg-sunny {
+    @apply bg-gradient-to-br from-weather-sunny-from via-weather-sunny-via to-weather-sunny-to;
+  }
+  
+  .weather-bg-rainy {
+    @apply bg-gradient-to-br from-weather-rainy-from via-weather-rainy-via to-weather-rainy-to;
+  }
+  
+  .weather-bg-cloudy {
+    @apply bg-gradient-to-br from-weather-cloudy-from via-weather-cloudy-via to-weather-cloudy-to;
+  }
+  
+  .weather-bg-snowy {
+    @apply bg-gradient-to-br from-weather-snowy-from via-weather-snowy-via to-weather-snowy-to;
+  }
+  
+  .weather-bg-stormy {
+    @apply bg-gradient-to-br from-weather-stormy-from via-weather-stormy-via to-weather-stormy-to;
+  }
+  
+  .weather-bg-foggy {
+    @apply bg-gradient-to-br from-weather-foggy-from via-weather-foggy-via to-weather-foggy-to;
+  }
+  
+  /* Dark mode weather background overlays for better contrast */
+  .dark .weather-bg-sunny,
+  .dark .weather-bg-rainy,
+  .dark .weather-bg-cloudy,
+  .dark .weather-bg-snowy,
+  .dark .weather-bg-stormy,
+  .dark .weather-bg-foggy {
+    position: relative;
+  }
+  
+  .dark .weather-bg-sunny::before,
+  .dark .weather-bg-rainy::before,
+  .dark .weather-bg-cloudy::before,
+  .dark .weather-bg-snowy::before,
+  .dark .weather-bg-stormy::before,
+  .dark .weather-bg-foggy::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* Ensure content appears above dark overlay */
+  .weather-bg-sunny > *,
+  .weather-bg-rainy > *,
+  .weather-bg-cloudy > *,
+  .weather-bg-snowy > *,
+  .weather-bg-stormy > *,
+  .weather-bg-foggy > * {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Typography Hierarchy */
+  .text-glass {
+    @apply text-gray-900 dark:text-white;
+  }
+  
+  .text-glass-secondary {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+  
+  .text-glass-muted {
+    @apply text-gray-600 dark:text-gray-400;
   }
 } 

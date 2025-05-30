@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for weatherDashboard2/build/_app/immutable/chunks/BKlnkPrm.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../index.html">All files</a> / <a href="index.html">weatherDashboard2/build/_app/immutable/chunks</a> BKlnkPrm.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import{r as c,ab as _,ac as g,ad as h,ae as m,af as p,ag as w}from"./Cabl5s2c.js";import{d as v}from"./ByZwuqPi.js";function d(r){var e,o,t="";if(typeof r=="string"||typeof r=="number")t+=r;else if(typeof r=="object")if(Array.isArray(r)){var a=r.length;for(e=0;e&lt;a;e++)r[e]&amp;&amp;(o=d(r[e]))&amp;&amp;(t&amp;&amp;(t+=" "),t+=o)}else for(o in r)r[o]&amp;&amp;(t&amp;&amp;(t+=" "),t+=o);return t}function y(){for(var r,e,o=0,t="",a=arguments.length;o&lt;a;o++)(r=arguments[o])&amp;&amp;(e=d(r))&amp;&amp;(t&amp;&amp;(t+=" "),t+=e);return t}function j(r){return typeof r=="object"?y(r):r??""}function A(r,e,o){var t=r==null?"":""+r;return e&amp;&amp;(t=t?t+" "+e:e),t===""?null:t}function C(r,e,o,t,a,n){var s=r.__className;if(c||s!==o||s===void 0){var i=A(o,t);(!c||i!==r.getAttribute("class"))&amp;&amp;(i==null?r.removeAttribute("class"):r.className=i),r.__className=o}return n}const E=Symbol("is custom element"),$=Symbol("is html");function P(r){if(c){var e=!1,o=()=&gt;{if(!e){if(e=!0,r.hasAttribute("value")){var t=r.value;l(r,"value",null),r.value=t}if(r.hasAttribute("checked")){var a=r.checked;l(r,"checked",null),r.checked=a}}};r.__on_r=o,p(o),v()}}function l(r,e,o,t){var a=N(r);c&amp;&amp;(a[e]=r.getAttribute(e),e==="src"||e==="srcset"||e==="href"&amp;&amp;r.nodeName==="LINK")||a[e]!==(a[e]=o)&amp;&amp;(e==="loading"&amp;&amp;(r[h]=o),o==null?r.removeAttribute(e):typeof o!="string"&amp;&amp;b(r).includes(e)?r[e]=o:r.setAttribute(e,o))}function N(r){return r.__attributes??(r.__attributes={[E]:r.nodeName.includes("-"),[$]:r.namespaceURI===_})}var f=new Map;function b(r){var e=f.get(r.nodeName);if(e)return e;f.set(r.nodeName,e=[]);for(var o,t=r,a=Element.prototype;a!==t;){o=m(t);for(var n in o)o[n].set&amp;&amp;e.push(n);t=g(t)}return e}const I={data:null,loading:!1,error:null,currentLocation:null},u=w(I);function L(r){return r.replace(/[&lt;&gt;\"'&amp;]/g,"").trim()}async function T(r,e,o){u.update(t=&gt;({...t,loading:!0,error:null}));try{const t=`https://api.open-meteo.com/v1/forecast?latitude=${r}&amp;longitude=${e}&amp;current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code&amp;hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,relative_humidity_2m&amp;daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&amp;timezone=auto&amp;forecast_days=7&amp;forecast_hours=24`,a=await fetch(t);if(!a.ok)throw new Error(`Weather API error: ${a.status}`);const n=await a.json();if(!n.current||!n.daily||!n.hourly)throw new Error("Invalid weather data received");let s=o||"";if(!s)try{s=await S(r,e)}catch(i){console.warn("Failed to get location name:",i),s=`${r.toFixed(2)}, ${e.toFixed(2)}`}u.update(i=&gt;({...i,data:n,currentLocation:s,loading:!1,error:null}))}catch(t){const a=t instanceof Error?t.message:"Failed to fetch weather data";u.update(n=&gt;({...n,loading:!1,error:a}))}}async function x(r){if(!r||r.length&lt;2)return[];const e=L(r);if(!e)return[];try{const o=`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(e)}&amp;count=5&amp;language=en&amp;format=json`,t=await fetch(o);if(!t.ok)throw new Error(`Geocoding API error: ${t.status}`);return(await t.json()).results||[]}catch(o){return console.error("Error searching cities:",o),[]}}async function R(){return new Promise(r=&gt;{if(!navigator.geolocation){r(null);return}navigator.geolocation.getCurrentPosition(e=&gt;{r({latitude:e.coords.latitude,longitude:e.coords.longitude})},()=&gt;{r(null)},{timeout:1e4,enableHighAccuracy:!1})})}async function S(r,e){try{const o=`https://geocoding-api.open-meteo.com/v1/search?latitude=${r}&amp;longitude=${e}&amp;count=1&amp;language=en&amp;format=json`,t=await fetch(o);</span></span>if(!t.ok)throw new Error(`Reverse geocoding API error: ${t.status}`);const a=await t.json();if(a.results&amp;&amp;a.results.length&gt;0){const n=a.results[0];return n.admin1?`${n.name}, ${n.admin1}`:n.name}throw new Error("No location found")}catch(o){throw console.error("Reverse geocoding error:",o),o}}export{l as a,x as b,j as c,T as f,R as g,P as r,C as s,u as w};</span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2025-05-27T11:17:02.784Z
+            </div>
+        <script src="../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../sorter.js"></script>
+        <script src="../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    
